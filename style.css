@@ -1,7 +1,74 @@
+/* Styles the body (setting font style) */
 body {
     font-family: Arial;
 }
 
-h1 {
+/* Centers all elements with the class "centered" */
+.centered {
     text-align: center;
+}
+
+/* COLUMNS ARE JUST USED TEMPORARILY AND MAY BE REMOVED TO MAKE OUR TOOL MORE VISUALLY 
+APPEALING */
+
+/* Creates a flex container to make 3 columns */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+/* Adjusts the section containing the line chart */
+.line-chart {
+    flex-wrap: flex;
+    flex-direction: column;
+}
+
+/* Adjusts the section containing the map */
+.map {
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/* Adjusts the section containing the scatter graph */
+.scatter {
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/* Adjusts the style of data representing Northeastern Massachusetts */
+.Northeast {
+    fill: red;
+    opacity: 50%;
+}
+
+/* Adjusts the style of data representing Southeastern Massachusetts */
+.Southeast {
+    fill: orange;
+    opacity: 50%;
+}
+
+/* Adjusts the style of data representing Central Massachusetts */
+.Central {
+    fill: yellow;
+    opacity: 50%;
+}
+
+/* Adjusts the style of data representing Western Massachusetts */
+.Western {
+    fill: green;
+    opacity: 50%;
+}
+
+/* Adjusts the style of data representing Cape Cod and Islands */
+.`Cape Cod and Islands` {
+    fill: indigo;
+    opacity: 50%;
+}
+
+/* Adjusts the style of data representing parts of Massachusetts in the Connecticut River 
+Valley */
+.`Connecticut River` {
+    fill: yellow;
+    opacity: 50%;
 }
