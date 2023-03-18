@@ -1,9 +1,9 @@
 // Parse the precipitation pattern data
-d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
+d3.csv("data/precipitation_cleaned.csv", function(precipitation) {
 	console.log(precipitation);
 
 // Parse the standard precipitation index data
-d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
+//d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
 	console.log(spi);
 
 // Set up precipitation line chart
@@ -60,17 +60,44 @@ let yAxis = FRAME1.append("g")
             .call(d3.axisLeft(PRECIP_SCALE).ticks(14))
             .attr("font-size", "10px");
 
-// Add the line
-FRAME1.append("path")
- .datum(precipitation)
- .attr("fill", "none")
- .attr("fill", "none")
- .attr("stroke", "steelblue")
- .attr("stroke-width", 1.5)
- .attr("d", d3.line()
-   .x(precipitation, (d) => { return parseInt(d.YEAR); })
-   .y(precipitation, (d) => { return parseInt(d.JUN); })
-   );
+// group the data: I want to draw one line per group
+let sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
+  .key((d) => { return (d.Region); })
+  .entries(precipitation);
+
+// color palette
+let regions = sumstat.map(precipitation, (d) => { return d.key; }); // list of region names
+
+let color = d3.scaleOrdinal()
+  .domain(regions)
+  .range(['red','orange','yellow','green','indigo','purple']);
+
+  // Draw the line
+  FRAME1.selectAll(".line")
+      .data(sumstat)
+      .enter()
+      .append("path")
+        .attr("fill", "none")
+        .attr("stroke", (precipitation, (d) => { return color(d.key) }))
+        .attr("stroke-width", 1.5)
+        .attr("d", precipitation, (d) => {
+          return d3.line()
+            .x(precipitation, (d) => { return x(d.YEAR); })
+            .y(precipitation, (d) => { return y(+d.JUN); })
+            (d.values);
+        });
+
+// // Add the line
+// FRAME1.append("path")
+//  .datum(precipitation)
+//  .attr("fill", "none")
+//  .attr("fill", "none")
+//  .attr("stroke", "steelblue")
+//  .attr("stroke-width", 1.5)
+//  .attr("d", d3.line()
+//    .x(precipitation, (d) => { return parseInt(d.YEAR); })
+//    .y(precipitation, (d) => { return parseInt(d.JUN); })
+//    );
 
 // Nest the data by type
 // nested = d3.nest()
