@@ -61,14 +61,14 @@ APPEALING */
 }
 
 /* Adjusts the style of data representing Cape Cod and Islands */
-.`Cape Cod and Islands` {
+.Cape {
     fill: indigo;
     opacity: 50%;
 }
 
 /* Adjusts the style of data representing parts of Massachusetts in the Connecticut River 
 Valley */
-.`Connecticut River` {
+.Connecticut {
     fill: yellow;
     opacity: 50%;
 }

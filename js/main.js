@@ -6,6 +6,13 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
 	console.log(spi);
 
+normalizedPrecipData = {}
+Object.keys(precipitation).map(function(columnName) {
+  precipitation[ columnName.toLowerCase().replace(" ", "") ] = precipitation[columnName]
+})
+
+console.log(precipitation)
+
 // Set up precipitation line chart
 
 // Set frame dimensions for visualizations
@@ -66,27 +73,41 @@ let sumstat =
 
 console.log(sumstat);
 // color palette
-let regions = sumstat.keys() // list of region names
+let region_map = sumstat.keys() 
+let regions = Array.from(region_map) // list of region names
 console.log(regions)
+let precip_plot = Object.fromEntries(sumstat)
+console.log(precip_plot)
 
 let color = d3.scaleOrdinal()
-  .domain(regions)
+  .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
   .range(['red','orange','yellow','green','indigo','purple']);
-
-  // Draw the line
-  FRAME1.selectAll(".line")
-      .data(sumstat)
-      .enter()
-      .append("path")
-        .attr("fill", "none")
-        .attr("stroke", ((d) => { return color(d.key) }))
-        .attr("stroke-width", 1.5)
-        .attr("d", (d) => {
-          return d3.line()
-            .x((d) => { return YEAR_SCALE(d.YEAR); })
-            .y((d) => { return PRECIP_SCALE(+d.JUN); })
-            (d.values);
-        });
+console.log(color)
+console.log(sumstat.values)
+// Draw the line
+// FRAME1.selectAll(".line")
+//     .data(sumstat)
+//     .enter()
+//     .append("path")
+//       .attr("fill", "none")
+//       .attr("stroke", (d) => { return color(d.key); })
+//       .attr("stroke-width", 1.5)
+//       .attr("d", ((d) => {
+//         return d3.line()
+//           .x(function(d) { return YEAR_SCALE(parseInt(d['YEAR'])); })
+//           .y(function(d) { return PRECIP_SCALE(parseInt(d['JUN'])); })
+//           (d.values);
+//       }));
+// Plot points on scatter plot
+  let myPoint1 = FRAME1.append("g")
+                       .selectAll("points")  
+                       .data(precipitation)  
+                       .enter()       
+                       .append("circle")  
+                       .attr("cx", (d) => { return (YEAR_SCALE(parseInt(d.YEAR)) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (PRECIP_SCALE(parseInt(d.JUN)) + MARGINS.top); }) 
+                       .attr("r", 5)
+                       .attr("class", (d) => { return d.Region; });
 
 // // Add the line
 // FRAME1.append("path")
