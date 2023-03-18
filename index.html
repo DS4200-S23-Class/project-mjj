@@ -38,7 +38,7 @@
                 <a href="https://www.mass.gov/info-details/precipitation-data">Precipitation and Drought Raw Data</a>
                 </p>
 
-                <p>The precipitation database data, especially since it’s derived from a government agency, overall seems reliable. However, there are some minor possible issues with how the data was collected. The Mass.gov website says about 60 precipitation observation stations collected the precipitation data, but there are no details on the iden- tity and legitimacy of the observers themselves. Hence, it’s unclear whether the stations are reliable and provide accurate data. Furthermore, each station across the Massachusetts cities may be using different measurement tools with varying levels of precision and accuracy. Therefore, we cannot conclude whether the data is standardized. The cooperative agencies that are also referred to on the Mass.gov website have unknown identities. Thus, like the ambiguous observers, the precision, accuracy, and standardization of the agencies’ precipitation data cannot be verified. Furthermore, the precipitation measurements are rounded to two decimal places on the public dataset. There is a possibility that this level of precision may not allow us to make the most effective visualizations possible. The rounding restricts us from presenting the most detailed variation in precipitation patterns across Massachusetts (for example, a value of 2.883 inches of precipitation would be visualized the same way as 2.881 inches). Also, the measurement tools, observation stations, and cooperative agencies may have evolved, along with the precision and accuracy of the precipitation data. For instance, the cooperative agencies could have relied on tools in 1900 that were not as competent at collecting precipitation data as those used in 2015. Therefore, there’s a chance that precipitation data from older years such as 1900 may not be as accurate as that from more recent years such as 2015. Finally, each region in Massachusetts does not have the same amount of precipitation measurements in the data set. Some have more measurements than others, so our visualization could have more precise information about the precipitation pattern of regions in Massachusetts represented by more rows in the data set. There is a substantial amount of data for each region, but this consideration is still important to keep in mind. These same biases and ethical considerations apply to the SPI data since it derives from the precipitation database data. We will be relying on the 2017, 2018, and 2019 SPI data since they are the only ones available that most directly correlate with the precipitation database data we are using, which was generated in October 2019. The 2017-2019 SPI data might not contain the most representative values indicating the drought severity of a Massachusetts region. There might have been some weather anomalies throughout 2017-2019 that may have caused a region in Massachusetts to experience more or less precipitation during those years than usual. However, we are assuming the tools used to collect values for the precipitation database have improved over time. Hence, we think the 2017-2019 data is reliable since it was gathered only 4-6 years ago.
+                <p>The precipitation database data, especially since it’s derived from a government agency, overall seems reliable. However, there are some minor possible issues with how the data was collected. The Mass.gov website says about 60 precipitation observation stations collected the precipitation data, but there are no details on the identity and legitimacy of the observers themselves. Hence, it’s unclear whether the stations are reliable and provide accurate data. Furthermore, each station across the Massachusetts cities may be using different measurement tools with varying levels of precision and accuracy. Therefore, we cannot conclude whether the data is standardized. The cooperative agencies that are also referred to on the Mass.gov website have unknown identities. Thus, like the ambiguous observers, the precision, accuracy, and standardization of the agencies’ precipitation data cannot be verified. Furthermore, the precipitation measurements are rounded to two decimal places on the public dataset. There is a possibility that this level of precision may not allow us to make the most effective visualizations possible. The rounding restricts us from presenting the most detailed variation in precipitation patterns across Massachusetts (for example, a value of 2.883 inches of precipitation would be visualized the same way as 2.881 inches). Also, the measurement tools, observation stations, and cooperative agencies may have evolved, along with the precision and accuracy of the precipitation data. For instance, the cooperative agencies could have relied on tools in 1900 that were not as competent at collecting precipitation data as those used in 2015. Therefore, there’s a chance that precipitation data from older years such as 1900 may not be as accurate as that from more recent years such as 2015. Finally, each region in Massachusetts does not have the same amount of precipitation measurements in the data set. Some have more measurements than others, so our visualization could have more precise information about the precipitation pattern of regions in Massachusetts represented by more rows in the data set. There is a substantial amount of data for each region, but this consideration is still important to keep in mind. These same biases and ethical considerations apply to the SPI data since it derives from the precipitation database data. We will be relying on the 2017, 2018, and 2019 SPI data since they are the only ones available that most directly correlate with the precipitation database data we are using, which was generated in October 2019. The 2017-2019 SPI data might not contain the most representative values indicating the drought severity of a Massachusetts region. There might have been some weather anomalies throughout 2017-2019 that may have caused a region in Massachusetts to experience more or less precipitation during those years than usual. However, we are assuming the tools used to collect values for the precipitation database have improved over time. Hence, we think the 2017-2019 data is reliable since it was gathered only 4-6 years ago.
                 </p>
 
 
@@ -52,30 +52,27 @@
     <div>
         <h2>Visualization</h2>
         <!-- Create separate section for content (visualization) of webpage -->
-    <div class="container">
+        <div class="container">
 
-        <!-- Create the section that contains the line chart -->
-        <div class="line-chart">
-            <!-- Add chart title -->
-            <h2 class="centered">Precipitation Distributions Over Time Across Massachusetts</h2>
-            <div id="vis1"></div>
-        </div>
+            <!-- Create the section that contains the line chart -->
+            <div id="vis1">
+                <!-- Add chart title -->
+                <h2 class="centered">Precipitation Over Selected Time and Regions</h2>
+            </div>
 
-        <!-- Create the section that contains the map of Massachusetts -->
-        <div class="map">
-            <!-- Add chart title -->
-            <h2 class="centered">Drought Severities Across Massachusetts</h2>
-            <div id="vis2"></div>
-        </div>
+            <!-- Create the section that contains the map of Massachusetts -->
+            <div id="vis2">
+                <!-- Add chart title -->
+                <h2 class="centered">Drought Severities Over Time and Regions</h2>
+            </div>
+            
+            <!-- Create the section that contains the scatter graph-->
+            <div id="vis3">
+                <!-- Add chart title -->
+                <h2 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h2>
+            </div>
         
-        <!-- Create the section that contains the scatter graph-->
-        <div class="scatter">
-            <!-- Add chart title -->
-            <h2 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h2>
-            <div id="vis3"></div>
-        </div>
-        
-    </div>  
+        </div>  
     </div>
 
     <div>

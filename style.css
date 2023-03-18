@@ -19,22 +19,22 @@ APPEALING */
 }
 
 /* Adjusts the section containing the line chart */
-.line-chart {
+/*.line-chart {
     flex-wrap: flex;
     flex-direction: column;
-}
+}*/
 
 /* Adjusts the section containing the map */
-.map {
+/*.map {
     flex-direction: column;
     flex-wrap: wrap;
-}
+}*/
 
 /* Adjusts the section containing the scatter graph */
-.scatter {
+/*.scatter {
     flex-direction: column;
     flex-wrap: wrap;
-}
+}*/
 
 /* Adjusts the style of data representing Northeastern Massachusetts */
 .Northeast {
