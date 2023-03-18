@@ -1,9 +1,9 @@
 // Parse the precipitation pattern data
-d3.csv("data/precipitation_cleaned.csv", function(precipitation) {
+d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 	console.log(precipitation);
 
 // Parse the standard precipitation index data
-//d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
+d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
 	console.log(spi);
 
 // Set up precipitation line chart
@@ -39,7 +39,7 @@ const MAX_YEAR = d3.max(precipitation, (d) => { return parseInt(d.YEAR); });
 const MAX_PRECIP = d3.max(precipitation, (d) => { return parseInt(d.JUN); });
 
 // Scale years for the x-axis
-const X_YEARS = d3.scaleLinear() 
+const YEAR_SCALE = d3.scaleLinear() 
                    .domain([MIN_YEAR, (MAX_YEAR + 1)]) // add some padding  
                    .range([0, VIS_WIDTH]); 
 
@@ -51,7 +51,7 @@ const PRECIP_SCALE = d3.scaleLinear()
 // Add X axis  
 let xAxis = FRAME1.append("g") 
             .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-            .call(d3.axisBottom(X_YEARS).ticks(9).tickFormat(d3.format("d"))) 
+            .call(d3.axisBottom(YEAR_SCALE).ticks(9).tickFormat(d3.format("d"))) 
             .attr("font-size", "10px");
 
 // Add Y axis
@@ -61,12 +61,13 @@ let yAxis = FRAME1.append("g")
             .attr("font-size", "10px");
 
 // group the data: I want to draw one line per group
-let sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
-  .key((d) => { return (d.Region); })
-  .entries(precipitation);
+let sumstat = 
+  d3.group(precipitation, (d) => { return (d.Region); }); // group function allows to group the calculation per level of a factor
 
+console.log(sumstat);
 // color palette
-let regions = sumstat.map(precipitation, (d) => { return d.key; }); // list of region names
+let regions = sumstat.keys() // list of region names
+console.log(regions)
 
 let color = d3.scaleOrdinal()
   .domain(regions)
@@ -78,12 +79,12 @@ let color = d3.scaleOrdinal()
       .enter()
       .append("path")
         .attr("fill", "none")
-        .attr("stroke", (precipitation, (d) => { return color(d.key) }))
+        .attr("stroke", ((d) => { return color(d.key) }))
         .attr("stroke-width", 1.5)
-        .attr("d", precipitation, (d) => {
+        .attr("d", (d) => {
           return d3.line()
-            .x(precipitation, (d) => { return x(d.YEAR); })
-            .y(precipitation, (d) => { return y(+d.JUN); })
+            .x((d) => { return YEAR_SCALE(d.YEAR); })
+            .y((d) => { return PRECIP_SCALE(+d.JUN); })
             (d.values);
         });
 
