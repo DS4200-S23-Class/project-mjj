@@ -18,6 +18,11 @@ APPEALING */
     justify-content: space-evenly;
 }
 
+/* Adjust the style for the marks (line or point mark) */
+.mark {
+    opacity: 50%;
+}
+
 /* Adjusts the section containing the line chart */
 /*.line-chart {
     flex-wrap: flex;
@@ -37,38 +42,38 @@ APPEALING */
 }*/
 
 /* Adjusts the style of data representing Northeastern Massachusetts */
-.Northeast {
+/*.Northeast {
     fill: red;
     opacity: 50%;
-}
+}*/
 
 /* Adjusts the style of data representing Southeastern Massachusetts */
-.Southeast {
+/*.Southeast {
     fill: orange;
     opacity: 50%;
-}
+}*/
 
 /* Adjusts the style of data representing Central Massachusetts */
-.Central {
+/*.Central {
     fill: yellow;
     opacity: 50%;
-}
+}*/
 
 /* Adjusts the style of data representing Western Massachusetts */
-.Western {
+/*.Western {
     fill: green;
     opacity: 50%;
-}
+}*/
 
 /* Adjusts the style of data representing Cape Cod and Islands */
-.Cape {
+/*.Cape {
     fill: indigo;
     opacity: 50%;
-}
+}*/
 
 /* Adjusts the style of data representing parts of Massachusetts in the Connecticut River 
 Valley */
-.Connecticut {
-    fill: yellow;
+/*.Connecticut {
+    fill: pink;
     opacity: 50%;
-}
+}*/
