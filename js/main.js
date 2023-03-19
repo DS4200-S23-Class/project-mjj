@@ -84,6 +84,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
               .call(d3.axisLeft(y).ticks(20))
               .attr("font-size", "10px");
 
+  // Set color based on region
   const color = d3.scaleOrdinal()
     .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
     .range(['red','orange','yellow','green','indigo','pink']);
@@ -238,12 +239,10 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
               .call(d3.axisLeft(y3).ticks(20))
               .attr("font-size", "10px");
 
-
+  // Set color based on year 
   const color = d3.scaleOrdinal()
-    .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
-    .range(['red','orange','yellow','green','indigo','pink']);
-
-
+    .domain([2017, 2018, 2019])
+    .range(['brown', 'black', 'navy']);
 
   // Plot points on scatter plot
     let myPoint3 = FRAME3.append("g")
@@ -254,6 +253,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                          .attr("cx", (d) => { return (x3(d.JUN_x) + MARGINS.left); }) 
                          .attr("cy", (d) => { return (y3(d.JUN_y) + MARGINS.top); }) 
                          .attr("r", 3)
-                         .attr("fill", (d) => { return color(d.Region); })
+                         .attr("fill", (d) => { return color(d.YEAR); })
                          .attr("class", "mark");
 });
