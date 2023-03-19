@@ -38,12 +38,17 @@ const FRAME3 = d3.select("#vis3")
 d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 	console.log(precipitation);
 
-  normalizedPrecipData = {}
-  Object.keys(precipitation).map(function(columnName) {
-    precipitation[ columnName.toLowerCase().replace(" ", "") ] = precipitation[columnName]
-  })
+// Parse the combined precipitation and standard precipitation index data
+d3.csv("data/combined_prep_spi.csv").then((combined) => {
+  console.log(combined);
 
-  console.log(precipitation)
+  // normalizedPrecipData = {}
+  // normalizedPrecipData =
+  // Object.keys(precipitation).map(function(Region) {
+  //   precipitation[ columnName.toLowerCase().replace(" ", "") ] = precipitation[columnName]
+  // })
+
+  //console.log(normalizedPrecipData)
 
   // Set up precipitation line chart
 
@@ -85,7 +90,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
               .attr("font-size", "10px");
 
   // Set color based on region
-  const color = d3.scaleOrdinal()
+  const region_color = d3.scaleOrdinal()
     .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
     .range(['red','orange','yellow','green','indigo','pink']);
 
@@ -101,10 +106,6 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // let precip_plot = Object.fromEntries(sumstat)
   // console.log(precip_plot)
 
-  // unnecessary because you define this in the style.css
-  // let color = d3.scaleOrdinal()
-  //   .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
-  //   .range(['red','orange','yellow','green','indigo','purple']);
 
   // //Draw the line
   // FRAME1.selectAll(".line")
@@ -130,8 +131,20 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
                          .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
                          .attr("cy", (d) => { return (y(d.JUN) + MARGINS.top); }) 
                          .attr("r", 3)
-                         .attr("fill", (d) => { return color(d.Region); })
-                         .attr("class", "mark");
+                         .attr("fill", (d) => { return region_color(d.Region); })
+                         .attr("class", "mark")
+
+  // Add brushing
+  FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+                 .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
+                 .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
+
+  // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a purple border. 
+  function updateChart1(event) {
+    selection = event.selection;
+    myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
+    myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
+  };
 
   // // Add the line
   // FRAME1.append("path")
@@ -195,26 +208,21 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   //        .x( (d,i) => { return xScale(d,i) })
   //        .y( (d,i) => { return yScale(d,i) })
 
-});
-
-// Parse the combined precipitation and standard precipitation index data
-d3.csv("data/combined_prep_spi.csv").then((combined) => {
-  console.log(combined);
 
   // Set up precipitation vs drought level scatterplot
   // For PM-03, just focus on precipitation from June across all years (2017, 2018, 2019) and all regions 3-month SPI
   // User will know what years the points represent when we enable the tooltip function
 
-  // Find min drought (x) value
+  // Find min SPI (x) value
   const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.JUN_x); });
 
-  // Find max drought (x) value
+  // Find max SPI (x) value
   const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.JUN_x); });
 
   // Find max precipitation (y) value
   const MAX_PRECIP3 = d3.max(combined, (d) => { return parseFloat(d.JUN_y); });
 
-  // Scale years for the x-axis
+  // Scale SPI for the x-axis
   const x3 = d3.scaleLinear() 
                      .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
                      .range([0, VIS_WIDTH]); 
@@ -227,7 +235,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Add X axis  
   let xAxis3 = FRAME3.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x3).ticks(10).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(x3).ticks(5).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(-12, 10)rotate(-90)")
@@ -240,19 +248,77 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
               .attr("font-size", "10px");
 
   // Set color based on year 
-  const color = d3.scaleOrdinal()
+  const year_color = d3.scaleOrdinal()
     .domain([2017, 2018, 2019])
     .range(['brown', 'black', 'navy']);
 
   // Plot points on scatter plot
-    let myPoint3 = FRAME3.append("g")
-                         .selectAll("points")  
-                         .data(combined)  
-                         .enter()       
-                         .append("circle")  
-                         .attr("cx", (d) => { return (x3(d.JUN_x) + MARGINS.left); }) 
-                         .attr("cy", (d) => { return (y3(d.JUN_y) + MARGINS.top); }) 
-                         .attr("r", 3)
-                         .attr("fill", (d) => { return color(d.YEAR); })
-                         .attr("class", "mark");
+  let myPoint3 = FRAME3.append("g")
+                       .selectAll("points")  
+                       .data(combined)  
+                       .enter()       
+                       .append("circle")  
+                       .attr("cx", (d) => { return (x3(d.JUN_x) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (y3(d.JUN_y) + MARGINS.top); }) 
+                       .attr("r", 3)
+                       .attr("fill", (d) => { return year_color(d.YEAR); })
+                       .attr("class", "mark")
+
+  // Add brushing
+  // FRAME3.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+  //                .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
+  //                .on("start brush", updateChart2)); // 'updateChart' is triggered every time the brush window gets altered
+
+  // When points are brushed over in the precipitation vs. drought severity plot, the aligned points in the other two plots get highlighted with a raised opacity and attain 
+  // purple border. 
+  function updateChart2(event) {
+    selection = event.selection;
+    myPoint1.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.JUN_x) + MARGINS.left, y3(d.JUN_y) + MARGINS.top ); }) )
+    myPoint3.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.JUN_x) + MARGINS.left, y3(d.JUN_y) + MARGINS.top ); }) )
+  };
+
+  // Returns TRUE if a point is in the selection window, returns FALSE if it is not
+  function isBrushed(brush_coords, cx, cy) {
+    let x0 = brush_coords[0][0],
+        x1 = brush_coords[1][0],
+        y0 = brush_coords[0][1],
+        y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
+  };
+
+  // Tooltip
+
+  // Create tooltip
+  const TOOLTIP = d3.select("#vis3")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0); 
+
+  // Event handler
+  function handleMouseover(event, d) {
+    // on mouseover, make opaque 
+      TOOLTIP.style("opacity", 1); 
+  }
+
+  // Event handler
+  function handleMousemove(event, d) {
+   // position the tooltip and fill in information 
+   TOOLTIP.html("SPI: " + d.JUN_x + "<br>Precipitation: " + d.JUN_y)
+           .style("left", (event.pageX + 10) + "px") //add offset
+                                                       // from mouse
+           .style("top", (event.pageY - 50) + "px"); 
+  }
+
+  // Event handler
+  function handleMouseleave(event, d) {
+    // on mouseleave, make the tooltip transparent again 
+    TOOLTIP.style("opacity", 0); 
+  } 
+
+  // Add tooltip event listeners
+  FRAME3.selectAll(".mark")
+        .on("mouseover", handleMouseover)
+        .on("mousemove", handleMousemove)
+        .on("mouseleave", handleMouseleave); 
+});
 });

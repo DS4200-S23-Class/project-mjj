@@ -3,6 +3,12 @@ body {
     font-family: Arial;
 }
 
+.axis path, .axis line {
+    fill: none;
+    shape-rendering: crispedges;
+    stroke: #000000;
+}
+
 /* Centers all elements with the class "centered" */
 .centered {
     text-align: center;
@@ -23,57 +29,55 @@ APPEALING */
     opacity: 50%;
 }
 
-/* Adjusts the section containing the line chart */
-/*.line-chart {
-    flex-wrap: flex;
-    flex-direction: column;
-}*/
+/* Adjusts the style of selected circles/areas */
+.selected {
+    fill-opacity: 100%;
+    stroke: black;
+    stroke-width: 3px;
+}
 
-/* Adjusts the section containing the map */
-/*.map {
-    flex-direction: column;
-    flex-wrap: wrap;
-}*/
+/* Sets style of tooltip */
+.tooltip {
+    position: absolute;
+    background-color: mediumpurple;
+    border: solid;
+    padding: 5px;
+}
 
-/* Adjusts the section containing the scatter graph */
-/*.scatter {
-    flex-direction: column;
-    flex-wrap: wrap;
-}*/
-
-/* Adjusts the style of data representing Northeastern Massachusetts */
+/*/* Adjusts the style of data representing Northeastern Massachusetts */
 /*.Northeast {
     fill: red;
     opacity: 50%;
-}*/
+}
 
 /* Adjusts the style of data representing Southeastern Massachusetts */
 /*.Southeast {
     fill: orange;
     opacity: 50%;
-}*/
+}
 
 /* Adjusts the style of data representing Central Massachusetts */
 /*.Central {
     fill: yellow;
     opacity: 50%;
-}*/
+}
 
 /* Adjusts the style of data representing Western Massachusetts */
 /*.Western {
     fill: green;
     opacity: 50%;
-}*/
+}
 
 /* Adjusts the style of data representing Cape Cod and Islands */
-/*.Cape {
+/*.Cape.Cod.and.Islands {
     fill: indigo;
     opacity: 50%;
-}*/
+} 
+
 
 /* Adjusts the style of data representing parts of Massachusetts in the Connecticut River 
 Valley */
-/*.Connecticut {
+/*.Connecticut.River {
     fill: pink;
     opacity: 50%;
-}*/
+}
