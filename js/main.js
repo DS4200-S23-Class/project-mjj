@@ -88,6 +88,15 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y).ticks(20))
               .attr("font-size", "10px");
+      
+  // Label the y axis 
+  FRAME1.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", MARGINS.left - 50)
+    .attr("y", VIS_HEIGHT - 100)
+    .attr("transform", "translate(-300, 250)rotate(-90)")
+    .style("font-size", "12px")
+    .text("Precipitation (inches)");
 
   // Set color based on region
   const region_color = d3.scaleOrdinal()
@@ -235,7 +244,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Add X axis  
   let xAxis3 = FRAME3.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x3).ticks(5).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(x3).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(-12, 10)rotate(-90)")
@@ -247,10 +256,22 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
               .call(d3.axisLeft(y3).ticks(20))
               .attr("font-size", "10px");
 
-  // Set color based on year 
-  const year_color = d3.scaleOrdinal()
-    .domain([2017, 2018, 2019])
-    .range(['brown', 'black', 'navy']);
+  // Label the x axis
+  FRAME3.append("text")
+    .attr("x", MARGINS.left + VIS_WIDTH/2)
+    .attr("y", VIS_HEIGHT + 90)
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text("Drought Severity (SPI)");
+      
+  // Label the y axis 
+  FRAME3.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", MARGINS.left - 50)
+    .attr("y", VIS_HEIGHT - 100)
+    .attr("transform", "translate(-290, 250)rotate(-90)")
+    .style("font-size", "12px")
+    .text("Precipitation (inches)");
 
   // Plot points on scatter plot
   let myPoint3 = FRAME3.append("g")
@@ -260,9 +281,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .append("circle")  
                        .attr("cx", (d) => { return (x3(d.JUN_x) + MARGINS.left); }) 
                        .attr("cy", (d) => { return (y3(d.JUN_y) + MARGINS.top); }) 
-                       .attr("r", 3)
-                       .attr("fill", (d) => { return year_color(d.YEAR); })
-                       .attr("class", "mark")
+                       .attr("r", 5)
+                       .attr("fill", (d) => { return region_color(d.Region); })
+                       .attr("class", "mark");
 
   // Add brushing
   // FRAME3.call( d3.brush()                 // Use d3.brush to initalize a brush feature
@@ -292,18 +313,19 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   const TOOLTIP = d3.select("#vis3")
                     .append("div")
                     .attr("class", "tooltip")
+                    // Make it nonvisible at first
                     .style("opacity", 0); 
 
   // Event handler
   function handleMouseover(event, d) {
     // on mouseover, make opaque 
-      TOOLTIP.style("opacity", 1); 
+    TOOLTIP.style("opacity", 1); 
   }
 
   // Event handler
   function handleMousemove(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP.html("3-Month SPI: " + d.JUN_x + "<br>Precipitation: " + d.JUN_y)
+   TOOLTIP.html("3-Month SPI: " + d.JUN_x + "<br>Precipitation: " + d.JUN_y + "<br>Year: " + d.YEAR)
            .style("left", (event.pageX + 10) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 50) + "px"); 
