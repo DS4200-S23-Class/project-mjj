@@ -362,10 +362,31 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     TOOLTIP.style("opacity", 0); 
   } 
 
+  // Filter plot by selected year
+  function update() {
+    let years = d3.selectAll('.filter_button')[0]
+                    .filter(function(e) { return e.checked; })
+                    .map(function(e) { return e.value; });
+
+    function display(d) {
+    // check if the current dot's year are present in the year array
+    if (years.indexOf(d.YEAR) !== -1) {
+      return 'inline';
+    } else {
+      return 'none';
+      }
+    }
+    FRAME3.selectAll('.mark').attr('display', display);
+  }
+
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
         .on("mouseover", handleMouseover)
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
+
+  FRAME3.selectAll(".filter_options")
+        .on("change", update);
+
 });
 });
