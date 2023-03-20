@@ -158,6 +158,34 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
        //      
        //  }));
 
+  const bounds = FRAME1
+    .append("g")
+    .style(
+      "transform",
+      `translate(${MARGINS.left}px, ${MARGINS.top}px)`
+    );
+
+  const lineGenerator = d3
+     .line()
+     .x(function(d) { 
+       return x(d.YEAR);
+     })
+     .y(function(d) { 
+       return y(d.JUN);
+     });
+
+  pathString = lineGenerator(precipitation);
+   
+  const line = bounds
+    .append("path")
+    .attr("d", pathString)
+    .attr("fill", "none")
+    .attr("stroke", "silver")
+    // .attr("stroke", (d) => { return region_color(d.Region); })
+    .attr("stroke-width", 2);
+
+
+
   // Plot points on scatter plot
   let myPoint1 = FRAME1.append("g")
                        .selectAll("points")  
@@ -181,20 +209,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
     myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
   };
-
-  const lineGenerator = d3.line()
-  .x(function(d) { return x(d.YEAR) + MARGINS.left})
-  .y(function(d) { return y(d.JUN) + MARGINS.top})
-  .stroke(function(d) { return d.Region });
-  console.log(lineGenerator)
-
-  // Add the line
-  FRAME1.append('path')
-  //.style('stroke', (d) => { return region_color(d.Region) })
-  .style('stroke', "pink")
-  .style('fill', 'none')
-  console.log(d);
-  .attr('d', lineGenerator(precipitation));
 
   // Nest the data by type
   // nested = d3.nest()
