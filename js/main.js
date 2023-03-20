@@ -143,20 +143,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // console.log(precip_plot)
 
 
-  // //Draw the line
-  // FRAME1.selectAll(".line")
-  //     .data(sumstat)
-  //     .enter()
-  //     .append("path")
-  //       .attr("fill", "none")
-  //       .attr("stroke", (d) => { return color(d.Region); })
-  //       .attr("stroke-width", 1.5)
-  //       .attr("d", ((d) => {
-  //         return d3.line()
-  //           .x(function(d) { return x(d.YEAR); })
-  //           .y(function(d) { return y(d.JUN); })
-  //           (d.values);
-  //       }));
+   //Draw the line
+   //FRAME1.selectAll(".line")
+    //   .data(sumstat)
+     //  .enter()
+     //  .append("path")
+      //   .attr("fill", "none")
+       //  .attr("stroke", (d) => { return region_color(d.Region); })
+       //  .attr("stroke-width", 1.5)
+       //  .attr("d", ((d) => {
+       //    return d3.line()
+       //      .x(function(d) { return x(d.YEAR); })
+        //     .y(function(d) { return y(d.JUN); })
+       //      
+       //  }));
 
   // Plot points on scatter plot
     let myPoint1 = FRAME1.append("g")
