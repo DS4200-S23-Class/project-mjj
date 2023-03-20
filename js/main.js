@@ -385,7 +385,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
 
-  FRAME3.selectAll(".filter_options")
+  FRAME3.selectAll(".filter_button")
         .on("change", update);
 
 });
