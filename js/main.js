@@ -363,21 +363,29 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   } 
 
   // Filter plot by selected year
-  function update() {
-    let years = d3.selectAll('.filter_button')[0]
-                    .filter(function(e) { return e.checked; })
-                    .map(function(e) { return e.value; });
+  // function update() {
+  //   let years = FRAME3.selectAll('.year-button')[0]
+  //                     .filter(function(e) { return e.checked; })
+  //                     .map(function(e) { return e.value; });
 
-    function display(d) {
-    // check if the current dot's year are present in the year array
-    if (years.indexOf(d.YEAR) !== -1) {
-      return 'inline';
-    } else {
-      return 'none';
-      }
-    }
-    FRAME3.selectAll('.mark').attr('display', display);
-  }
+  //   function display(d) {
+  //     // check if the current dot's year are present in the year array
+  //     if (years.indexOf(d.YEAR) !== -1) {
+  //       return 'inline';
+  //     } else {
+  //       return 'none';
+  //     }
+  //   }
+  //   FRAME3.selectAll('.mark').attr('display', display);
+  // }
+  d3.selectAll(".year-button").on("change", function () {
+    let selected = this.value, 
+    display = this.checked ? "inline" : "none";
+
+    FRAME3.selectAll(".mark")
+      .filter(function(d) { return d.YEAR == selected; })
+      .attr("display", display);
+  });
 
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
@@ -385,8 +393,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
 
-  FRAME3.selectAll(".filter_button")
-        .on("change", update);
+  // FRAME3.selectAll(".year-button")
+  //       .on("change", update);
 
 });
 });
