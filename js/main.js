@@ -88,15 +88,22 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y).ticks(20))
               .attr("font-size", "10px");
+
+  // Label the x axis
+  FRAME1.append("text")
+    .attr("x", MARGINS.left + VIS_WIDTH/2)
+    .attr("y", VIS_HEIGHT + 100)
+    .text("Year/Month")
+    .attr("class", "axes");
       
   // Label the y axis 
   FRAME1.append("text")
-    .attr("text-anchor", "middle")
-    .attr("x", MARGINS.left - 50)
-    .attr("y", VIS_HEIGHT - 100)
-    .attr("transform", "translate(-300, 250)rotate(-90)")
-    .style("font-size", "12px")
-    .text("Precipitation (inches)");
+    // .attr("text-anchor", "middle")
+    .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
+    .attr("y", 15)
+    .attr("transform", "rotate(-90)")
+    .text("Precipitation (inches)")
+    .attr("class", "axes");
 
   // Set color based on region
   const region_color = d3.scaleOrdinal()
@@ -260,18 +267,16 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   FRAME3.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
     .attr("y", VIS_HEIGHT + 90)
-    .attr("text-anchor", "middle")
-    .style("font-size", "12px")
-    .text("Drought Severity (SPI)");
+    .text("Drought Severity (SPI)")
+    .attr("class", "axes");
       
   // Label the y axis 
   FRAME3.append("text")
-    .attr("text-anchor", "middle")
     .attr("x", MARGINS.left - 50)
     .attr("y", VIS_HEIGHT - 100)
     .attr("transform", "translate(-290, 250)rotate(-90)")
-    .style("font-size", "12px")
-    .text("Precipitation (inches)");
+    .text("Precipitation (inches)")
+    .attr("class", "axes");
 
   // Plot points on scatter plot
   let myPoint3 = FRAME3.append("g")

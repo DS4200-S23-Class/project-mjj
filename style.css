@@ -44,6 +44,13 @@ APPEALING */
     padding: 5px;
 }
 
+/* Style for axis labels */
+.axes {
+    fill: black;
+    text-anchor: middle;
+    font-size: 12px;
+}
+
 /*/* Adjusts the style of data representing Northeastern Massachusetts */
 /*.Northeast {
     fill: red;
