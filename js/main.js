@@ -363,6 +363,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   } 
 
   // Filter plot by selected year
+<<<<<<< HEAD
   // function update() {
   //   let years = FRAME3.selectAll('.year-button')[0]
   //                     .filter(function(e) { return e.checked; })
@@ -386,6 +387,23 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       .filter(function(d) { return d.YEAR == selected; })
       .attr("display", display);
   });
+=======
+  function update() {
+    let years = d3.selectAll('.year_button')[0]
+                    .filter(function(e) { return e.checked; })
+                    .map(function(e) { return e.value; });
+
+    function display(d) {
+    // check if the current dot's year are present in the year array
+    if (years.indexOf(d.YEAR) !== -1) {
+      return 'inline';
+    } else {
+      return 'none';
+      }
+    }
+    FRAME3.selectAll('.mark').attr('display', display);
+  }
+>>>>>>> 459d880f20370372e54b46cc59e24b173e1f08f1
 
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
@@ -393,8 +411,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
 
+<<<<<<< HEAD
   // FRAME3.selectAll(".year-button")
   //       .on("change", update);
+=======
+  FRAME3.selectAll(".filter-options")
+        .on("change", update);
+>>>>>>> 459d880f20370372e54b46cc59e24b173e1f08f1
 
 });
 });
