@@ -364,7 +364,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Filter plot by selected year
   function update() {
-    let years = d3.selectAll('.filter_button')[0]
+    let years = d3.selectAll('.year_button')[0]
                     .filter(function(e) { return e.checked; })
                     .map(function(e) { return e.value; });
 
@@ -385,7 +385,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
 
-  FRAME3.selectAll(".filter_button")
+  FRAME3.selectAll(".filter-options")
         .on("change", update);
 
 });
