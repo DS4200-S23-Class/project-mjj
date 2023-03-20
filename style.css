@@ -21,7 +21,34 @@ APPEALING */
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+}
+
+/* Style legend */
+#legend {
+    flex-direction: column;
+    width: 10%;
+    flex-wrap: wrap;
+}
+
+/* Style vis1 */
+#vis1 {
+    flex-direction: column;
+    width: 30%;
+    flex-wrap: wrap;
+}
+
+/* Style vis2 */
+#vis2 {
+    flex-direction: column;
+    width: 30%;
+    flex-wrap: wrap;
+}
+
+/* Style vis3 */
+#vis3 {
+    flex-direction: column;
+    width: 30%;
+    flex-wrap: wrap;
 }
 
 /* Adjust the style for the marks (line or point mark) */

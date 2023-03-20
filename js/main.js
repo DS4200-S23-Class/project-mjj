@@ -30,6 +30,26 @@ const FRAME3 = d3.select("#vis3")
                  .attr("width", FRAME_WIDTH)
                  .attr("class", "frame"); 
 
+// Create a legend
+const LEGEND = d3.select("#legend")
+                  .append("svg")
+                  .attr("height", FRAME_HEIGHT)
+                  .attr("width", FRAME_WIDTH)
+
+LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "red")
+LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "orange")
+LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "yellow")
+LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "green")
+LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "indigo")
+LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "pink")
+
+LEGEND.append("text").attr("x", 20).attr("y", 55).text("Connecticut River").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 75).text("Northeast").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 95).text("Central").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 115).text("Southeast").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 135).text("Western").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black")
+
 // // Parse the standard precipitation index data
 // d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
 //  console.log(spi)});
@@ -104,7 +124,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("transform", "rotate(-90)")
     .text("Precipitation (inches)")
     .attr("class", "axes");
-
+  
   // Set color based on region
   const region_color = d3.scaleOrdinal()
     .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
