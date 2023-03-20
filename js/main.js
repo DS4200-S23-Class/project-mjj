@@ -187,7 +187,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   //  .datum(precipitation)
   //  .attr("fill", "none")
   //  .attr("fill", "none")
-  //  .attr("stroke", "steelblue")
+  //  .attr("stroke", (d) => { return region_color(d.Region); })
   //  .attr("stroke-width", 1.5)
   //  .attr("d", d3.line()
   //    .x(precipitation, (d) => { return parseInt(d.YEAR); })
