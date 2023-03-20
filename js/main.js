@@ -363,31 +363,77 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   } 
 
   // Filter plot by selected year
-
-  // function update() {
-  //   let years = FRAME3.selectAll('.year-button')[0]
-  //                     .filter(function(e) { return e.checked; })
-  //                     .map(function(e) { return e.value; });
-
-  //   function display(d) {
-  //     // check if the current dot's year are present in the year array
-  //     if (years.indexOf(d.YEAR) !== -1) {
-  //       return 'inline';
-  //     } else {
-  //       return 'none';
-  //     }
-  //   }
-  //   FRAME3.selectAll('.mark').attr('display', display);
-  // }
   d3.selectAll(".year-button").on("change", function () {
-    let selected = this.value, 
-    display = this.checked ? "inline" : "none";
+    let selected_year = this.value, 
+    year_display = this.checked ? "inline" : "none";
 
-    FRAME3.selectAll(".mark")
-      .filter(function(d) { return d.YEAR == selected; })
-      .attr("display", display);
+  FRAME3.selectAll(".mark")
+        .filter(function(d) { return d.YEAR == selected_year; })
+        .attr("display", year_display);
+
+  // Filter plot by selected region
+  d3.selectAll(".region-button").on("change", function () {
+    let selected_region = this.value, 
+    region_display = this.checked ? "inline" : "none";
+
+  FRAME3.selectAll(".mark")
+        .filter(function(d) {return d.Region == selected_region; })
+        .attr("display", region_display);
+
+  // if (year_display == "inline" && region_display == "inline") {
+  //   FRAME3.selectAll(".mark")
+  //   .filter(function(d) { return d.YEAR == selected_year } && function(d) {return d.Region == selected_region; })
+  //   .attr("display", "inline");
+  // } else if (year_display == "inline" && region_display == "none"){
+  //   FRAME3.selectAll(".mark")
+  //   .filter(function(d) { return d.YEAR == selected_year } && function(d) { return d.Region != selected_region })
+  //   .attr("display", "inline");
+  // } else if (year_display == "none" && region_display == "inline"){
+  //   FRAME3.selectAll(".mark")
+  //   .filter(function(d) { return d.Region == selected_region } && function(d) { return d.YEAR != selected_year })
+  //   .attr("display", "inline");
+  // } else {
+  //   FRAME3.selectAll(".mark")
+  //   .filter(function(d) { return d.YEAR != selected_year } && function(d) {return d.Region != selected_region; })
+  //   .attr("display", "inline");
+  // }
+
+
   });
+});
 
+  // a function that will be responsible for updating the visibility of the dots
+// function update() {
+//   // colors will be the array of active colors, i.e. if only the yellow checkbox
+//   // is checked, it will be ['yellow']
+//   let years = d3.selectAll('.year-button')[0]
+//      .filter(function(e) { return e.checked; })
+//      .map(function(e) { return e.value; });
+
+//   // same thing for the regions
+//   let regions = d3.selectAll('.region-button')[0]
+//       .filter(function(e) { return e.checked; })
+//       .map(function(e) { return e.value; });
+
+//   // a helper function that will return the correct display value
+//   // it will be called for every mark
+//   function display(d) {
+//     // we check if the year and region a mark represents are present in the
+//     // year and region arrays.
+//     if (years.indexOf(d.YEAR) !== -1 && regions.indexOf(d.Region) !== -1) {
+//       return 'inline';
+//     } else {
+//       return 'none';
+//     }
+//   }
+
+//   // we change the display attribute of every dot using the display function just defined
+//   FRAME3.selectAll('.mark').attr('display', display);
+// }
+
+// // we add a simple handler to all the checkboxes: every time one changes,
+// // just call update
+// FRAME3.selectAll(".filter_options input").on("change", update);
 
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
