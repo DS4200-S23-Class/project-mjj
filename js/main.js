@@ -131,8 +131,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .range(['red','orange','yellow','green','indigo','pink']);
 
   // group the data: I want to draw one line per group
-  let sumstat = 
-    d3.group(precipitation, (d) => { return (d.Region); }); // group function allows to group the calculation per level of a factor
+  // let sumstat = 
+  //   d3.group(precipitation, (d) => { return (d.Region); }); // group function allows to group the calculation per level of a factor
 
   // console.log(sumstat);
   // // color palette
@@ -159,16 +159,16 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
        //  }));
 
   // Plot points on scatter plot
-    let myPoint1 = FRAME1.append("g")
-                         .selectAll("points")  
-                         .data(precipitation)  
-                         .enter()       
-                         .append("circle")  
-                         .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
-                         .attr("cy", (d) => { return (y(d.JUN) + MARGINS.top); }) 
-                         .attr("r", 3)
-                         .attr("fill", (d) => { return region_color(d.Region); })
-                         .attr("class", "mark")
+  let myPoint1 = FRAME1.append("g")
+                       .selectAll("points")  
+                       .data(precipitation)  
+                       .enter()       
+                       .append("circle")  
+                       .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (y(d.JUN) + MARGINS.top); }) 
+                       .attr("r", 3)
+                       .attr("fill", (d) => { return region_color(d.Region); })
+                       .attr("class", "mark")
 
   // Add brushing
   FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
@@ -182,17 +182,19 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
   };
 
-  // // Add the line
-  // FRAME1.append("path")
-  //  .datum(precipitation)
-  //  .attr("fill", "none")
-  //  .attr("fill", "none")
-  //  .attr("stroke", (d) => { return region_color(d.Region); })
-  //  .attr("stroke-width", 1.5)
-  //  .attr("d", d3.line()
-  //    .x(precipitation, (d) => { return parseInt(d.YEAR); })
-  //    .y(precipitation, (d) => { return parseInt(d.JUN); })
-  //    );
+  const lineGenerator = d3.line()
+  .x(function(d) { return x(d.YEAR) + MARGINS.left})
+  .y(function(d) { return y(d.JUN) + MARGINS.top})
+  .stroke(function(d) { return d.Region });
+  console.log(lineGenerator)
+
+  // Add the line
+  FRAME1.append('path')
+  //.style('stroke', (d) => { return region_color(d.Region) })
+  .style('stroke', "pink")
+  .style('fill', 'none')
+  console.log(d);
+  .attr('d', lineGenerator(precipitation));
 
   // Nest the data by type
   // nested = d3.nest()
@@ -351,9 +353,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   function handleMousemove(event, d) {
    // position the tooltip and fill in information 
    TOOLTIP.html("3-Month SPI: " + d.JUN_x + "<br>Precipitation: " + d.JUN_y + "<br>Year: " + d.YEAR)
-           .style("left", (event.pageX + 10) + "px") //add offset
+           .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
-           .style("top", (event.pageY - 50) + "px"); 
+           .style("top", (event.pageY - 30) + "px"); 
   }
 
   // Event handler
