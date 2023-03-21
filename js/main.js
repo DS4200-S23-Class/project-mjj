@@ -281,7 +281,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Scale the precipitation values for the y-axis
   const y3 = d3.scaleLinear()
-                     .domain([2.5, (MAX_PRECIP3 + 1)]) // add some padding
+                     .domain([0, (MAX_PRECIP3 + 1)]) // add some padding
                      .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
