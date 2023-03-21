@@ -441,7 +441,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       if (month_display == "inline" && shown_months.includes(selected_month) == false){
         shown_months.push(selected_month);
       // store the data for months associated with unchecked boxes
-      } else if (month_display == "none" && shown_months.includes(month_region)){
+      } else if (month_display == "none" && shown_months.includes(selected_month)){
           month_index = shown_months.indexOf(selected_month);
           shown_months.splice(month_index, 1);
       }
