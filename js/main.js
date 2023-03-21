@@ -52,12 +52,6 @@ LEGEND.append("text").attr("x", 20).attr("y", 115).text("Southeast").style("font
 LEGEND.append("text").attr("x", 20).attr("y", 135).text("Western").style("font-size", "15px").style("fill", "black");
 LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
 
-const selectYear = document.getElementById("selectYear");
-let yearOptions = "";
-for(let i=1838; i<=2019 ; i++) yearOptions += `<option>${i}</option>`;
-
-document.querySelector("[name=check]").innerHTML = yearOptions;
-
 
 // // Parse the standard precipitation index data
 // d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
@@ -175,6 +169,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                         // Make all the points non-visible first
                        .attr("display", "none")
                        .attr("class", "mark");
+
+  // Dropdown by year for users 
+  // const selectYear = document.getElementById("selectYear");
+  let yearOptions = "";
+  for(let i=1838; i<=2019 ; i++) yearOptions += `<option>${i}</option>`;
+  document.querySelector("[name=check]").innerHTML = yearOptions;
 
   // initialize empty arrays
   let shown_years = [];
