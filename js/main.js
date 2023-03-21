@@ -82,7 +82,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Find max precipitation (y) value
   const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
-
+  console.log('max precipitation: ', MAX_PRECIP)
   // Scale years for the x-axis
   const x = d3.scaleLinear() 
                      .domain([MIN_YEAR - 10, (MAX_YEAR + 10)]) // add some padding  
@@ -169,7 +169,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .attr("display", "none")
                        .attr("class", "mark");
 
-
   // initialize empty arrays
   let shown_years = [];
   let shown_regions = [];
@@ -246,13 +245,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       };
     };
   });
-
-
-
-
-
-
-
 
   // Add brushing
   FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
