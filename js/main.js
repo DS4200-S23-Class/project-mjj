@@ -34,23 +34,36 @@ const FRAME3 = d3.select("#vis3")
 const LEGEND = d3.select("#legend")
                   .append("svg")
                   .attr("height", FRAME_HEIGHT)
-                  .attr("width", FRAME_WIDTH)
+                  .attr("width", FRAME_WIDTH);
 
 // Points for the legend
-LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "red").attr("class", "mark")
-LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "orange").attr("class", "mark")
-LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "gold").attr("class", "mark")
-LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "green").attr("class", "mark")
-LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "indigo").attr("class", "mark")
-LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "magenta").attr("class", "mark")
+LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "red").attr("class", "mark");
+LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "orange").attr("class", "mark");
+LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "gold").attr("class", "mark");
+LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "green").attr("class", "mark");
+LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "indigo").attr("class", "mark");
+LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "magenta").attr("class", "mark");
 
 // Texts for the legend
-LEGEND.append("text").attr("x", 20).attr("y", 55).text("Connecticut River").style("font-size", "15px").style("fill", "black")
-LEGEND.append("text").attr("x", 20).attr("y", 75).text("Northeast").style("font-size", "15px").style("fill", "black")
-LEGEND.append("text").attr("x", 20).attr("y", 95).text("Central").style("font-size", "15px").style("fill", "black")
-LEGEND.append("text").attr("x", 20).attr("y", 115).text("Southeast").style("font-size", "15px").style("fill", "black")
-LEGEND.append("text").attr("x", 20).attr("y", 135).text("Western").style("font-size", "15px").style("fill", "black")
-LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black")
+LEGEND.append("text").attr("x", 20).attr("y", 55).text("Connecticut River").style("font-size", "15px").style("fill", "black");
+LEGEND.append("text").attr("x", 20).attr("y", 75).text("Northeast").style("font-size", "15px").style("fill", "black");
+LEGEND.append("text").attr("x", 20).attr("y", 95).text("Central").style("font-size", "15px").style("fill", "black");
+LEGEND.append("text").attr("x", 20).attr("y", 115).text("Southeast").style("font-size", "15px").style("fill", "black");
+LEGEND.append("text").attr("x", 20).attr("y", 135).text("Western").style("font-size", "15px").style("fill", "black");
+LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
+
+const selectAge = document.getElementById("selectAge");
+const contents = 0;
+
+for (let i = 1; i <= 100; i++) {
+  contents += "<option>" + i + "</option>";
+}
+
+selectAge.innerHTML = contents;
+
+
+
+
 
 // // Parse the standard precipitation index data
 // d3.csv("data/Massachusetts_SPI_all.csv").then((spi) => {
@@ -416,7 +429,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   let shown_months3 = [];
         
   // Filter plot by selected year(s)
-  d3.selectAll(".year-button").on("change", function () {
+  d3.selectAll(".year-button3").on("change", function () {
     // retrieve the year associated with the checked/unchecked box
     let selected_year3 = this.value, 
     // determine whether the box is checked or unchecked
@@ -433,7 +446,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   });
 
   // Filter plot by selected region(s)
-  d3.selectAll(".region-button").on("change", function () {
+  d3.selectAll(".region-button3").on("change", function () {
     // retrieve the region associated with the checked/unchecked box
     let selected_region3 = this.value, 
     // determine whether the box is checked or unchecked
@@ -450,7 +463,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   });
 
   // Filter plot by selected month(s)
-  d3.selectAll(".month-button").on("change", function () {
+  d3.selectAll(".month-button3").on("change", function () {
     // retrieve the month associated with the checked/unchecked box
     let selected_month3 = this.value, 
     // determine whether the box is checked or unchecked
@@ -466,7 +479,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     }
   });
     
-  d3.select("#btn").on("click", function() {
+  d3.select("#btn-3").on("click", function() {
     // reset the graph so that no points appear
     FRAME3.selectAll(".mark")
           .attr("display", "none");
