@@ -368,7 +368,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.YEAR)
+   TOOLTIP.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
