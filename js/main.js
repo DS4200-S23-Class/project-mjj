@@ -38,10 +38,10 @@ const LEGEND = d3.select("#legend")
 
 LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "red")
 LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "orange")
-LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "yellow")
+LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "gold")
 LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "green")
 LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "indigo")
-LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "pink")
+LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "#FF00FF")
 
 LEGEND.append("text").attr("x", 20).attr("y", 55).text("Connecticut River").style("font-size", "15px").style("fill", "black")
 LEGEND.append("text").attr("x", 20).attr("y", 75).text("Northeast").style("font-size", "15px").style("fill", "black")
@@ -125,10 +125,10 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   //   .text("Precipitation (inches)")
   //   .attr("class", "axes");
   
-  // // Set color based on region
-  // const region_color = d3.scaleOrdinal()
-  //   .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
-  //   .range(['red','orange','yellow','green','indigo','pink']);
+  // Set color based on region
+  const region_color = d3.scaleOrdinal()
+    .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
+    .range(['red','orange','gold','green','indigo','#FF00FF']);
 
   // // group the data: I want to draw one line per group
   // // let sumstat = 
@@ -321,10 +321,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .enter()       
                        .append("circle")  
                        .attr("cx", (d) => { return (x3(d.x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y3(d.x) + MARGINS.top); }) 
+                       .attr("cy", (d) => { return (y3(d.Precipitation) + MARGINS.top); }) 
                        .attr("r", 5)
-                       .attr("fill", (d) => { return region_color(d.Region); })
-                       .attr("class", "mark");
+                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                       .attr("class", "mark")
+                       // Make all the points non-visible first
+                       .attr("display", "none");
 
   // Add brushing
   // FRAME3.call( d3.brush()                 // Use d3.brush to initalize a brush feature
@@ -378,31 +380,93 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     TOOLTIP.style("opacity", 0); 
   } 
 
- // add event handler to the button 
-  const btn = document.querySelector('#btn');
-        btn.addEventListener('click', (event) => {
-            // select checked boxes
-            let checkboxes = document.querySelectorAll('input[name="check"]:checked');
-            let values = [];
-            checkboxes.forEach((checkbox) => {
-                // push the values of the selected checkboxes to an array 
-                values.push(checkbox.value);
-            });
-        });    
+ // // add event handler to the button 
+ //  const btn = document.querySelector('#btn');
+ //        btn.addEventListener('click', (event) => {
+ //            // select checked boxes
+ //            let checkboxes = document.querySelectorAll('input[name="check"]:checked');
+ //            let values = [];
+ //            checkboxes.forEach((checkbox) => {
+ //                // push the values of the selected checkboxes to an array 
+ //                values.push(checkbox.value);
+ //            });
+ //        });    
+
+  let shown_years = [];
+  let shown_regions = [];
+  let shown_months = [];
         
-  // // Filter plot by selected year
-  // d3.selectAll(".year-button").on("change", function () {
-  //   let selected_year = this.value, 
-  //   year_display = this.checked ? "inline" : "none";
+  // Filter plot by selected year(s)
+    d3.selectAll(".year-button").on("change", function () {
+      // retrieve the year associated with the checked/unchecked box
+      let selected_year = this.value, 
+      // determine whether the box is checked or unchecked
+      display = this.checked ? year_display = "inline" : year_display = "none";
 
-  // FRAME3.selectAll(".mark")
-  //       .filter(function(d) { return d.YEAR == selected_year; })
-  //       .attr("display", year_display);
+      // store the data for years associated with checked boxes
+      if (year_display == "inline" && shown_years.includes(selected_year) == false){
+        shown_years.push(selected_year);
+      // store the data for years associated with unchecked boxes
+      } else if (year_display == "none" && shown_years.includes(selected_year)){
+          year_index = shown_years.indexOf(selected_year);
+          shown_years.splice(year_index, 1);
+      }
+    });
 
-  // // Filter plot by selected region
-  // d3.selectAll(".region-button").on("change", function () {
-  //   let selected_region = this.value, 
-  //   region_display = this.checked ? "inline" : "none";
+  // Filter plot by selected region(s)
+    d3.selectAll(".region-button").on("change", function () {
+      // retrieve the region associated with the checked/unchecked box
+      let selected_region = this.value, 
+      // determine whether the box is checked or unchecked
+      display2 = this.checked ? region_display = "inline" : region_display = "none";
+
+      // store the data for regions associated with checked boxes
+      if (region_display == "inline" && shown_regions.includes(selected_region) == false){
+        shown_regions.push(selected_region);
+      // store the data for regions associated with unchecked boxes
+      } else if (region_display == "none" && shown_regions.includes(selected_region)){
+          region_index = shown_regions.indexOf(selected_region);
+          shown_regions.splice(region_index, 1);
+      }
+    });
+
+  // Filter plot by selected month(s)
+    d3.selectAll(".month-button").on("change", function () {
+      // retrieve the month associated with the checked/unchecked box
+      let selected_month = this.value, 
+      // determine whether the box is checked or unchecked
+      display3 = this.checked ? month_display = "inline" : month_display = "none";
+
+      // store the data for months associated with checked boxes
+      if (month_display == "inline" && shown_months.includes(selected_month) == false){
+        shown_months.push(selected_month);
+      // store the data for months associated with unchecked boxes
+      } else if (month_display == "none" && shown_months.includes(month_region)){
+          month_index = shown_months.indexOf(selected_month);
+          shown_months.splice(month_index, 1);
+      }
+    });
+    
+    d3.select("#btn").on('click', function() {
+      // reset the graph so that no points appear
+      FRAME3.selectAll(".mark")
+            .attr("display", "none");
+
+      // Show data pertaining to years with checked boxes
+      for (let i = 0; i < shown_years.length; i++) {
+        // Show data pertaining to regions with checked boxes
+        for (let j = 0; j < shown_regions.length; j++) {
+          // Show data pertaining to months with checked boxes
+          for (let k = 0; k < shown_months.length; k++)
+        FRAME3.selectAll(".mark")
+            // show all the points that should be shown
+            .filter(function(d) { return d.Year == shown_years[i]; })
+            .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
+            .filter(function(d) { return d.Month == shown_months[k]; })
+            .attr("display", "inline");
+      };
+  };
+});
 
   // FRAME3.selectAll(".mark")
   //       .filter(function(d) {return d.Region == selected_region; })
