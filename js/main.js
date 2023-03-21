@@ -75,190 +75,190 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Get a subset of the data based on the month
   // Choosing to show data from June across all the years (just for PM-03 since we will add filters later) 
 
-  // Find min year (x) value
-  const MIN_YEAR = d3.min(precipitation, (d) => { return parseInt(d.YEAR); });
+  // // Find min year (x) value
+  // const MIN_YEAR = d3.min(precipitation, (d) => { return parseInt(d.YEAR); });
 
-  // Find max year (x) value
-  const MAX_YEAR = d3.max(precipitation, (d) => { return parseInt(d.YEAR); });
+  // // Find max year (x) value
+  // const MAX_YEAR = d3.max(precipitation, (d) => { return parseInt(d.YEAR); });
 
-  // Find max precipitation (y) value
-  const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.JUN); });
+  // // Find max precipitation (y) value
+  // const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
 
-  // Scale years for the x-axis
-  const x = d3.scaleLinear() 
-                     .domain([MIN_YEAR - 10, (MAX_YEAR + 10)]) // add some padding  
-                     .range([0, VIS_WIDTH]); 
+  // // Scale years for the x-axis
+  // const x = d3.scaleLinear() 
+  //                    .domain([MIN_YEAR - 10, (MAX_YEAR + 10)]) // add some padding  
+  //                    .range([0, VIS_WIDTH]); 
 
-  // Scale the precipitation values for the y-axis
-  const y = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                     .range([VIS_HEIGHT, 0]);
+  // // Scale the precipitation values for the y-axis
+  // const y = d3.scaleLinear()
+  //                    .domain([0, (MAX_PRECIP + 1)]) // add some padding
+  //                    .range([VIS_HEIGHT, 0]);
 
-  // Add X axis  
-  let xAxis = FRAME1.append("g") 
-              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x).ticks(25).tickFormat(d3.format("d"))) 
-              .attr("font-size", "10px")
-              .selectAll("text")
-                .attr("transform", "translate(-12, 10)rotate(-90)")
-                .style("text-anchor", "end");
+  // // Add X axis  
+  // let xAxis = FRAME1.append("g") 
+  //             .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+  //             .call(d3.axisBottom(x).ticks(25).tickFormat(d3.format("d"))) 
+  //             .attr("font-size", "10px")
+  //             .selectAll("text")
+  //               .attr("transform", "translate(-12, 10)rotate(-90)")
+  //               .style("text-anchor", "end");
 
-  // Add Y axis
-  let yAxis = FRAME1.append("g")       
-              .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y).ticks(20))
-              .attr("font-size", "10px");
+  // // Add Y axis
+  // let yAxis = FRAME1.append("g")       
+  //             .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
+  //             .call(d3.axisLeft(y).ticks(20))
+  //             .attr("font-size", "10px");
 
-  // Label the x axis
-  FRAME1.append("text")
-    .attr("x", MARGINS.left + VIS_WIDTH/2)
-    .attr("y", VIS_HEIGHT + 100)
-    .text("Year/Month")
-    .attr("class", "axes");
+  // // Label the x axis
+  // FRAME1.append("text")
+  //   .attr("x", MARGINS.left + VIS_WIDTH/2)
+  //   .attr("y", VIS_HEIGHT + 100)
+  //   .text("Year/Month")
+  //   .attr("class", "axes");
       
-  // Label the y axis 
-  FRAME1.append("text")
-    // .attr("text-anchor", "middle")
-    .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
-    .attr("y", 15)
-    .attr("transform", "rotate(-90)")
-    .text("Precipitation (inches)")
-    .attr("class", "axes");
+  // // Label the y axis 
+  // FRAME1.append("text")
+  //   // .attr("text-anchor", "middle")
+  //   .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
+  //   .attr("y", 15)
+  //   .attr("transform", "rotate(-90)")
+  //   .text("Precipitation (inches)")
+  //   .attr("class", "axes");
   
-  // Set color based on region
-  const region_color = d3.scaleOrdinal()
-    .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
-    .range(['red','orange','yellow','green','indigo','pink']);
+  // // Set color based on region
+  // const region_color = d3.scaleOrdinal()
+  //   .domain(['Connecticut River', 'Northeast', 'Central', 'Southeast', 'Western', 'Cape Cod and Islands'])
+  //   .range(['red','orange','yellow','green','indigo','pink']);
 
-  // group the data: I want to draw one line per group
-  // let sumstat = 
-  //   d3.group(precipitation, (d) => { return (d.Region); }); // group function allows to group the calculation per level of a factor
+  // // group the data: I want to draw one line per group
+  // // let sumstat = 
+  // //   d3.group(precipitation, (d) => { return (d.Region); }); // group function allows to group the calculation per level of a factor
 
-  // console.log(sumstat);
-  // // color palette
-  // let region_map = sumstat.keys() 
-  // let regions = Array.from(region_map) // list of region names
-  // console.log(regions)
-  // let precip_plot = Object.fromEntries(sumstat)
-  // console.log(precip_plot)
+  // // console.log(sumstat);
+  // // // color palette
+  // // let region_map = sumstat.keys() 
+  // // let regions = Array.from(region_map) // list of region names
+  // // console.log(regions)
+  // // let precip_plot = Object.fromEntries(sumstat)
+  // // console.log(precip_plot)
 
 
-   //Draw the line
-   //FRAME1.selectAll(".line")
-    //   .data(sumstat)
-     //  .enter()
-     //  .append("path")
-      //   .attr("fill", "none")
-       //  .attr("stroke", (d) => { return region_color(d.Region); })
-       //  .attr("stroke-width", 1.5)
-       //  .attr("d", ((d) => {
-       //    return d3.line()
-       //      .x(function(d) { return x(d.YEAR); })
-        //     .y(function(d) { return y(d.JUN); })
-       //      
-       //  }));
+  //  //Draw the line
+  //  //FRAME1.selectAll(".line")
+  //   //   .data(sumstat)
+  //    //  .enter()
+  //    //  .append("path")
+  //     //   .attr("fill", "none")
+  //      //  .attr("stroke", (d) => { return region_color(d.Region); })
+  //      //  .attr("stroke-width", 1.5)
+  //      //  .attr("d", ((d) => {
+  //      //    return d3.line()
+  //      //      .x(function(d) { return x(d.YEAR); })
+  //       //     .y(function(d) { return y(d.JUN); })
+  //      //      
+  //      //  }));
 
-  const bounds = FRAME1
-    .append("g")
-    .style(
-      "transform",
-      `translate(${MARGINS.left}px, ${MARGINS.top}px)`
-    );
+  // const bounds = FRAME1
+  //   .append("g")
+  //   .style(
+  //     "transform",
+  //     `translate(${MARGINS.left}px, ${MARGINS.top}px)`
+  //   );
 
-  const lineGenerator = d3
-     .line()
-     .x(function(d) { 
-       return x(d.YEAR);
-     })
-     .y(function(d) { 
-       return y(d.JUN);
-     });
+  // const lineGenerator = d3
+  //    .line()
+  //    .x(function(d) { 
+  //      return x(d.YEAR);
+  //    })
+  //    .y(function(d) { 
+  //      return y(d.JUN);
+  //    });
 
-  pathString = lineGenerator(precipitation);
+  // pathString = lineGenerator(precipitation);
    
-  const line = bounds
-    .append("path")
-    .attr("d", pathString)
-    .attr("fill", "none")
-    .attr("stroke", "silver")
-    // .attr("stroke", (d) => { return region_color(d.Region); })
-    .attr("stroke-width", 2);
+  // const line = bounds
+  //   .append("path")
+  //   .attr("d", pathString)
+  //   .attr("fill", "none")
+  //   .attr("stroke", "silver")
+  //   // .attr("stroke", (d) => { return region_color(d.Region); })
+  //   .attr("stroke-width", 2);
 
 
 
-  // Plot points on scatter plot
-  let myPoint1 = FRAME1.append("g")
-                       .selectAll("points")  
-                       .data(precipitation)  
-                       .enter()       
-                       .append("circle")  
-                       .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y(d.JUN) + MARGINS.top); }) 
-                       .attr("r", 3)
-                       .attr("fill", (d) => { return region_color(d.Region); })
-                       .attr("class", "mark")
+  // // Plot points on scatter plot
+  // let myPoint1 = FRAME1.append("g")
+  //                      .selectAll("points")  
+  //                      .data(precipitation)  
+  //                      .enter()       
+  //                      .append("circle")  
+  //                      .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
+  //                      .attr("cy", (d) => { return (y(d.JUN) + MARGINS.top); }) 
+  //                      .attr("r", 3)
+  //                      .attr("fill", (d) => { return region_color(d.Region); })
+  //                      .attr("class", "mark")
 
-  // Add brushing
-  FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
-                 .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
-                 .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
+  // // Add brushing
+  // FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+  //                .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
+  //                .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
 
-  // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a purple border. 
-  function updateChart1(event) {
-    selection = event.selection;
-    myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
-    myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
-  };
+  // // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a purple border. 
+  // function updateChart1(event) {
+  //   selection = event.selection;
+  //   myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
+  //   myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.YEAR) + MARGINS.left, y(d.JUN) + MARGINS.top ); }) )
+  // };
 
-  // Nest the data by type
-  // nested = d3.nest()
-  //  .key(precipitation, (d) => { return d.Region; })
-  //  .entries(data)
+  // // Nest the data by type
+  // // nested = d3.nest()
+  // //  .key(precipitation, (d) => { return d.Region; })
+  // //  .entries(data)
 
-  // // Append line groups
-  // groups = container.selectAll('g.full-line')
-  //   .data(nested, (d) => { return d.key })
+  // // // Append line groups
+  // // groups = container.selectAll('g.full-line')
+  // //   .data(nested, (d) => { return d.key })
 
-  // // ENTER
-  // groups.enter().append('svg:g')
-  // .attr( 'class', (d,i) => "full-line#{i}" )
+  // // // ENTER
+  // // groups.enter().append('svg:g')
+  // // .attr( 'class', (d,i) => "full-line#{i}" )
 
-  // // EXIT
-  // d3.transition(groups.exit()).remove()
+  // // // EXIT
+  // // d3.transition(groups.exit()).remove()
 
-  // // TRANSITION
-  // d3.transition(groups)
+  // // // TRANSITION
+  // // d3.transition(groups)
 
-  // // Individual Lines
-  // lines = groups.selectAll('.line').data, (d) => { return [d.values] }
+  // // // Individual Lines
+  // // lines = groups.selectAll('.line').data, (d) => { return [d.values] }
 
-  // // Append chart lines
-  // // ENTER
-  // lines.enter().append("svg:path")
-  //  .attr("class","line")
-  //  .attr("d", d3.svg.line()
-  //   .interpolate(interpolate)
-  //   .defined(defined)
-  //   .x( (d,i) => { return  xScale(d,i) })
-  //   .y( (d,i) => { return yScale(d,i) })
+  // // // Append chart lines
+  // // // ENTER
+  // // lines.enter().append("svg:path")
+  // //  .attr("class","line")
+  // //  .attr("d", d3.svg.line()
+  // //   .interpolate(interpolate)
+  // //   .defined(defined)
+  // //   .x( (d,i) => { return  xScale(d,i) })
+  // //   .y( (d,i) => { return yScale(d,i) })
 
-  // // EXIT
-  // d3.transition( groups.exit().selectAll('.line') )
-  //   .attr("d", 
-  //     d3.svg.line()
-  //       .interpolate(interpolate)
-  //       .defined(defined)
-  //       .x( (d,i) => { return xScale(d,i) })
-  //       .y( (d,i) => { return yScale(d,i) })
+  // // // EXIT
+  // // d3.transition( groups.exit().selectAll('.line') )
+  // //   .attr("d", 
+  // //     d3.svg.line()
+  // //       .interpolate(interpolate)
+  // //       .defined(defined)
+  // //       .x( (d,i) => { return xScale(d,i) })
+  // //       .y( (d,i) => { return yScale(d,i) })
 
-  // // TRANSITION
-  // d3.transition(lines)
-  //   .attr("d", 
-  //  d3.svg.line()
-  //    .interpolate(interpolate)
-  //    .defined(defined)
-  //        .x( (d,i) => { return xScale(d,i) })
-  //        .y( (d,i) => { return yScale(d,i) })
+  // // // TRANSITION
+  // // d3.transition(lines)
+  // //   .attr("d", 
+  // //  d3.svg.line()
+  // //    .interpolate(interpolate)
+  // //    .defined(defined)
+  // //        .x( (d,i) => { return xScale(d,i) })
+  // //        .y( (d,i) => { return yScale(d,i) })
 
 
   // Set up precipitation vs drought level scatterplot
@@ -266,13 +266,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // User will know what years the points represent when we enable the tooltip function
 
   // Find min SPI (x) value
-  const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.JUN_x); });
+  const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.x); });
 
   // Find max SPI (x) value
-  const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.JUN_x); });
+  const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.x); });
 
   // Find max precipitation (y) value
-  const MAX_PRECIP3 = d3.max(combined, (d) => { return parseFloat(d.JUN_y); });
+  const MAX_PRECIP3 = d3.max(combined, (d) => { return parseFloat(d.Precipitation); });
 
   // Scale SPI for the x-axis
   const x3 = d3.scaleLinear() 
@@ -320,8 +320,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .data(combined)  
                        .enter()       
                        .append("circle")  
-                       .attr("cx", (d) => { return (x3(d.JUN_x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y3(d.JUN_y) + MARGINS.top); }) 
+                       .attr("cx", (d) => { return (x3(d.x) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (y3(d.x) + MARGINS.top); }) 
                        .attr("r", 5)
                        .attr("fill", (d) => { return region_color(d.Region); })
                        .attr("class", "mark");
@@ -335,8 +335,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // purple border. 
   function updateChart2(event) {
     selection = event.selection;
-    myPoint1.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.JUN_x) + MARGINS.left, y3(d.JUN_y) + MARGINS.top ); }) )
-    myPoint3.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.JUN_x) + MARGINS.left, y3(d.JUN_y) + MARGINS.top ); }) )
+    myPoint1.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.x) + MARGINS.left, y3(d.Precipitation) + MARGINS.top ); }) )
+    myPoint3.classed("selected", (combined, (d) => { return isBrushed(selection, x3(d.x) + MARGINS.left, y3(d.Precipitation) + MARGINS.top ); }) )
   };
 
   // Returns TRUE if a point is in the selection window, returns FALSE if it is not
@@ -366,7 +366,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP.html("3-Month SPI: " + d.JUN_x + "<br>Precipitation: " + d.JUN_y + "<br>Year: " + d.YEAR)
+   TOOLTIP.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.YEAR)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
@@ -378,23 +378,35 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     TOOLTIP.style("opacity", 0); 
   } 
 
-  // Filter plot by selected year
-  d3.selectAll(".year-button").on("change", function () {
-    let selected_year = this.value, 
-    year_display = this.checked ? "inline" : "none";
+ // add event handler to the button 
+  const btn = document.querySelector('#btn');
+        btn.addEventListener('click', (event) => {
+            // select checked boxes
+            let checkboxes = document.querySelectorAll('input[name="check"]:checked');
+            let values = [];
+            checkboxes.forEach((checkbox) => {
+                // push the values of the selected checkboxes to an array 
+                values.push(checkbox.value);
+            });
+        });    
+        
+  // // Filter plot by selected year
+  // d3.selectAll(".year-button").on("change", function () {
+  //   let selected_year = this.value, 
+  //   year_display = this.checked ? "inline" : "none";
 
-  FRAME3.selectAll(".mark")
-        .filter(function(d) { return d.YEAR == selected_year; })
-        .attr("display", year_display);
+  // FRAME3.selectAll(".mark")
+  //       .filter(function(d) { return d.YEAR == selected_year; })
+  //       .attr("display", year_display);
 
-  // Filter plot by selected region
-  d3.selectAll(".region-button").on("change", function () {
-    let selected_region = this.value, 
-    region_display = this.checked ? "inline" : "none";
+  // // Filter plot by selected region
+  // d3.selectAll(".region-button").on("change", function () {
+  //   let selected_region = this.value, 
+  //   region_display = this.checked ? "inline" : "none";
 
-  FRAME3.selectAll(".mark")
-        .filter(function(d) {return d.Region == selected_region; })
-        .attr("display", region_display);
+  // FRAME3.selectAll(".mark")
+  //       .filter(function(d) {return d.Region == selected_region; })
+  //       .attr("display", region_display);
 
   // if (year_display == "inline" && region_display == "inline") {
   //   FRAME3.selectAll(".mark")
@@ -415,8 +427,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // }
 
 
-  });
-});
+//   });
+// });
 
   // a function that will be responsible for updating the visibility of the dots
 // function update() {
@@ -456,8 +468,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mouseover", handleMouseover)
         .on("mousemove", handleMousemove)
         .on("mouseleave", handleMouseleave); 
-
-
 
 });
 });

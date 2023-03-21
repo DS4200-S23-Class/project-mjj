@@ -71,46 +71,47 @@
                 <!-- Add chart title -->
                 <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
 
+
                 <!-- Add checkbox filter for years -->
                 <div class="year-filter">
-                    <label for="points">Filter by Year: </label>
-                    <input class="year-button" id="17" value="2017" type="checkbox" checked="checked">2017</input>
-                    <input class="year-button" id="18" value="2018" type="checkbox" checked="checked">2018</input>
-                    <input class="year-button" id="19" value="2019" type="checkbox" checked="checked">2019</input>
+                    <p>Filter by Year: </p>
+                    <label for="17"><input type="checkbox" name="check" value="2017">2017</label>
+                    <label for="18"><input type="checkbox" name="check" value="2018">2018</label>
+                    <label for="19"><input type="checkbox" name="check" value="2019">2019</label>
                 </div>
-
-                <br></br>
 
                 <!-- Add checkbox filter for regions -->
                 <div class="region-filter">
-                    <label for="points">Filter by Region: </label>
-                    <input class="region-button" id="Connecticut" value="Connecticut River" type="checkbox" checked="checked">Connecticut River</input>
-                    <input class="region-button" id="Northeast" value="Northeast" type="checkbox" checked="checked">Northeast</input>
-                    <input class="region-button" id="Central" value="Central" type="checkbox" checked="checked">Central</input>
-                    <input class="region-button" id="Southeast" value="Southeast" type="checkbox" checked="checked">Southeast</input>
-                    <input class="region-button" id="Western" value="Western" type="checkbox" checked="checked">Western</input>
-                    <input class="region-button" id="Cape" value="Cape Cod and Islands" type="checkbox" checked="checked">Cape Cod and Islands</input>
+                    <p>Filter by Region: </p>
+                    <label for="Connecticut"><input type="checkbox" name="check" value="Connecticut River" id="Conneticut">Connecticut River</label>
+                    <label for="Northeast"><input type="checkbox" name="check" value="Northeast River" id="Northeast">Northeast</label>
+                    <label for="Central"><input type="checkbox" name="check" value="Central" id="Central">Central</label>
+                    <label for="Southeast"><input type="checkbox" name="check" value="Southeast" id="Southeast">Southeast</label>
+                    <label for="Western"><input type="checkbox" name="check" value="Western" id="Western">Western</label>
+                    <label for="Cape"><input type="checkbox" name="check" value="Cape Code and Islands" id="Cape">Cape Code and Islands</label>
                 </div>
-
-                <br></br>
 
                 <!-- Add checkbox filter for months -->
                 <div class="month-filter">
-                    <label for="points">Filter by Month: </label>
-                    <input class="month-button" id="January" value="JAN" type="checkbox" checked="checked">January</input>
-                    <input class="month-button" id="February" value="FEB" type="checkbox" checked="checked">February</input>
-                    <input class="month-button" id="March" value="MAR" type="checkbox" checked="checked">March</input>
-                    <input class="month-button" id="April" value="APR" type="checkbox" checked="checked">April</input>
-                    <input class="month-button" id="May" value="MAY" type="checkbox" checked="checked">May</input>
-                    <input class="month-button" id="June" value="JUN" type="checkbox" checked="checked">June</input>
-                    <input class="month-button" id="July" value="JUL" type="checkbox" checked="checked">July</input>
-                    <input class="month-button" id="August" value="AUG" type="checkbox" checked="checked">August</input>
-                    <input class="month-button" id="September" value="SEP" type="checkbox" checked="checked">September</input>
-                    <input class="month-button" id="October" value="OCT" type="checkbox" checked="checked">October</input>
-                    <input class="month-button" id="November" value="NOV" type="checkbox" checked="checked">November</input>
-                    <input class="month-button" id="December" value="DEC" type="checkbox" checked="checked">December</input>
+                    <p>Filter by Month: </p>
+                    <label for="January"><input type="checkbox" name="check" value="January" id="January">JAN</label> 
+                    <label for="Februrary"><input type="checkbox" name="check" value="Februrary" id="Februrary">FEB</label> 
+                    <label for="March"><input type="checkbox" name="check" value="March" id="March">MAR</label> 
+                    <label for="April"><input type="checkbox" name="check" value="April" id="April">APR</label> 
+                    <label for="May"><input type="checkbox" name="check" value="May" id="May">MAY</label> 
+                    <label for="June"><input type="checkbox" name="check" value="June" id="June">JUN</label> 
+                    <label for="July"><input type="checkbox" name="check" value="July" id="July">JUL</label> 
+                    <label for="August"><input type="checkbox" name="check" value="August" id="August">AUG</label> 
+                    <label for="September"><input type="checkbox" name="check" value="September" id="September">SEP</label> 
+                    <label for="October"><input type="checkbox" name="check" value="October" id="October">OCT</label> 
+                    <label for="November"><input type="checkbox" name="check" value="November" id="November">NOV</label> 
+                    <label for="December"><input type="checkbox" name="check" value="December" id="December">DEC</label> 
                 </div>
-
+                <div>   
+                    <p>
+                        <button id="btn">Get Selected Year(s), Region(s), and Month(s)</button>
+                    </p>
+                </div>
             </div>
         
         </div>  
@@ -127,6 +128,7 @@
             <li><a href="https://github.com/d3/d3/issues/466">d3.format()(-1) yields "âˆ’1" with d3.min.js</a></li>
             <li><a href="https://d3-graph-gallery.com/graph/custom_legend.html">Legends in D3 Javascript</a>
             <li><a href="https://stackoverflow.com/questions/15044385/d3-map-with-checkbox-filtering">D3 Map With Checkbox Filtering</a></li>
+            <li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-checkbox/">Checkbox D3 Javascript</li>
         </ul>
     </div>
 
