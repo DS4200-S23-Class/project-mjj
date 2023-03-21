@@ -52,17 +52,11 @@ LEGEND.append("text").attr("x", 20).attr("y", 115).text("Southeast").style("font
 LEGEND.append("text").attr("x", 20).attr("y", 135).text("Western").style("font-size", "15px").style("fill", "black");
 LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
 
-const selectAge = document.getElementById("selectAge");
-const contents = 0;
+const selectYear = document.getElementById("selectYear");
+let yearOptions = "";
+for(let i=1838; i<=2019 ; i++) yearOptions += `<option>${i}</option>`;
 
-for (let i = 1; i <= 100; i++) {
-  contents += "<option>" + i + "</option>";
-}
-
-selectAge.innerHTML = contents;
-
-
-
+document.querySelector("[name=check]").innerHTML = yearOptions;
 
 
 // // Parse the standard precipitation index data
