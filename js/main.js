@@ -54,13 +54,15 @@ LEGEND.append("text").attr("x", 20).attr("y", 155).text("Cape Cod and Islands").
 
 // Parse the precipitation pattern data
 d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
+  // Read into dataset and print data
 	console.log(precipitation);
 
 // Parse the combined precipitation and standard precipitation index data
 d3.csv("data/combined_prep_spi.csv").then((combined) => {
+  // Read into dataset and print data
   console.log(combined);
 
-  // Set up precipitation line chart
+  // Set up precipitation line chart - NOT FULLY IMPLEMENTED 
 
   // Find min year (x) value
   const MIN_YEAR = d3.min(precipitation, (d) => { return parseInt(d.YEAR); });
@@ -160,7 +162,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         shown_regions.splice(region_index, 1);
     };
   });
-  
+
   // Filter plot by selected month(s)
   d3.selectAll(".month-button").on("change", function () {
     // retrieve the month associated with the checked/unchecked box
@@ -195,7 +197,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
   };
 
-  // Set up precipitation vs. drought level scatterplot
+  // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
   // Find min SPI (x) value
   const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.x); });
