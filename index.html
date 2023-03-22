@@ -53,34 +53,15 @@
         <div class="container">
             <!-- Legend for the visualization -->
             <div id="legend">
-            </div>
-            
-            <!-- Create the section that contains the line chart -->
-            <div id="vis1">
-                <!-- Add chart title -->
-                <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
                 <!-- Add drop down menu filter for years -->
                 <div class="year-filter">
-                    <p>Filter by Year: </p>
-
+                    <p>Filter by Year (use for 1st graph only): </p>
                     <select name="check" id="selectYear"></select>
-
                 </div> 
-            </div>
 
-            <!-- Create the section that contains the map of Massachusetts -->
-            <div id="vis2">
-                <!-- Add chart title -->
-                <h3 class="centered">Drought Severities Over Time and Regions</h3>
-            </div>
-            
-            <!-- Create the section that contains the scatter graph-->
-            <div id="vis3">
-                <!-- Add chart title -->
-                <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
                 <!-- Add checkbox filter for years -->
                 <div class="year-filter">
-                    <p>Filter by Year: </p>
+                    <p>Filter by Year (use for 3rd graph only): </p>
                     <label for="17"><input type="checkbox" name="check3" value="2017" class="year-button">2017</label>
                     <label for="18"><input type="checkbox" name="check3" value="2018" class="year-button">2018</label>
                     <label for="19"><input type="checkbox" name="check3" value="2019" class="year-button">2019</label>
@@ -119,7 +100,24 @@
                     </p>
                 </div>
             </div>
-    
+            
+            <!-- Create the section that contains the line chart -->
+            <div id="vis1">
+                <!-- Add chart title -->
+                <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
+            </div>
+
+            <!-- Create the section that contains the map of Massachusetts -->
+            <div id="vis2">
+                <!-- Add chart title -->
+                <h3 class="centered">Drought Severities Over Time and Regions</h3>
+            </div>
+            
+            <!-- Create the section that contains the scatter graph-->
+            <div id="vis3">
+                <!-- Add chart title -->
+                <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
+            </div>
         </div>  
     </div>
 
