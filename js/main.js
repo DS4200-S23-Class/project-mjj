@@ -160,7 +160,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         shown_regions.splice(region_index, 1);
     };
   });
-
+  
   // Filter plot by selected month(s)
   d3.selectAll(".month-button").on("change", function () {
     // retrieve the month associated with the checked/unchecked box
