@@ -127,22 +127,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                         // Make all the points non-visible first
                        .attr("display", "none")
                        .attr("class", "mark");
-  // const bounds = FRAME1
-  //   .append("g")
-  //   .style(
-  //     "transform",
-  //     `translate(${MARGINS.left}px, ${MARGINS.top}px)`
-  //   );
-
-  // const lineGenerator = d3
-  //    .line()
-  //    .x(function(d) { 
-  //      return x(d.Month);
-  //    })
-  //    .y(function(d) { 
-  //      return y(d.Precipitation);
-  //    });
-
     
   // Filter plot by selected year(s)
   // Drop down menu by year for users 
@@ -192,13 +176,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       for (let j = 0; j < shown_regions.length; j++) {
         let lineFilter = precipitation.filter(function(d) {return d.Region== shown_regions[j]; })
                                       .filter(function(d) { return d.YEAR == selected_year; });
-        // let line = bounds
-        //  .append("path")
-        //  .attr("d", pathString)
-        //  .attr("fill", "none")
-        //  .attr("stroke", "silver")
-        //  .attr("stroke-width", 2);
 
+        // show lines for each checked region
         let line = FRAME1.append("g")
                          .append("path")
                          .datum(lineFilter)
@@ -233,6 +212,29 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
     myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
   };
+
+  // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
+  
+  // Prepare the SVG container for placing the map so it has all the necessary features
+  // const g = svg.call(zoom).append("g");
+  // g.append("rect")
+  //   .attr("width", WIDTH * OVERLAY_MULTIPLIER)
+  //   .attr("height", HEIGHT * OVERLAY_MULTIPLIER)
+  //   .attr(
+  //     "transform",
+  //     `translate(-${WIDTH * OVERLAY_OFFSET},-${HEIGHT * OVERLAY_OFFSET})`
+  //   )
+  //   .style("fill", "none")
+  //   .style("pointer-events", "all");
+
+  // const projection = d3
+  // .geoMercator()
+  // .center([114.1095, 22.3964])
+  // .scale(80000)
+  // .translate([WIDTH / 2, HEIGHT / 2]);
+
+  // const path = d3.geoPath().projection(projection);
+  // const color = d3.scaleOrdinal(d3.schemeCategory20c.slice(1, 4));
 
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
