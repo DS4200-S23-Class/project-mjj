@@ -114,7 +114,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .domain(["Connecticut River", "Northeast", "Central", "Southeast", "Western", "Cape Cod and Islands"])
     .range(["red", "orange", "gold", "green", "indigo", "magenta"]);
 
-  // Plot points on scatter plot
+  // Plot points on plot
   let myPoint1 = FRAME1.append("g")
                        .selectAll("points")  
                        .data(precipitation)  
@@ -127,6 +127,31 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                         // Make all the points non-visible first
                        .attr("display", "none")
                        .attr("class", "mark");
+  const bounds = FRAME1
+    .append("g")
+    .style(
+      "transform",
+      `translate(${MARGINS.left}px, ${MARGINS.top}px)`
+    );
+
+  const lineGenerator = d3
+     .line()
+     .x(function(d) { 
+       return x(d.Month);
+     })
+     .y(function(d) { 
+       return y(d.Precipitation);
+     });
+
+  pathString = lineGenerator(precipitation);
+   
+  const line = bounds
+    .append("path")
+    .attr("d", pathString)
+    .attr("fill", "none")
+    .attr("stroke", "silver")
+    .attr("stroke-width", 2);
+
         
   // Filter plot by selected year(s)
   // Drop down menu by year for users 
