@@ -23,13 +23,6 @@ APPEALING */
     flex-direction: row;
 }
 
-/* Style legend */
-#legend {
-    flex-direction: column;
-    width: 10%;
-    flex-wrap: wrap;
-}
-
 .child1{
     width:20%;
 }

@@ -69,14 +69,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Set x axis labels
   const x = d3.scaleBand()
-        .range([0, VIS_WIDTH])
-      .domain(precipitation.map((d) => { return d.Month; }))
-      .padding(0.2);
+              .range([0, VIS_WIDTH])
+              .domain(precipitation.map((d) => { return d.Month; }))
+              .padding(0.2);
 
   // Scale the precipitation values for the y-axis
   const y = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                     .range([VIS_HEIGHT, 0]);
+                .domain([0, (MAX_PRECIP + 1)]) // add some padding
+                .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
   let xAxis = FRAME1.append("g") 
@@ -124,6 +124,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .attr("cy", (d) => { return (y(d.Precipitation) + MARGINS.top); }) 
                        .attr("r", 3)
                        .attr("fill", (d) => { return region_color(d.Region); })
+                       .attr("transform", "translate(13, 0)")
                         // Make all the points non-visible first
                        .attr("display", "none")
                        .attr("class", "mark");
@@ -139,7 +140,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     let yearMenu = document.getElementById("selectYear");
     let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
     return selected_year;
-};
+  };
 
   // Filter plot by selected region(s)
   d3.selectAll(".region-button").on("change", function () {
@@ -174,7 +175,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
       // Show data pertaining to regions with checked boxes
       for (let j = 0; j < shown_regions.length; j++) {
-        let lineFilter = precipitation.filter(function(d) {return d.Region== shown_regions[j]; })
+        let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions[j]; })
                                       .filter(function(d) { return d.YEAR == selected_year; });
 
         // show lines for each checked region
@@ -186,14 +187,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                             .y(function(d) { return (y(d.Precipitation) + MARGINS.top); })
                             )
                          .attr("stroke", (d) => { return region_color(shown_regions[j]); })
+                         .attr("transform", "translate(13, 0)")
                          .style("stroke-width", 2)
                          .style("fill", "none")
                          .attr("class", "line")
 
-
         FRAME1.selectAll(".mark")
-          // show all the points that should be shown
-
           // Show data pertaining to the selected year from the dropbox menu
           .filter(function(d) { return d.YEAR == selected_year; })
           .filter(function(d) { return d.Region == shown_regions[j]; })
@@ -201,17 +200,55 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
   });
 
-  // Add brushing
-  FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
-                 .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
-                 .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
+  // Tooltip
 
-  // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a black border. 
-  function updateChart1(event) {
-    selection = event.selection;
-    myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
-    myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
+  // Create tooltip
+  const TOOLTIP = d3.select("#vis1")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    // Make it nonvisible at first
+                    .style("opacity", 0); 
+
+  // Event handler
+  function handleMouseover(event, d) {
+    // on mouseover, make opaque 
+    TOOLTIP.style("opacity", 1); 
+  }
+
+  // Event handler
+  function handleMousemove(event, d) {
+   // position the tooltip and fill in information 
+   TOOLTIP.html("Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region)
+           .style("left", (event.pageX + 50) + "px") //add offset
+                                                       // from mouse
+           .style("top", (event.pageY - 30) + "px"); 
   };
+
+  // Event handler
+  function handleMouseleave(event, d) {
+    // on mouseleave, make the tooltip transparent again 
+    TOOLTIP.style("opacity", 0); 
+  };
+
+  // Add tooltip event listeners
+  FRAME1.selectAll(".mark")
+        .on("mouseover", handleMouseover)
+        .on("mousemove", handleMousemove)
+        .on("mouseleave", handleMouseleave); 
+
+
+
+  // Add brushing
+  // FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+  //                .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
+  //                .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
+
+  // // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a black border. 
+  // function updateChart1(event) {
+  //   selection = event.selection;
+  //   myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
+  //   myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
+  // };
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
   
@@ -304,58 +341,58 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP = d3.select("#vis3")
+  const TOOLTIP2 = d3.select("#vis3")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
                     .style("opacity", 0); 
 
   // Event handler
-  function handleMouseover(event, d) {
+  function handleMouseover2(event, d) {
     // on mouseover, make opaque 
-    TOOLTIP.style("opacity", 1); 
+    TOOLTIP2.style("opacity", 1); 
   }
 
   // Event handler
-  function handleMousemove(event, d) {
+  function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
   };
 
   // Event handler
-  function handleMouseleave(event, d) {
+  function handleMouseleave2(event, d) {
     // on mouseleave, make the tooltip transparent again 
-    TOOLTIP.style("opacity", 0); 
+    TOOLTIP2.style("opacity", 0); 
   };
 
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
-        .on("mouseover", handleMouseover)
-        .on("mousemove", handleMousemove)
-        .on("mouseleave", handleMouseleave); 
+        .on("mouseover", handleMouseover2)
+        .on("mousemove", handleMousemove2)
+        .on("mouseleave", handleMouseleave2); 
 
   // initialize empty arrays for the years to be represented in plot 3 as well as the regions and months to be represented in all 3 plots
-  let shown_years3 = [];
+  let shown_years = [];
   let shown_regions = [];
   let shown_months = [];
         
   // Filter the scatter plot by selected year(s)
   d3.selectAll(".year-button").on("change", function () {
     // retrieve the year associated with the checked/unchecked box
-    let selected_year3 = this.value, 
+    let selected_year = this.value, 
     // determine whether the box is checked or unchecked
     display = this.checked ? year_display = "inline" : year_display = "none";
 
     // store the data for years associated with checked boxes
-    if (year_display == "inline" && shown_years3.includes(selected_year3) == false){
-      shown_years3.push(selected_year3);
+    if (year_display == "inline" && shown_years.includes(selected_year) == false){
+      shown_years.push(selected_year);
     // omitting to plot data for years associated with unchecked boxes
-    } else if (year_display == "none" && shown_years3.includes(selected_year3)){
-        year_index = shown_years3.indexOf(selected_year3);
-        shown_years3.splice(year_index, 1);
+    } else if (year_display == "none" && shown_years.includes(selected_year)){
+        year_index = shown_year.indexOf(selected_year);
+        shown_years.splice(year_index, 1);
     };
   });
 
@@ -401,14 +438,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
           .attr("display", "none");
 
     // Show data pertaining to years with checked boxes
-    for (let i = 0; i < shown_years3.length; i++) {
+    for (let i = 0; i < shown_years.length; i++) {
       // Show data pertaining to regions with checked boxes
       for (let j = 0; j < shown_regions.length; j++) {
         // Show data pertaining to months with checked boxes
         for (let k = 0; k < shown_months.length; k++)
       FRAME3.selectAll(".mark")
           // show all the points that should be shown
-          .filter(function(d) { return d.Year == shown_years3[i]; })
+          .filter(function(d) { return d.Year == shown_years[i]; })
           .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
           .filter(function(d) { return d.Month == shown_months[k]; })
           .attr("display", "inline");

@@ -54,6 +54,16 @@
             <div class="child1">
                 <!-- Legend for the visualization -->
                 <div id="legend">
+                    <!-- Add checkbox filter for regions -->
+                    <div class="region-filter">
+                        <p>Filter by Region: </p>
+                        <label for="Connecticut"><input type="checkbox" name="check2" value="Connecticut River" class="region-button">Connecticut River</label>
+                        <label for="Northeast"><input type="checkbox" name="check2" value="Northeast" class="region-button">Northeast</label>
+                        <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label>
+                        <label for="Southeast"><input type="checkbox" name="check2" value="Southeast" class="region-button">Southeast</label>
+                        <label for="Western"><input type="checkbox" name="check2" value="Western" class="region-button">Western</label>
+                        <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
+                    </div>
                 </div>
             </div>
             
@@ -68,17 +78,6 @@
                         <p>Filter by Year: </p>
                         <select name="check" id="selectYear"></select>
                     </div> 
-
-                    <!-- Add checkbox filter for regions -->
-                    <div class="region-filter">
-                        <p>Filter by Region: </p>
-                        <label for="Connecticut"><input type="checkbox" name="check" value="Connecticut River" class="region-button">Connecticut River</label>
-                        <label for="Northeast"><input type="checkbox" name="check" value="Northeast" class="region-button">Northeast</label>
-                        <label for="Central"><input type="checkbox" name="check" value="Central"class="region-button">Central</label>
-                        <label for="Southeast"><input type="checkbox" name="check" value="Southeast" class="region-button">Southeast</label>
-                        <label for="Western"><input type="checkbox" name="check" value="Western" class="region-button">Western</label>
-                        <label for="Cape"><input type="checkbox" name="check" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
-                    </div>
 
                     <div>   
                         <p>
@@ -122,18 +121,6 @@
                         <label for="November"><input type="checkbox" name="check3" value="NOV" id="November" class="month-button">NOV</label> 
                         <label for="December"><input type="checkbox" name="check3" value="DEC" id="December" class="month-button">DEC</label> 
                     </div>
-
-                    <!-- Add checkbox filter for regions -->
-                    <div class="region-filter">
-                        <p>Filter by Region: </p>
-                        <label for="Connecticut"><input type="checkbox" name="check3" value="Connecticut River" class="region-button3">Connecticut River</label>
-                        <label for="Northeast"><input type="checkbox" name="check3" value="Northeast" class="region-button3">Northeast</label>
-                        <label for="Central"><input type="checkbox" name="check3" value="Central"class="region-button3">Central</label>
-                        <label for="Southeast"><input type="checkbox" name="check3" value="Southeast" class="region-button3">Southeast</label>
-                        <label for="Western"><input type="checkbox" name="check3" value="Western" class="region-button3">Western</label>
-                        <label for="Cape"><input type="checkbox" name="check3" value="Cape Cod and Islands" class="region-button3">Cape Cod and Islands</label>
-                    </div>
-
                     <div>   
                         <p>
                             <button id="btn3">Get Selected Year(s), Region(s), and Month(s)</button>
