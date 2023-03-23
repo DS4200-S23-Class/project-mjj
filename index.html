@@ -51,93 +51,97 @@
         <h2>Visualization</h2>
         <!-- Create separate section for content (visualization) of webpage -->
         <div class="container">
-            <!-- Legend for the visualization -->
-            <div id="legend">
-            </div>
-            
-            <!-- Create the section that contains the line chart -->
-            <div id="vis1">
-                <!-- Add chart title -->
-                <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
-
-                <!-- Add drop down menu filter for years -->
-                <div class="year-filter">
-                    <p>Filter by Year: </p>
-                    <select name="check" id="selectYear"></select>
-                </div> 
-
-                <!-- Add checkbox filter for regions -->
-                <div class="region-filter">
-                    <p>Filter by Region: </p>
-                    <label for="Connecticut"><input type="checkbox" name="check" value="Connecticut River" class="region-button">Connecticut River</label>
-                    <label for="Northeast"><input type="checkbox" name="check" value="Northeast" class="region-button">Northeast</label>
-                    <label for="Central"><input type="checkbox" name="check" value="Central"class="region-button">Central</label>
-                    <label for="Southeast"><input type="checkbox" name="check" value="Southeast" class="region-button">Southeast</label>
-                    <label for="Western"><input type="checkbox" name="check" value="Western" class="region-button">Western</label>
-                    <label for="Cape"><input type="checkbox" name="check" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
-                </div>
-
-                <div>   
-                    <p>
-                        <button id="btn1">Get Selected Year and Region(s)</button>
-                    </p>
+            <div class="child1">
+                <!-- Legend for the visualization -->
+                <div id="legend">
                 </div>
             </div>
-
-            <!-- Create the section that contains the map of Massachusetts -->
-            <div id="vis2">
-                <!-- Add chart title -->
-                <h3 class="centered">Drought Severities Over Time and Regions</h3>
-            </div>
             
-            <!-- Create the section that contains the scatter graph-->
-            <div id="vis3">
-                <!-- Add chart title -->
-                <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
+            <div class="child2">
+                <!-- Create the section that contains the line chart -->
+                <div id="vis1">
+                    <!-- Add chart title -->
+                    <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
+
+                    <!-- Add drop down menu filter for years -->
+                    <div class="year-filter">
+                        <p>Filter by Year: </p>
+                        <select name="check" id="selectYear"></select>
+                    </div> 
+
+                    <!-- Add checkbox filter for regions -->
+                    <div class="region-filter">
+                        <p>Filter by Region: </p>
+                        <label for="Connecticut"><input type="checkbox" name="check" value="Connecticut River" class="region-button">Connecticut River</label>
+                        <label for="Northeast"><input type="checkbox" name="check" value="Northeast" class="region-button">Northeast</label>
+                        <label for="Central"><input type="checkbox" name="check" value="Central"class="region-button">Central</label>
+                        <label for="Southeast"><input type="checkbox" name="check" value="Southeast" class="region-button">Southeast</label>
+                        <label for="Western"><input type="checkbox" name="check" value="Western" class="region-button">Western</label>
+                        <label for="Cape"><input type="checkbox" name="check" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
+                    </div>
+
+                    <div>   
+                        <p>
+                            <button id="btn1">Get Selected Year and Region(s)</button>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Create the section that contains the map of Massachusetts -->
+                <div id="vis2">
+                    <!-- Add chart title -->
+                    <h3 class="centered">Drought Severities Over Time and Regions</h3>
+                </div>
+            
+                <!-- Create the section that contains the scatter graph-->
+                <div id="vis3">
+                    <!-- Add chart title -->
+                    <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
                
-                <!-- Add checkbox filter for years -->
-                <div class="year-filter">
-                    <p>Filter by Year: </p>
-                    <label for="17"><input type="checkbox" name="check3" value="2017" class="year-button">2017</label>
-                    <label for="18"><input type="checkbox" name="check3" value="2018" class="year-button">2018</label>
-                    <label for="19"><input type="checkbox" name="check3" value="2019" class="year-button">2019</label>
-                </div>
+                    <!-- Add checkbox filter for years -->
+                    <div class="year-filter">
+                        <p>Filter by Year: </p>
+                        <label for="17"><input type="checkbox" name="check3" value="2017" class="year-button">2017</label>
+                        <label for="18"><input type="checkbox" name="check3" value="2018" class="year-button">2018</label>
+                        <label for="19"><input type="checkbox" name="check3" value="2019" class="year-button">2019</label>
+                    </div>
 
-                <!-- Add checkbox filter for months -->
-                <div class="month-filter">
-                    <p>Filter by Month: </p>
-                    <label for="January"><input type="checkbox" name="check3" value="JAN" id="January" class="month-button">JAN</label> 
-                    <label for="Februrary"><input type="checkbox" name="check3" value="FEB" id="Februrary" class="month-button">FEB</label>
-                    <label for="March"><input type="checkbox" name="check3" value="MAR" id="March" class="month-button">MAR</label> 
-                    <label for="April"><input type="checkbox" name="check3" value="APR" id="April" class="month-button">APR</label> 
-                    <label for="May"><input type="checkbox" name="check3" value="MAY" id="May" class="month-button">MAY</label> 
-                    <label for="June"><input type="checkbox" name="check3" value="JUN" id="June" class="month-button">JUN</label> 
-                    <label for="July"><input type="checkbox" name="check3" value="JUL" id="July" class="month-button">JUL</label> 
-                    <label for="August"><input type="checkbox" name="check3" value="AUG" id="August" class="month-button">AUG</label> 
-                    <label for="September"><input type="checkbox" name="check3" value="SEP" id="September" class="month-button">SEP</label>
-                    <label for="October"><input type="checkbox" name="check3" value="OCT" id="October" class="month-button">OCT</label> 
-                    <label for="November"><input type="checkbox" name="check3" value="NOV" id="November" class="month-button">NOV</label> 
-                    <label for="December"><input type="checkbox" name="check3" value="DEC" id="December" class="month-button">DEC</label> 
-                </div>
+                    <!-- Add checkbox filter for months -->
+                    <div class="month-filter">
+                        <p>Filter by Month: </p>
+                        <label for="January"><input type="checkbox" name="check3" value="JAN" id="January" class="month-button">JAN</label> 
+                        <label for="Februrary"><input type="checkbox" name="check3" value="FEB" id="Februrary" class="month-button">FEB</label>
+                        <label for="March"><input type="checkbox" name="check3" value="MAR" id="March" class="month-button">MAR</label> 
+                        <label for="April"><input type="checkbox" name="check3" value="APR" id="April" class="month-button">APR</label> 
+                        <label for="May"><input type="checkbox" name="check3" value="MAY" id="May" class="month-button">MAY</label> 
+                        <label for="June"><input type="checkbox" name="check3" value="JUN" id="June" class="month-button">JUN</label> 
+                        <label for="July"><input type="checkbox" name="check3" value="JUL" id="July" class="month-button">JUL</label> 
+                        <label for="August"><input type="checkbox" name="check3" value="AUG" id="August" class="month-button">AUG</label> 
+                        <label for="September"><input type="checkbox" name="check3" value="SEP" id="September" class="month-button">SEP</label>
+                        <label for="October"><input type="checkbox" name="check3" value="OCT" id="October" class="month-button">OCT</label> 
+                        <label for="November"><input type="checkbox" name="check3" value="NOV" id="November" class="month-button">NOV</label> 
+                        <label for="December"><input type="checkbox" name="check3" value="DEC" id="December" class="month-button">DEC</label> 
+                    </div>
 
-                <!-- Add checkbox filter for regions -->
-                <div class="region-filter">
-                    <p>Filter by Region: </p>
-                    <label for="Connecticut"><input type="checkbox" name="check3" value="Connecticut River" class="region-button3">Connecticut River</label>
-                    <label for="Northeast"><input type="checkbox" name="check3" value="Northeast" class="region-button3">Northeast</label>
-                    <label for="Central"><input type="checkbox" name="check3" value="Central"class="region-button3">Central</label>
-                    <label for="Southeast"><input type="checkbox" name="check3" value="Southeast" class="region-button3">Southeast</label>
-                    <label for="Western"><input type="checkbox" name="check3" value="Western" class="region-button3">Western</label>
-                    <label for="Cape"><input type="checkbox" name="check3" value="Cape Cod and Islands" class="region-button3">Cape Cod and Islands</label>
-                </div>
+                    <!-- Add checkbox filter for regions -->
+                    <div class="region-filter">
+                        <p>Filter by Region: </p>
+                        <label for="Connecticut"><input type="checkbox" name="check3" value="Connecticut River" class="region-button3">Connecticut River</label>
+                        <label for="Northeast"><input type="checkbox" name="check3" value="Northeast" class="region-button3">Northeast</label>
+                        <label for="Central"><input type="checkbox" name="check3" value="Central"class="region-button3">Central</label>
+                        <label for="Southeast"><input type="checkbox" name="check3" value="Southeast" class="region-button3">Southeast</label>
+                        <label for="Western"><input type="checkbox" name="check3" value="Western" class="region-button3">Western</label>
+                        <label for="Cape"><input type="checkbox" name="check3" value="Cape Cod and Islands" class="region-button3">Cape Cod and Islands</label>
+                    </div>
 
-                <div>   
-                    <p>
-                        <button id="btn3">Get Selected Year(s), Region(s), and Month(s)</button>
-                    </p>
+                    <div>   
+                        <p>
+                            <button id="btn3">Get Selected Year(s), Region(s), and Month(s)</button>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </div>  
+            </div>  
+        </div>
     </div>
 
     <div>

@@ -17,7 +17,7 @@ body {
 /* COLUMNS ARE JUST USED TEMPORARILY AND MAY BE REMOVED TO MAKE OUR TOOL MORE VISUALLY 
 APPEALING */
 
-/* Creates a flex container to make 3 columns */
+/* Creates a flex container to make 2 columns */
 .container {
     display: flex;
     flex-direction: row;
@@ -30,24 +30,31 @@ APPEALING */
     flex-wrap: wrap;
 }
 
+.child1{
+    width:20%;
+}
+
+.child2{
+    width:80%;
+}
+
 /* Style vis1 */
 #vis1 {
     flex-direction: column;
-    width: 30%;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
 /* Style vis2 */
 #vis2 {
     flex-direction: column;
-    width: 30%;
+    width: 100%;
     flex-wrap: wrap;
 }
 
 /* Style vis3 */
 #vis3 {
     flex-direction: column;
-    width: 30%;
+    width: 100%;
     flex-wrap: wrap;
 }
 
