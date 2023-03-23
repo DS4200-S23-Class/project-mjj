@@ -64,19 +64,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Set up precipitation line chart - NOT FULLY IMPLEMENTED 
 
-  // Find min year (x) value
-  const MIN_YEAR = d3.min(precipitation, (d) => { return parseInt(d.YEAR); });
-
-  // Find max year (x) value
-  const MAX_YEAR = d3.max(precipitation, (d) => { return parseInt(d.YEAR); });
-
   // Find max precipitation (y) value
   const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
 
-  // Scale years for the x-axis
-  const x = d3.scaleLinear() 
-                     .domain([MIN_YEAR - 10, (MAX_YEAR + 10)]) // add some padding  
-                     .range([0, VIS_WIDTH]); 
+  // Set x axis labels
+  const x = d3.scaleBand()
+        .range([0, VIS_WIDTH])
+      .domain(precipitation.map((d) => { return d.Month; }))
+      .padding(0.2);
 
   // Scale the precipitation values for the y-axis
   const y = d3.scaleLinear()
@@ -86,10 +81,10 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Add X axis  
   let xAxis = FRAME1.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x).ticks(25).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(x)) 
               .attr("font-size", "10px")
               .selectAll("text")
-                .attr("transform", "translate(-12, 10)rotate(-90)")
+                .attr("transform", "translate(10, 0)")
                 .style("text-anchor", "end");
 
   // Add Y axis
@@ -101,8 +96,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Label the x axis
   FRAME1.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
-    .attr("y", VIS_HEIGHT + 100)
-    .text("Year/Month")
+    .attr("y", VIS_HEIGHT + 90)
+    .text("Month")
     .attr("class", "axes");
       
   // Label the y axis 
@@ -125,7 +120,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .data(precipitation)  
                        .enter()       
                        .append("circle")  
-                       .attr("cx", (d) => { return (x(d.YEAR) + MARGINS.left); }) 
+                       .attr("cx", (d) => { return (x(d.Month) + MARGINS.left); }) 
                        .attr("cy", (d) => { return (y(d.Precipitation) + MARGINS.top); }) 
                        .attr("r", 3)
                        .attr("fill", (d) => { return region_color(d.Region); })
@@ -163,26 +158,24 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
   });
 
-  // Filter plot by selected month(s)
-  d3.selectAll(".month-button").on("change", function () {
-    // retrieve the month associated with the checked/unchecked box
-    let selected_month = this.value, 
-    // determine whether the box is checked or unchecked
-    display3 = this.checked ? month_display = "inline" : month_display = "none";
-
-    // store the data for months associated with checked boxes
-    if (month_display == "inline" && shown_months.includes(selected_month) == false){
-      shown_months.push(selected_month);
-    // omitting to plot the data for months associated with unchecked boxes
-    } else if (month_display == "none" && shown_months.includes(selected_month)){
-        month_index = shown_months.indexOf(selected_month);
-        shown_months.splice(month_index, 1);
-    };
-  });
-
   // retrieve the year selected by the user in the drop down menu for the line chart
-  d3.select("#btn").on("click", function() {
+  d3.select("#btn1").on("click", function() {
     selected_year = updateYear();
+
+    // reset the plot so that no points appear
+    FRAME1.selectAll(".mark")
+          .attr("display", "none");
+
+      // Show data pertaining to regions with checked boxes
+      for (let j = 0; j < shown_regions.length; j++) {
+      FRAME1.selectAll(".mark")
+        // show all the points that should be shown
+
+        // Show data pertaining to the selected year from the dropbox menu
+        .filter(function(d) { return d.YEAR == selected_year; })
+        .filter(function(d) { return d.Region == shown_regions[j]; })
+        .attr("display", "inline");
+    };
   });
 
   // Add brushing
@@ -321,7 +314,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   });
 
   // Filter plot by selected region(s)
-  d3.selectAll(".region-button").on("change", function () {
+  d3.selectAll(".region-button3").on("change", function () {
     // retrieve the region associated with the checked/unchecked box
     let selected_region = this.value, 
     // determine whether the box is checked or unchecked
@@ -354,27 +347,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
   });
     
-  d3.select("#btn").on("click", function() {
+  d3.select("#btn3").on("click", function() {
     selected_year = updateYear();
-
-    // reset the line chart so that no points appear
-    FRAME1.selectAll(".mark")
-          .attr("display", "none");
-
-      // Show data pertaining to regions with checked boxes
-      for (let j = 0; j < shown_regions.length; j++) {
-        // Show data pertaining to months with checked boxes
-        for (let k = 0; k < shown_months.length; k++) {
-        FRAME1.selectAll(".mark")
-          // show all the points that should be shown
-
-          // Show data pertaining to the selected year from the dropbox menu
-          .filter(function(d) { return d.YEAR == selected_year; })
-          .filter(function(d) { return d.Region == shown_regions[j]; })
-          .filter(function(d) { return d.Month == shown_months[k]; })
-          .attr("display", "inline");
-      };
-    };
 
     // reset the scatter plot so that no points appear
     FRAME3.selectAll(".mark")
@@ -394,7 +368,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
           .attr("display", "inline");
       };
     };
-  });
+    });
+
 
   // When points are brushed over in the precipitation vs. drought severity plot, the aligned points in the other two plots get highlighted with a raised opacity and attain 
   // purple border. 
