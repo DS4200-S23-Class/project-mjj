@@ -127,32 +127,23 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                         // Make all the points non-visible first
                        .attr("display", "none")
                        .attr("class", "mark");
-  const bounds = FRAME1
-    .append("g")
-    .style(
-      "transform",
-      `translate(${MARGINS.left}px, ${MARGINS.top}px)`
-    );
+  // const bounds = FRAME1
+  //   .append("g")
+  //   .style(
+  //     "transform",
+  //     `translate(${MARGINS.left}px, ${MARGINS.top}px)`
+  //   );
 
-  const lineGenerator = d3
-     .line()
-     .x(function(d) { 
-       return x(d.Month);
-     })
-     .y(function(d) { 
-       return y(d.Precipitation);
-     });
+  // const lineGenerator = d3
+  //    .line()
+  //    .x(function(d) { 
+  //      return x(d.Month);
+  //    })
+  //    .y(function(d) { 
+  //      return y(d.Precipitation);
+  //    });
 
-  pathString = lineGenerator(precipitation);
-   
-  const line = bounds
-    .append("path")
-    .attr("d", pathString)
-    .attr("fill", "none")
-    .attr("stroke", "silver")
-    .attr("stroke-width", 2);
-
-        
+    
   // Filter plot by selected year(s)
   // Drop down menu by year for users 
   let yearOptions = "";
@@ -183,23 +174,51 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
   });
 
+  // List of groups (here I have one group per column)
+  let allRegions = precipitation.map((d) => { return d.Region; });
+
   // retrieve the year selected by the user in the drop down menu for the line chart
   d3.select("#btn1").on("click", function() {
     selected_year = updateYear();
 
-    // reset the plot so that no points appear
+    // reset the plot so that no points or lines appear
     FRAME1.selectAll(".mark")
+          .attr("display", "none");
+
+    FRAME1.selectAll(".line")
           .attr("display", "none");
 
       // Show data pertaining to regions with checked boxes
       for (let j = 0; j < shown_regions.length; j++) {
-      FRAME1.selectAll(".mark")
-        // show all the points that should be shown
+        let lineFilter = precipitation.filter(function(d) {return d.Region== shown_regions[j]; })
+                                      .filter(function(d) { return d.YEAR == selected_year; });
+        // let line = bounds
+        //  .append("path")
+        //  .attr("d", pathString)
+        //  .attr("fill", "none")
+        //  .attr("stroke", "silver")
+        //  .attr("stroke-width", 2);
 
-        // Show data pertaining to the selected year from the dropbox menu
-        .filter(function(d) { return d.YEAR == selected_year; })
-        .filter(function(d) { return d.Region == shown_regions[j]; })
-        .attr("display", "inline");
+        let line = FRAME1.append("g")
+                         .append("path")
+                         .datum(lineFilter)
+                         .attr("d", d3.line()
+                            .x(function(d) { return (x(d.Month) + MARGINS.left); })
+                            .y(function(d) { return (y(d.Precipitation) + MARGINS.top); })
+                            )
+                         .attr("stroke", (d) => { return region_color(shown_regions[j]); })
+                         .style("stroke-width", 2)
+                         .style("fill", "none")
+                         .attr("class", "line")
+
+
+        FRAME1.selectAll(".mark")
+          // show all the points that should be shown
+
+          // Show data pertaining to the selected year from the dropbox menu
+          .filter(function(d) { return d.YEAR == selected_year; })
+          .filter(function(d) { return d.Region == shown_regions[j]; })
+          .attr("display", "inline");
     };
   });
 
