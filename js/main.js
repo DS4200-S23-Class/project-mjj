@@ -62,6 +62,11 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Read into dataset and print data
   console.log(combined);
 
+// Parse the geospatial map data
+d3.json("data/mass_regions.geojson").then((massmap) => {
+  // Read into dataset and print data
+  console.log(massmap);
+
   // Set up precipitation line chart - NOT FULLY IMPLEMENTED 
 
   // Find max precipitation (y) value
@@ -470,5 +475,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         y1 = brush_coords[1][1];
     return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
   };
+});
 });
 });
