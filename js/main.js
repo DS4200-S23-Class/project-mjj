@@ -310,13 +310,19 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     .style("fill", "none")
     .style("pointer-events", "all");
 
-  const projection = d3
-    .geoMercator()
-    //.center([14.1095, 22.3964])
-    .scale(300)
-    //.translate([MARGINS.left, (VIS_HEIGHT + MARGINS.top)]);
+  // const projection = d3
+  //   .geoMercator()
+  //   //.center([114.1095, 22.3964])
+  //   .scale(300)
+  //   //.translate([WIDTH/2, HEIGHT/2]);
+  console.log(WIDTH) // 547
+  console.log(HEIGHT) //578
+  const projection = d3.geoEquirectangular()
+                       .scale(7500)
+                       .translate([WIDTH * 8.75 + MARGINS.left, HEIGHT * 10 + MARGINS.top]);
 
   const path = d3.geoPath().projection(projection);
+
   const color = d3.scaleOrdinal()
                   .domain(["BARNSTABLE", "BERKSHIRE", "BRISTOL", "DUKES", "ESSEX", "FRANKLIN", "HAMPDEN", "HAMPSHIRE", "MIDDLESEX", "NANTUCKET", "NORFOLK", "PLYMOUTH", "SUFFOLK", "WORCESTER"])
                   .range(["red", "orange", "yellow", "green", "blue", "indigo", "purple", "red", "orange", "yellow", "green", "blue", "indigo", "purple"]);
