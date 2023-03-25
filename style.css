@@ -29,12 +29,14 @@ APPEALING */
 
 .child2{
     width:80%;
+    text-align: center;
 }
 
 /* Style vis1 */
 #vis1 {
     flex-direction: column;
     width: 100%;
+    justify-content: center;
 }
 
 /* Style vis2 */
@@ -42,6 +44,7 @@ APPEALING */
     flex-direction: column;
     width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* Style vis3 */
@@ -49,6 +52,7 @@ APPEALING */
     flex-direction: column;
     width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* Adjust the style for the marks (line or point mark) */
@@ -76,6 +80,15 @@ APPEALING */
     fill: black;
     text-anchor: middle;
     font-size: 12px;
+}
+
+#btn-zoom {
+  position: absolute;
+  background-color: mediumpurple;
+}
+
+#map__text {
+  position: absolute;
 }
 
 /*/* Adjusts the style of data representing Northeastern Massachusetts */
