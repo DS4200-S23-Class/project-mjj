@@ -63,7 +63,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   console.log(combined);
 
 // Parse the geospatial map data
-d3.json("data/mass_regions.geojson").then((massmap) => {
+d3.json("data/massachusetts.geojson").then((massmap) => {
   // Read into dataset and print data
   console.log(massmap);
 
@@ -256,7 +256,9 @@ d3.json("data/mass_regions.geojson").then((massmap) => {
   // };
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
-  
+
+  const WIDTH = window.innerWidth;
+  const HEIGHT = window.innerHeight;
   const ZOOM_THRESHOLD = [0.3, 7];
   const OVERLAY_MULTIPLIER = 10;
   const OVERLAY_OFFSET = OVERLAY_MULTIPLIER / 2 - 0.5;
@@ -283,7 +285,7 @@ d3.json("data/mass_regions.geojson").then((massmap) => {
   }
 
   function clickHandler(d, i) {
-    d3.select("#map__text").text(`You've selected this county: ${d.properties.County}`)
+    d3.select("#map__text").text(`You've selected this city: ${d.properties.city}`)
   }
 
   function clickToZoom(zoomStep) {
@@ -299,58 +301,58 @@ d3.json("data/mass_regions.geojson").then((massmap) => {
   const g = FRAME2.call(zoom).append("g");
 
   g.append("rect")
-    .attr("width", FRAME_WIDTH * OVERLAY_MULTIPLIER)
-    .attr("height", FRAME_HEIGHT * OVERLAY_MULTIPLIER)
+    .attr("width", WIDTH * OVERLAY_MULTIPLIER)
+    .attr("height", HEIGHT * OVERLAY_MULTIPLIER)
     .attr(
       "transform",
-      `translate(-${FRAME_WIDTH * OVERLAY_OFFSET},-${FRAME_HEIGHT * OVERLAY_OFFSET})`
+      `translate(-${WIDTH * OVERLAY_OFFSET},-${HEIGHT * OVERLAY_OFFSET})`
     )
     .style("fill", "none")
     .style("pointer-events", "all");
 
   const projection = d3
     .geoMercator()
-    .center([114.1095, 22.3964])
-    .scale(80000)
-    .translate([FRAME_WIDTH / 2, FRAME_HEIGHT / 2]);
+    //.center([14.1095, 22.3964])
+    .scale(300)
+    //.translate([MARGINS.left, (VIS_HEIGHT + MARGINS.top)]);
 
   const path = d3.geoPath().projection(projection);
   const color = d3.scaleOrdinal()
                   .domain(["BARNSTABLE", "BERKSHIRE", "BRISTOL", "DUKES", "ESSEX", "FRANKLIN", "HAMPDEN", "HAMPSHIRE", "MIDDLESEX", "NANTUCKET", "NORFOLK", "PLYMOUTH", "SUFFOLK", "WORCESTER"])
                   .range(["red", "orange", "yellow", "green", "blue", "indigo", "purple", "red", "orange", "yellow", "green", "blue", "indigo", "purple"]);
 
-  renderMap(massmap);
-
   function renderMap(root) {
   // Draw the Massachusetts map and load in event listeners
+
     FRAME2.append("g")
           .selectAll("path")
           .data(root.features)
           .enter()
           .append("path")
           .attr("d", path)
-          .attr("fill", (d) => { return d.properties.county; })
-          //.attr("fill", "green")
+          .attr("fill", "green")
           .attr("stroke", "#FFF")
           .attr("stroke-width", 0.5)
           .on("mouseover", mouseOverHandler)
           .on("mouseout", mouseOutHandler)
           .on("click", clickHandler);
 
-  // Label each county on the map with the correct name
+  // Label each city on the map with the correct name
   // Adjust the position via padding
     FRAME2.append("g")
       .selectAll("text")
       .data(root.features)
       .enter()
       .append("text")
-      .attr("transform", (d) => { return `translate(${path.centroid(d)})`; })
+      .attr("transform", (d) => `translate(${path.centroid(d)})`)
       .attr("text-anchor", "middle")
       .attr("font-size", 10)
       .attr("dx", (d) => { return (d, "offset[0]", null); })
       .attr("dy", (d) => { return (d, "offset[1]", null); })
-      .text((d) => { return d.properties.county; });
-  }
+      .text((d) => { return d.properties.city; });
+  };
+
+  renderMap(massmap);
 
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
