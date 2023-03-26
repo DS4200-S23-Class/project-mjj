@@ -259,62 +259,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   const WIDTH = window.innerWidth;
   const HEIGHT = window.innerHeight;
-  const ZOOM_THRESHOLD = [0.3, 7];
-  const OVERLAY_MULTIPLIER = 10;
-  const OVERLAY_OFFSET = OVERLAY_MULTIPLIER / 2 - 0.5;
-  const ZOOM_DURATION = 500;
-  const ZOOM_IN_STEP = 2;
-  const ZOOM_OUT_STEP = 1 / ZOOM_IN_STEP;
-  const HOVER_COLOR = "#d36f80"
 
-  const zoom = d3
-    .zoom()
-    .scaleExtent(ZOOM_THRESHOLD)
-    .on("zoom", zoomHandler);
-
-  function zoomHandler() {
-    g.attr("transform", event.transform);
-  }
-
-  function mouseOverHandler(d, i) {
-    d3.select(this).attr("fill", HOVER_COLOR)
-  }
-
-  function mouseOutHandler(d, i) {
-    d3.select(this).attr("fill", "midnightblue");
-  }
-
-  function clickHandler(d, i) {
-    d3.select("#map__text").text(`You've selected this city: ${d.properties.city}`)
-  }
-
-  function clickToZoom(zoomStep) {
-    FRAME2
-      .transition()
-      .duration(ZOOM_DURATION)
-      .call(zoom.scaleBy, zoomStep);
-  }
-
-  d3.select("#btn-zoom--in").on("click", () => clickToZoom(ZOOM_IN_STEP));
-  d3.select("#btn-zoom--out").on("click", () => clickToZoom(ZOOM_OUT_STEP));
-
-  const g = FRAME2.call(zoom).append("g");
-
-  g.append("rect")
-    .attr("width", WIDTH * OVERLAY_MULTIPLIER)
-    .attr("height", HEIGHT * OVERLAY_MULTIPLIER)
-    .attr(
-      "transform",
-      `translate(-${WIDTH * OVERLAY_OFFSET},-${HEIGHT * OVERLAY_OFFSET})`
-    )
-    .style("fill", "none")
-    .style("pointer-events", "all");
-
-  // const projection = d3
-  //   .geoMercator()
-  //   //.center([114.1095, 22.3964])
-  //   .scale(300)
-  //   //.translate([WIDTH/2, HEIGHT/2]);
   console.log(WIDTH) // 547
   console.log(HEIGHT) //578
   const projection = d3.geoEquirectangular()
@@ -328,23 +273,18 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                   .range(["red", "orange", "yellow", "green", "blue", "indigo", "purple", "red", "orange", "yellow", "green", "blue", "indigo", "purple"]);
 
   function renderMap(root) {
-  // Draw the Massachusetts map and load in event listeners
+  // Draw the Massachusetts map 
 
-    FRAME2.append("g")
-          .selectAll("path")
-          .data(root.features)
-          .enter()
-          .append("path")
-          .attr("d", path)
-          .attr("fill", "green")
-          .attr("stroke", "#FFF")
-          .attr("stroke-width", 0.5)
-          .on("mouseover", mouseOverHandler)
-          .on("mouseout", mouseOutHandler)
-          .on("click", clickHandler);
+  FRAME2.append("g")
+        .selectAll("path")
+        .data(root.features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("fill", "beige")
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.5)
 
-  // Label each city on the map with the correct name
-  // Adjust the position via padding
     FRAME2.append("g")
       .selectAll("text")
       .data(root.features)
@@ -355,10 +295,80 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("font-size", 10)
       .attr("dx", (d) => { return (d, "offset[0]", null); })
       .attr("dy", (d) => { return (d, "offset[1]", null); })
-      .text((d) => { return d.properties.city; });
   };
 
+  // Render the map on the webpage
   renderMap(massmap);
+
+  // Add stars on each of Massachusetts' six regions on the map
+  // NEED TO WORK ON ADJUSTING THE COLORS OF THE STARS BASED ON SPI VALUE + THE TOOLTIP
+
+  // Adding the star for the Northeast region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(0, 500)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", "0.5");
+
+
+  // Adding the star for the Connecticut River Valley region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(220, 520)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", 0.5);
+
+  // Adding the star for the Central region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(450, 520)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", 0.5);
+
+  // Adding the star for the Northeast region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(650, 420)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", 0.5);
+
+  // Adding the star for the Southeast region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(650, 630)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", 0.5);
+
+  // Adding the star for the Cape Cod and Islands region of Massachusetts
+  FRAME2.append("g")
+      .selectAll("stars")  
+      .data(combined)  
+      .enter()      
+      .append("polygon") 
+      .attr("transform", "scale(0.45) translate(850, 730)")
+      .attr("points", "100,10 40,198 190,78 10,78 160,198")
+      .attr("fill", "midnightblue")
+      .attr("opacity", 0.5);
 
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 

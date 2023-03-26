@@ -82,11 +82,6 @@ APPEALING */
     font-size: 12px;
 }
 
-#btn-zoom {
-  position: absolute;
-  background-color: mediumpurple;
-}
-
 #map__text {
   position: absolute;
 }
