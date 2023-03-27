@@ -303,8 +303,8 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   // Points for the legend
   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 200)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "white");
-  LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 350)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "#0066FF");
-  LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 500)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "#0033FF");
+  LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 350)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "deepskyblue");
+  LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 500)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "#0066FF");
   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 650)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "blue");
   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 800)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "midnightblue");
 
@@ -388,9 +388,9 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       if (spi > 0.52){
         star_color = "white";
       }else if (spi <= 0.52 && spi > -0.84) {
-        star_color = "#0066FF";
+        star_color = "deepskyblue";
       }else if (spi <= -0.84 && spi > -1.28){
-        star_color = "#0033FF";
+        star_color = "#0066FF";
       }else if (spi <= -1.28 && spi > -2.05){
         star_color = "blue";
       }else{
