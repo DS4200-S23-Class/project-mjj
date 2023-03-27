@@ -54,10 +54,10 @@
         <div class="container">
             <div class="child1">
                 <!-- Legend for the visualization -->
-                <div id="legend">
+                <div id="legend1">
                     <!-- Add checkbox filter for regions -->
                     <div class="region-filter">
-                        <p>Filter by Region: </p>
+                        <p>Filter All 3 Plots by Region: </p>
                         <label for="Connecticut"><input type="checkbox" name="check2" value="Connecticut River" class="region-button">Connecticut River</label>
                         <label for="Northeast"><input type="checkbox" name="check2" value="Northeast" class="region-button">Northeast</label>
                         <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label>
@@ -75,9 +75,9 @@
                     <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
 
                     <!-- Add drop down menu filter for years -->
-                    <div class="year-filter">
+                    <div class="year-filter1">
                         <p>Filter by Year: </p>
-                        <select name="check" id="selectYear"></select>
+                        <select name="check" id="selectYear1"></select>
                     </div> 
 
                     <div>   
@@ -91,7 +91,45 @@
                 <div id="vis2">
                     <!-- Add chart title -->
                     <h3 class="centered">Drought Severities Over Time and Regions</h3>
-                    <h3 id="map__text" class="centered">Hover Over a Star to See SPI Data for a Region</h3>
+
+
+                    <!-- Add drop down filter for years -->
+                        <div class="year-filter2">
+                            <p>Filter by Year: </p>
+                                <select id="selectYear2">
+                                    <option>2017</option>
+                                    <option>2018</option>
+                                    <option>2019</option>
+                                </select>
+                        </div>
+
+                        <!-- Add drop down filter for months -->
+                        <div class="month-filter1">
+                            <p>Filter by Month: </p>
+                            <select id="selectMonth">
+                                <option>JAN</option>
+                                <option>FEB</option>
+                                <option>MAR</option>
+                                <option>APR</option>
+                                <option>MAY</option>
+                                <option>JUN</option>
+                                <option>JUL</option>
+                                <option>AUG</option>
+                                <option>SEP</option>
+                                <option>OCT</option>
+                                <option>NOV</option>
+                                <option>DEC</option>
+                            </select>
+                        </div>
+
+                        <div>   
+                        <p>
+                            <button id="btn2">Get Data for the Selected Year, Month, and Region(s)</button>
+                        </p>
+                    </div>
+
+                    <h4 class="centered">Hover Over a Star to See SPI Data for a Region</h4>
+                    <div id="legend2"></div>
                 </div>
             
                 <!-- Create the section that contains the scatter graph-->
@@ -100,7 +138,7 @@
                     <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
                
                     <!-- Add checkbox filter for years -->
-                    <div class="year-filter">
+                    <div class="year-filter3">
                         <p>Filter by Year: </p>
                         <label for="17"><input type="checkbox" name="check3" value="2017" class="year-button">2017</label>
                         <label for="18"><input type="checkbox" name="check3" value="2018" class="year-button">2018</label>
@@ -108,7 +146,7 @@
                     </div>
 
                     <!-- Add checkbox filter for months -->
-                    <div class="month-filter">
+                    <div class="month-filter2">
                         <p>Filter by Month: </p>
                         <label for="January"><input type="checkbox" name="check3" value="JAN" id="January" class="month-button">JAN</label> 
                         <label for="Februrary"><input type="checkbox" name="check3" value="FEB" id="Februrary" class="month-button">FEB</label>
@@ -125,7 +163,7 @@
                     </div>
                     <div>   
                         <p>
-                            <button id="btn3">Get Selected Year(s), Region(s), and Month(s)</button>
+                            <button id="btn3">Get Data for the Selected Year(s), Region(s), and Month(s)</button>
                         </p>
                     </div>
                 </div>
@@ -157,6 +195,7 @@
             <li><a href="https://www.w3schools.com/graphics/svg_polygon.asp">SVG Polygon</a></li>
             <li><a href="https://stackoverflow.com/questions/20632226/how-to-resize-polygon-in-svg">How to Resize Polygon in SVG?</a></li>
             <li><a href="https://stackoverflow.com/questions/19773081/better-way-to-position-svgpolygon">Better Way to Position SVG Polygon</a></li>
+            <li><a href="https://stackoverflow.com/questions/8563240/how-to-get-all-checked-checkboxes">How to Get All Checked Checkboxes</a></li>
         </ul>
     </div>
 
