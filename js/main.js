@@ -181,7 +181,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       // Show data pertaining to regions with checked boxes
       for (let j = 0; j < shown_regions2.length; j++) {
         let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions2[j]; })
-                                      .filter(function(d) { return d.YEAR == selected_year; });
+                                      .filter(function(d) { return d.YEAR == selected_year1; });
 
         // show lines for each checked region
         let line = FRAME1.append("g")
@@ -199,7 +199,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
         FRAME1.selectAll(".mark")
           // Show data pertaining to the selected year from the dropbox menu
-          .filter(function(d) { return d.YEAR == selected_year; })
+          .filter(function(d) { return d.YEAR == selected_year1; })
           .filter(function(d) { return d.Region == shown_regions2[j]; })
           .attr("display", "inline");
     };
@@ -208,38 +208,38 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP = d3.select("#vis1")
+  const TOOLTIP1 = d3.select("#vis1")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
                     .style("opacity", 0); 
 
   // Event handler
-  function handleMouseover(event, d) {
+  function handleMouseover1(event, d) {
     // on mouseover, make opaque 
-    TOOLTIP.style("opacity", 1); 
+    TOOLTIP1.style("opacity", 1); 
   }
 
   // Event handler
-  function handleMousemove(event, d) {
+  function handleMousemove1(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP.html("Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region)
+   TOOLTIP1.html("Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
   };
 
   // Event handler
-  function handleMouseleave(event, d) {
+  function handleMouseleave1(event, d) {
     // on mouseleave, make the tooltip transparent again 
-    TOOLTIP.style("opacity", 0); 
+    TOOLTIP1.style("opacity", 0); 
   };
 
   // Add tooltip event listeners
   FRAME1.selectAll(".mark")
-        .on("mouseover", handleMouseover)
-        .on("mousemove", handleMousemove)
-        .on("mouseleave", handleMouseleave); 
+        .on("mouseover", handleMouseover1)
+        .on("mousemove", handleMousemove1)
+        .on("mouseleave", handleMouseleave1); 
 
 
 
@@ -295,6 +295,9 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("dy", (d) => { return (d, "offset[1]", null); })
   };
 
+  // Render the map on the webpage
+  renderMap(massmap);
+
   // Add a legend to the plot indicating the SPI value a star's color portrays
   const LEGEND2 = d3.select("#legend2")
                 .append("svg")
@@ -341,7 +344,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   d3.select("#btn2").on("click", function() {
 
     // reset the map so that no stars appear
-    FRAME3.selectAll(".star")
+    FRAME2.selectAll(".star")
           .attr("display", "none");
 
     let show_northeast = "none";
@@ -363,9 +366,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
     let selected_year2 = updateYear2();
     let selected_month = updateMonth();
-
-    console.log(selected_year2)
-    console.log(selected_month)
 
     // Show stars representing the regions with checked boxes 
     for (let i = 0; i < shown_regions1.length; i++) {
@@ -430,10 +430,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     let cape_spi = cape_filter[0].x;
     let cape_star_color = determineStarColor(cape_spi);
 
-
-
-    console.log(western_spi[0].x);
-
   // Adding the star for the Western region of Massachusetts
   FRAME2.append("g")
       .selectAll("stars")  
@@ -447,7 +443,10 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke-width", 0.5)
       .attr("display", show_western)
       .attr("class", "star")
-      .attr("name", "Western");
+      .attr("id", "Region: Western" + "<br>County: Berkshire" + "<br>SPI: " + western_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);
 
 
   // Adding the star for the Connecticut River Valley region of Massachusetts
@@ -463,7 +462,10 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke-width", 0.5)
       .attr("display", show_connecticut)
       .attr("class", "star")
-      .attr("name", "Connecticut River Valley");
+      .attr("id", "Region: Connecticut River Valley" + "<br>Counties: Franklin, Hampshire, Hampden" + "<br>SPI: " + connecticut_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);;
 
   // Adding the star for the Central region of Massachusetts
   FRAME2.append("g")
@@ -478,7 +480,10 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke-width", 0.5)
       .attr("display", show_central)
       .attr("class", "star")
-      .attr("name", "Central");
+      .attr("id", "Region: Central" + "<br>County: Worcester" + "<br>SPI: " + central_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);;
 
   // Adding the star for the Northeast region of Massachusetts
   FRAME2.append("g")
@@ -493,7 +498,10 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke-width", 0.5)
       .attr("display", show_northeast)
       .attr("class", "star")
-      .attr("name", "Northeast");
+      .attr("id", "Region: Northeast" + "<br>Counties: Essex, Middlesex, and Suffolk (plus town of Brookline)" + "<br>SPI: " + northeast_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);;
 
   // Adding the star for the Southeast region of Massachusetts
   FRAME2.append("g")
@@ -508,7 +516,11 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke", "black")
       .attr("stroke-width", 0.5)
       .attr("display", show_southeast)
-      .attr("class", "star");
+      .attr("class", "star")
+      .attr("id", "Region: Southeast" + "<br>Counties: Bristol, Plymouth, and Norfolk (minus town of Brookline)" + "<br>SPI: " + southeast_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);;
 
   // Adding the star for the Cape Cod and Islands region of Massachusetts
   FRAME2.append("g")
@@ -523,11 +535,42 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
       .attr("stroke-width", 0.5)
       .attr("display", show_cape)
       .attr("class", "star")
-      .attr("name", "Cape Cod and Islands");
+      .attr("id", "Region: Cape Cod and Islands" + "<br>Counties: Barnstable, Nantucket, and Dukes (includes Elizabeth Islands)" + "<br>SPI: " + cape_spi)
+      .on("mouseover", handleMouseover2)
+      .on("mousemove", handleMousemove2)
+      .on("mouseleave", handleMouseleave2);
   });
 
-  // Render the map on the webpage
-  renderMap(massmap);
+
+  // Tooltip
+
+  // Create tooltip
+  const TOOLTIP2= d3.select("#vis2")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    // Make it nonvisible at first
+                    .style("opacity", 0); 
+
+  // Event handler
+  function handleMouseover2(event) {
+    // on mouseover, make opaque 
+    TOOLTIP2.style("opacity", 1); 
+  }
+
+  // Event handler
+  function handleMousemove2(event, name) {
+   // position the tooltip and fill in information 
+   TOOLTIP2.html(this.id)
+           .style("left", (event.pageX + 50) + "px") //add offset
+                                                       // from mouse
+           .style("top", (event.pageY - 30) + "px"); 
+  };
+
+  // Event handler
+  function handleMouseleave2(event) {
+    // on mouseleave, make the tooltip transparent again 
+    TOOLTIP2.style("opacity", 0); 
+  };
 
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
@@ -597,38 +640,38 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP2 = d3.select("#vis3")
+  const TOOLTIP3 = d3.select("#vis3")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
                     .style("opacity", 0); 
 
   // Event handler
-  function handleMouseover2(event, d) {
+  function handleMouseover3(event, d) {
     // on mouseover, make opaque 
-    TOOLTIP2.style("opacity", 1); 
+    TOOLTIP3.style("opacity", 1); 
   }
 
   // Event handler
-  function handleMousemove2(event, d) {
+  function handleMousemove3(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+   TOOLTIP3.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
   };
 
   // Event handler
-  function handleMouseleave2(event, d) {
+  function handleMouseleave3(event, d) {
     // on mouseleave, make the tooltip transparent again 
-    TOOLTIP2.style("opacity", 0); 
+    TOOLTIP3.style("opacity", 0); 
   };
 
   // Add tooltip event listeners
   FRAME3.selectAll(".mark")
-        .on("mouseover", handleMouseover2)
-        .on("mousemove", handleMousemove2)
-        .on("mouseleave", handleMouseleave2); 
+        .on("mouseover", handleMouseover3)
+        .on("mousemove", handleMousemove3)
+        .on("mouseleave", handleMouseleave3); 
 
   // initialize empty arrays for the years to be represented in plot 3 as well as the regions and months to be represented in all 3 plots
   let shown_years = [];
