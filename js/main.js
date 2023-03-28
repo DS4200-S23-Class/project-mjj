@@ -23,6 +23,13 @@ const FRAME2 = d3.select("#vis2")
                  .attr("width", FRAME_WIDTH)
                  .attr("class", "frame"); 
 
+// Create frame for bar to accompany map
+const FRAME2_BAR = d3.select("#bar")
+                   .append("svg")
+                   .attr("height", FRAME_HEIGHT)
+                   .attr("width", FRAME_WIDTH)
+                   .attr("class", "frame"); 
+
 // Create frame for scatterplot
 const FRAME3 = d3.select("#vis3")
                  .append("svg")
@@ -286,6 +293,122 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
      map.fitBounds(geojson.getBounds());
  });
+
+  function updateYear2 () {
+    // retrieve the year chosen by the user from the drop down menu
+    let yearMenu = document.getElementById("selectYear2");
+    let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
+    return selected_year;
+  };
+
+  function updateMonth () {
+    // retrieve the month chosen by the user from the drop down menu
+    let monthMenu = document.getElementById("selectMonth");
+    let selected_month = monthMenu.options[monthMenu.selectedIndex].text;
+    return selected_month;
+  };
+
+  d3.select("#btn2").on("click", function() {
+
+    FRAME2_BAR.select("g")
+              .attr("display", "none")
+
+    let shown_regions1 = [];
+
+    let selected_year2 = updateYear2();
+    let selected_month = updateMonth();
+
+    // Filter the bars by region
+    let regions = document.getElementsByName("check2");
+
+    //check with region boxes are checked
+    for (let i=0; i<regions.length; i++) {
+       // And stick the regions for the checked ones onto an array...
+       if (regions[i].checked) {
+          shown_regions1.push(regions[i].value);
+       }
+    };
+
+    console.log(shown_regions1)
+
+    let spi_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2 && d.Month == selected_month && 
+            shown_regions1.includes(d["Drought Region"]);});
+
+    // Set max Y (SPI) value
+    let MAX_SPI = d3.max(spi_filtered, (d) => { return parseFloat(d.x); });
+
+    // Set min Y (SPI) value
+    let MIN_SPI = d3.min(spi_filtered, (d) => { return parseFloat(d.x); });
+
+    // Scale X
+    let REGION_SCALE = d3.scaleBand()
+                              .range([ 0, VIS_WIDTH ])
+                              .domain(spi_filtered.map(function(d) { return d["Drought Region"]; }))
+                              .padding(0.2);
+
+    // Scale Y
+    let SPI_SCALE = d3.scaleLinear()
+                          .domain([MIN_SPI, MAX_SPI])
+                          .range([ VIS_HEIGHT, 0]);
+
+    // Add X axis
+    FRAME2_BAR.append("g")
+              .attr("transform", "translate(0," + VIS_HEIGHT + ")")
+              .call(d3.axisBottom(REGION_SCALE))
+              .selectAll("text");
+
+    // Add Y axis
+    FRAME2_BAR.append("g")
+          .call(d3.axisLeft(SPI_SCALE))
+          .call(d3.axisLeft(SPI_SCALE).ticks(20));
+
+    // Add bars, which are scaled accordingly
+    let myBar = FRAME2_BAR.append("g")
+                          .selectAll("mybar")
+                          .data(spi_filtered)
+                          .enter()
+                          .append("rect")
+                          .attr("x", function(d) { return REGION_SCALE(d["Drought Region"]); })
+                          .attr("y", SPI_SCALE(function(d) { return REGION_SCALE(d.x); }))
+                          .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                          .attr("width", REGION_SCALE.bandwidth())
+                          .attr("height", function(d) { return VIS_HEIGHT - Math.abs(SPI_SCALE(d.x)); })
+                          .attr("class", (d) => { return d["Drought Region"]; })
+                          .on("mouseover", handleMouseover2)
+                          .on("mousemove", handleMousemove2)
+                          .on("mouseleave", handleMouseleave2); 
+  });
+
+  // Tooltip
+
+  // Create tooltip
+  const TOOLTIP2= d3.select("#bar")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    // Make it nonvisible at first
+                    .style("opacity", 0); 
+
+  // Event handler
+  function handleMouseover2(event, d) {
+    // on mouseover, make opaque 
+    TOOLTIP2.style("opacity", 1); 
+  }
+
+  // Event handler
+  function handleMousemove2(event, d) {
+   // position the tooltip and fill in information 
+   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+           .style("left", (event.pageX + 50) + "px") //add offset
+                                                       // from mouse
+           .style("top", (event.pageY - 30) + "px"); 
+  };
+
+  // Event handler
+  function handleMouseleave2(event, d) {
+    // on mouseleave, make the tooltip transparent again 
+    TOOLTIP2.style("opacity", 0); 
+  };
+        
   
   // const WIDTH = window.innerWidth;
   // const HEIGHT = window.innerHeight;
@@ -574,36 +697,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   //     .on("mouseleave", handleMouseleave2);
   // });
 
-
-  // Tooltip
-
-  // Create tooltip
-  const TOOLTIP2= d3.select("#vis2")
-                    .append("div")
-                    .attr("class", "tooltip")
-                    // Make it nonvisible at first
-                    .style("opacity", 0); 
-
-  // Event handler
-  function handleMouseover2(event) {
-    // on mouseover, make opaque 
-    TOOLTIP2.style("opacity", 1); 
-  }
-
-  // Event handler
-  function handleMousemove2(event, name) {
-   // position the tooltip and fill in information 
-   TOOLTIP2.html(this.id)
-           .style("left", (event.pageX + 50) + "px") //add offset
-                                                       // from mouse
-           .style("top", (event.pageY - 30) + "px"); 
-  };
-
-  // Event handler
-  function handleMouseleave2(event) {
-    // on mouseleave, make the tooltip transparent again 
-    TOOLTIP2.style("opacity", 0); 
-  };
 
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
