@@ -85,3 +85,5 @@ APPEALING */
 #map__text {
   position: absolute;
 }
+
+#map { height: 500px; }
