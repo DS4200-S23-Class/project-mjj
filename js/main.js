@@ -88,6 +88,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(x)) 
               .attr("font-size", "10px")
+              .attr("class", "x axis")
               .selectAll("text")
                 .attr("transform", "translate(10, 0)")
                 .style("text-anchor", "end");
@@ -96,7 +97,8 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   let yAxis = FRAME1.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y).ticks(20))
-              .attr("font-size", "10px");
+              .attr("font-size", "10px")
+              .attr("class", "y axis");
 
   // Label the x axis
   FRAME1.append("text")
@@ -240,8 +242,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
         .on("mouseover", handleMouseover1)
         .on("mousemove", handleMousemove1)
         .on("mouseleave", handleMouseleave1); 
-
-
 
   // Add brushing
   // FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
