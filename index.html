@@ -4,10 +4,17 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
 
     <title>Massachusetts Drought and Precipitation Awareness</title>
 
     <script src="js/d3.v6.1.1/d3.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+    crossorigin=""></script>
+
     
 </head>
 
@@ -88,12 +95,12 @@
                 </div>
 
                 <!-- Create the section that contains the map of Massachusetts -->
-                <div id="vis2">
-                    <!-- Add chart title -->
-                    <h3 class="centered">Drought Severities Over Time and Regions</h3>
+                <div id="map">
+
+                    
+                    <!-- <h3 class="centered">Drought Severities Over Time and Regions</h3>
 
 
-                    <!-- Add drop down filter for years -->
                         <div class="year-filter2">
                             <p>Filter by Year: </p>
                                 <select id="selectYear2">
@@ -103,7 +110,6 @@
                                 </select>
                         </div>
 
-                        <!-- Add drop down filter for months -->
                         <div class="month-filter1">
                             <p>Filter by Month: </p>
                             <select id="selectMonth">
@@ -126,10 +132,10 @@
                         <p>
                             <button id="btn2">Get Data for the Selected Year, Month, and Region(s)</button>
                         </p>
-                    </div>
+                    </div> 
 
                     <h4 class="centered">Hover Over a Star to See SPI Data for a Region</h4>
-                    <div id="legend2"></div>
+                    <div id="legend2"></div>-->
                 </div>
             
                 <!-- Create the section that contains the scatter graph-->
@@ -197,6 +203,7 @@
             <li><a href="https://stackoverflow.com/questions/19773081/better-way-to-position-svgpolygon">Better Way to Position SVG Polygon</a></li>
             <li><a href="https://stackoverflow.com/questions/8563240/how-to-get-all-checked-checkboxes">How to Get All Checked Checkboxes</a></li>
             <li><a href="https://stackoverflow.com/questions/21153074/d3-positioning-tooltip-on-svg-element-not-working">Positioning Tooltip on SVG Element Not Working</a></li>
+            <li><a href="https://leafletjs.com/examples/map-panes/">Create Map Panes Using Leaflet</a></li>
         </ul>
     </div>
 
