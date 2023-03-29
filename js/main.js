@@ -371,27 +371,28 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
        }
     };
 
-    let precip_filtered = precipitation.filter(function (d) { return parseInt(d.YEAR) == selected_year2 && shown_regions1.includes(d.Region);});
+    let precip_filtered = precipitation.filter(function (d) { return parseInt(d.YEAR) == selected_year2; });
 
 
     // Add bars, which are scaled accordingly
-    let myBar = FRAME2_BAR.append("g")
-                          .selectAll("mybar")
-                          .data(precip_filtered)
-                          .enter()
-                          .append("rect")
-                          .attr("x", (function(d) { return x2(d.Region); }))
-                          .attr("y", (function(d) { return y2(d.Precipitation); }))
-                          .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-                          .attr("width", x2.bandwidth())
-                          .attr("height", function(d) { return VIS_HEIGHT - y2(d.Precipitation); })
-                          .attr("fill", (d) => { return region_color(d.Region); })
-                          .on("mouseover", handleMouseover2)
-                          .on("mousemove", handleMousemove2)
-                          .on("mouseleave", handleMouseleave2)
-                          .attr("class", (d) => { return d.Region; })
-                          .append("class", "bar")
-                          
+    for (let i = 0; i < shown_regions1.length; i++) {
+      let myBar = FRAME2_BAR.append("g")
+                            .selectAll("mybar")
+                            .data(precip_filtered)
+                            .enter()
+                            .filter(function(d) { return d.Region == shown_regions1[i]; })
+                            .append("rect")
+                            .attr("x", (function(d) { return x2(d.Region); }))
+                            .attr("y", (function(d) { return y2(d.Precipitation); }))
+                            .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
+                            .attr("width", x2.bandwidth())
+                            .attr("height", function(d) { return VIS_HEIGHT - y2(d.Precipitation); })
+                            .attr("fill", (d) => { return region_color(d.Region); })
+                            .on("mouseover", handleMouseover2)
+                            .on("mousemove", handleMousemove2)
+                            .on("mouseleave", handleMouseleave2)
+                            .attr("class", "bar")
+  }                        
  });
 
   // Tooltip
