@@ -308,9 +308,41 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     return selected_month;
   };
 
+  // Bar chart showing SPI values per region (IN-PROGRESS)
+
+  const MAX_SPI = d3.max(combined, (d) => { return parseFloat(d.x); });
+  const MIN_SPI = d3.min(combined, (d) => { return parseFloat(d.x); });
+
+  // Scale X
+  let x2 = d3.scaleBand()
+                      .range([ 0, VIS_WIDTH ])
+                      .domain(combined.map(function(d) { return d["Drought Region"]; }))
+                      .padding(0.2);
+
+  // Scale Y
+  let y2 = d3.scaleLinear()
+                        .domain([MIN_SPI, MAX_SPI])
+                        .range([ VIS_HEIGHT, 0]);
+
+
+  // Add X axis  
+  const xAxis2 = FRAME2_BAR.append("g") 
+              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT/1.4 + MARGINS.top) + ")") 
+              .call(d3.axisBottom(x2).tickFormat(d3.format("d"))) 
+              .attr("font-size", "0px")
+              .selectAll("text")
+                .attr("transform", "translate(2, 0)")
+                .style("text-anchor", "end");
+
+  // Add Y axis
+  const yAxis2 = FRAME2_BAR.append("g")       
+              .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
+              .call(d3.axisLeft(y2).ticks(20))
+              .attr("font-size", "10px");
+
   d3.select("#btn2").on("click", function() {
 
-    FRAME2_BAR.select("g")
+    FRAME2_BAR.select("mybar")
               .attr("display", "none")
 
     let shown_regions1 = [];
@@ -329,59 +361,9 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
        }
     };
 
-    console.log(shown_regions1)
-
     let spi_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2 && d.Month == selected_month && 
             shown_regions1.includes(d["Drought Region"]);});
 
-    // Set max Y (SPI) value
-    let MAX_SPI = d3.max(spi_filtered, (d) => { return parseFloat(d.x); });
-
-    // Set min Y (SPI) value
-    let MIN_SPI = d3.min(spi_filtered, (d) => { return parseFloat(d.x); });
-
-
-    // Scale X
-    let REGION_SCALE = d3.scaleBand()
-                              .range([ 0, VIS_WIDTH ])
-                              .domain(spi_filtered.map(function(d) { return d["Drought Region"]; }))
-                              .padding(0.2);
-
-    // Scale Y
-    let SPI_SCALE = d3.scaleLinear()
-                          .domain([MIN_SPI, MAX_SPI])
-                          .range([ VIS_HEIGHT, 0]);
-
-
-    // Add X Axis
-    const xAxis2 = FRAME2_BAR.append("g") 
-                        .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-                        .call(d3.axisBottom(REGION_SCALE)) 
-                        .attr("font-size", "10px")
-                        .selectAll("text")
-                          .attr("transform", "translate(2, 0)")
-                          .style("text-anchor", "end");
-
-    // Add Y axis
-    const yAxis2 = FRAME2_BAR.append("g")       
-                        .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-                        .call(d3.axisLeft(SPI_SCALE).ticks(20))
-                        .attr("font-size", "10px");
-
-    // Label the x axis
-    FRAME2_BAR.append("text")
-    .attr("x", MARGINS.left + VIS_WIDTH/2)
-    .attr("y", VIS_HEIGHT + 90)
-    .text("Region")
-    .attr("class", "axes");
-      
-    // Label the y axis 
-    FRAME2_BAR.append("text")
-      .attr("x", MARGINS.left - 50)
-      .attr("y", VIS_HEIGHT - 100)
-      .attr("transform", "translate(-290, 250)rotate(-90)")
-      .text("Drought Severity (SPI)")
-      .attr("class", "axes");
 
     // Add bars, which are scaled accordingly
     let myBar = FRAME2_BAR.append("g")
@@ -389,20 +371,15 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                           .data(spi_filtered)
                           .enter()
                           .append("rect")
-                          .attr("x", function(d) { return REGION_SCALE(d["Drought Region"]); })
-                          .attr("y", (function(d) { return SPI_SCALE(Math.max(0, d.x)); }))
+                          .attr("x", (function(d) { return x2(d["Drought Region"]); }))
+                          .attr("y", (function(d) { return y2(d.x) }))
+                          .attr("width", x2.bandwidth())
+                          .attr("height", function(d) { return VIS_HEIGHT - y2(d.x); })
                           .attr("fill", (d) => { return region_color(d["Drought Region"]); })
-                          .attr("width", REGION_SCALE.bandwidth())
-                          .attr("height", function(d) { return VIS_HEIGHT - Math.abs(SPI_SCALE(d.x) - SPI_SCALE(0)); })
                           .attr("class", (d) => { return d["Drought Region"]; })
                           .on("mouseover", handleMouseover2)
                           .on("mousemove", handleMousemove2)
                           .on("mouseleave", handleMouseleave2); 
-    FRAME2_BAR.append('g').
-              attr('class', 'y axis').
-              attr('transform', 'translate(' + width2 + ',0)').
-              call(yAxis2);
-
  });
 
   // Tooltip
