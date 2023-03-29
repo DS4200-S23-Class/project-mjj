@@ -342,7 +342,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   d3.select("#btn2").on("click", function() {
 
-    FRAME2_BAR.select("mybar")
+    FRAME2_BAR.selectAll(".bar")
               .attr("display", "none")
 
     let shown_regions1 = [];
@@ -377,6 +377,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                           .attr("height", function(d) { return VIS_HEIGHT - y2(d.x); })
                           .attr("fill", (d) => { return region_color(d["Drought Region"]); })
                           .attr("class", (d) => { return d["Drought Region"]; })
+                          .append("class", "bar")
                           .on("mouseover", handleMouseover2)
                           .on("mousemove", handleMousemove2)
                           .on("mouseleave", handleMouseleave2); 
