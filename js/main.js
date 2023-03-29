@@ -340,6 +340,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     // Set min Y (SPI) value
     let MIN_SPI = d3.min(spi_filtered, (d) => { return parseFloat(d.x); });
 
+
     // Scale X
     let REGION_SCALE = d3.scaleBand()
                               .range([ 0, VIS_WIDTH ])
@@ -351,16 +352,36 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                           .domain([MIN_SPI, MAX_SPI])
                           .range([ VIS_HEIGHT, 0]);
 
-    // Add X axis
-    FRAME2_BAR.append("g")
-              .attr("transform", "translate(0," + VIS_HEIGHT + ")")
-              .call(d3.axisBottom(REGION_SCALE))
-              .selectAll("text");
+
+    // Add X Axis
+    const xAxis2 = FRAME2_BAR.append("g") 
+                        .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+                        .call(d3.axisBottom(REGION_SCALE)) 
+                        .attr("font-size", "10px")
+                        .selectAll("text")
+                          .attr("transform", "translate(2, 0)")
+                          .style("text-anchor", "end");
 
     // Add Y axis
-    FRAME2_BAR.append("g")
-          .call(d3.axisLeft(SPI_SCALE))
-          .call(d3.axisLeft(SPI_SCALE).ticks(20));
+    const yAxis2 = FRAME2_BAR.append("g")       
+                        .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
+                        .call(d3.axisLeft(SPI_SCALE).ticks(20))
+                        .attr("font-size", "10px");
+
+    // Label the x axis
+    FRAME2_BAR.append("text")
+    .attr("x", MARGINS.left + VIS_WIDTH/2)
+    .attr("y", VIS_HEIGHT + 90)
+    .text("Region")
+    .attr("class", "axes");
+      
+    // Label the y axis 
+    FRAME2_BAR.append("text")
+      .attr("x", MARGINS.left - 50)
+      .attr("y", VIS_HEIGHT - 100)
+      .attr("transform", "translate(-290, 250)rotate(-90)")
+      .text("Drought Severity (SPI)")
+      .attr("class", "axes");
 
     // Add bars, which are scaled accordingly
     let myBar = FRAME2_BAR.append("g")
@@ -369,15 +390,20 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                           .enter()
                           .append("rect")
                           .attr("x", function(d) { return REGION_SCALE(d["Drought Region"]); })
-                          .attr("y", SPI_SCALE(function(d) { return REGION_SCALE(d.x); }))
+                          .attr("y", (function(d) { return SPI_SCALE(Math.max(0, d.x)); }))
                           .attr("fill", (d) => { return region_color(d["Drought Region"]); })
                           .attr("width", REGION_SCALE.bandwidth())
-                          .attr("height", function(d) { return VIS_HEIGHT - Math.abs(SPI_SCALE(d.x)); })
+                          .attr("height", function(d) { return VIS_HEIGHT - Math.abs(SPI_SCALE(d.x) - SPI_SCALE(0)); })
                           .attr("class", (d) => { return d["Drought Region"]; })
                           .on("mouseover", handleMouseover2)
                           .on("mousemove", handleMousemove2)
                           .on("mouseleave", handleMouseleave2); 
-  });
+    FRAME2_BAR.append('g').
+              attr('class', 'y axis').
+              attr('transform', 'translate(' + width2 + ',0)').
+              call(yAxis2);
+
+ });
 
   // Tooltip
 
