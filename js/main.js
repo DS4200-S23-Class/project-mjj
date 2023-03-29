@@ -24,7 +24,7 @@ const FRAME2 = d3.select("#vis2")
                  .attr("class", "frame"); 
 
 // Create frame for bar to accompany map
-const FRAME2_BAR = d3.select("#bar")
+const FRAME2_BAR = d3.select("#link")
                    .append("svg")
                    .attr("height", FRAME_HEIGHT)
                    .attr("width", FRAME_WIDTH)
@@ -301,22 +301,16 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     return selected_year;
   };
 
-  function updateMonth () {
-    // retrieve the month chosen by the user from the drop down menu
-    let monthMenu = document.getElementById("selectMonth");
-    let selected_month = monthMenu.options[monthMenu.selectedIndex].text;
-    return selected_month;
-  };
 
-  // Bar chart showing SPI values per region (IN-PROGRESS)
+  // Bar chart showing precipitation values per region (IN-PROGRESS)
 
-  const MAX_SPI = d3.max(combined, (d) => { return parseFloat(d.x); });
-  const MIN_SPI = d3.min(combined, (d) => { return parseFloat(d.x); });
+  const MAX_SPI = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
+  const MIN_SPI = d3.min(precipitation, (d) => { return parseFloat(d.Precipitation); });
 
   // Scale X
   let x2 = d3.scaleBand()
                       .range([ 0, VIS_WIDTH ])
-                      .domain(combined.map(function(d) { return d["Drought Region"]; }))
+                      .domain(precipitation.map(function(d) { return d.Region; }))
                       .padding(0.2);
 
   // Scale Y
@@ -324,21 +318,38 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                         .domain([MIN_SPI, MAX_SPI])
                         .range([ VIS_HEIGHT, 0]);
 
-
   // Add X axis  
-  const xAxis2 = FRAME2_BAR.append("g") 
-              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT/1.4 + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x2).tickFormat(d3.format("d"))) 
-              .attr("font-size", "0px")
+  let xAxis2 = FRAME2_BAR.append("g") 
+              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+              .call(d3.axisBottom(x2)) 
+              .attr("font-size", "10px")
+              .attr("class", "x axis")
               .selectAll("text")
-                .attr("transform", "translate(2, 0)")
+                .attr("transform", "translate(10, 0)")
                 .style("text-anchor", "end");
 
   // Add Y axis
-  const yAxis2 = FRAME2_BAR.append("g")       
+  let yAxis2 = FRAME2_BAR.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y2).ticks(20))
               .attr("font-size", "10px");
+
+
+  // Label the x axis
+  FRAME2_BAR.append("text")
+    .attr("x", MARGINS.left + VIS_WIDTH/2)
+    .attr("y", VIS_HEIGHT + 90)
+    .text("Region")
+    .attr("class", "axes");
+      
+  // Label the y axis 
+  FRAME2_BAR.append("text")
+    // .attr("text-anchor", "middle")
+    .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
+    .attr("y", 15)
+    .attr("transform", "rotate(-90)")
+    .text("Precipitation (inches)")
+    .attr("class", "axes");
 
   d3.select("#btn2").on("click", function() {
 
@@ -348,7 +359,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     let shown_regions1 = [];
 
     let selected_year2 = updateYear2();
-    let selected_month = updateMonth();
 
     // Filter the bars by region
     let regions = document.getElementsByName("check2");
@@ -361,32 +371,33 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
        }
     };
 
-    let spi_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2 && d.Month == selected_month && 
-            shown_regions1.includes(d["Drought Region"]);});
+    let precip_filtered = precipitation.filter(function (d) { return parseInt(d.YEAR) == selected_year2 && shown_regions1.includes(d.Region);});
 
 
     // Add bars, which are scaled accordingly
     let myBar = FRAME2_BAR.append("g")
                           .selectAll("mybar")
-                          .data(spi_filtered)
+                          .data(precip_filtered)
                           .enter()
                           .append("rect")
-                          .attr("x", (function(d) { return x2(d["Drought Region"]); }))
-                          .attr("y", (function(d) { return y2(d.x) }))
+                          .attr("x", (function(d) { return x2(d.Region); }))
+                          .attr("y", (function(d) { return y2(d.Precipitation); }))
+                          .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
                           .attr("width", x2.bandwidth())
-                          .attr("height", function(d) { return VIS_HEIGHT - y2(d.x); })
-                          .attr("fill", (d) => { return region_color(d["Drought Region"]); })
-                          .attr("class", (d) => { return d["Drought Region"]; })
-                          .append("class", "bar")
+                          .attr("height", function(d) { return VIS_HEIGHT - y2(d.Precipitation); })
+                          .attr("fill", (d) => { return region_color(d.Region); })
                           .on("mouseover", handleMouseover2)
                           .on("mousemove", handleMousemove2)
-                          .on("mouseleave", handleMouseleave2); 
+                          .on("mouseleave", handleMouseleave2)
+                          .attr("class", (d) => { return d.Region; })
+                          .append("class", "bar")
+                          
  });
 
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP2= d3.select("#bar")
+  const TOOLTIP2 = d3.select("#link")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
@@ -401,7 +412,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   // Event handler
   function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+   TOOLTIP2.html("Precipitation (inches): " + d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region + "<br>Month: " + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
