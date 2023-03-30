@@ -26,7 +26,7 @@ const FRAME2 = d3.select("#vis2")
 // Create frame for bar to accompany map
 const FRAME2_BAR = d3.select("#link")
                    .append("svg")
-                   .attr("height", FRAME_HEIGHT)
+                   .attr("height", FRAME_HEIGHT + 30)
                    .attr("width", FRAME_WIDTH)
                    .attr("class", "frame"); 
 
@@ -75,10 +75,10 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Read into dataset and print data
   console.log(combined);
 
-// Parse the geospatial map data
-d3.json("data/massachusetts.geojson").then((massmap) => {
+// Parse the precipitation data with summed precipitation totals across each region per year
+d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
   // Read into dataset and print data
-  console.log(massmap);
+  console.log(yearly_precipitation);
 
   // Set up precipitation line chart - NOT FULLY IMPLEMENTED 
 
@@ -302,20 +302,23 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   };
 
 
-  // Bar chart showing precipitation values per region (IN-PROGRESS)
+  // Bar chart showing precipitation values per region 
 
-  const MAX_SPI = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
-  const MIN_SPI = d3.min(precipitation, (d) => { return parseFloat(d.Precipitation); });
+  // Find the minimum annual precipitation (y) value
+  const MIN_ANNUAL_PRECIP = d3.min(yearly_precipitation, (d) => { return parseFloat(d.Precipitation); });
+
+  // Find the max annual precipitation (y) value
+  const MAX_ANNUAL_PRECIP = d3.max(yearly_precipitation, (d) => { return parseFloat(d.Precipitation); });
 
   // Scale X
   let x2 = d3.scaleBand()
                       .range([ 0, VIS_WIDTH ])
-                      .domain(precipitation.map(function(d) { return d.Region; }))
+                      .domain(yearly_precipitation.map(function(d) { return d["Drought Region"]; }))
                       .padding(0.2);
 
   // Scale Y
   let y2 = d3.scaleLinear()
-                        .domain([MIN_SPI, MAX_SPI])
+                        .domain([MIN_ANNUAL_PRECIP - 10, MAX_ANNUAL_PRECIP])
                         .range([ VIS_HEIGHT, 0]);
 
   // Add X axis  
@@ -325,7 +328,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
               .attr("font-size", "10px")
               .attr("class", "x axis")
               .selectAll("text")
-                .attr("transform", "translate(10, 0)")
+                .attr("transform", "translate(40, 40) rotate(25)")
                 .style("text-anchor", "end");
 
   // Add Y axis
@@ -339,6 +342,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   FRAME2_BAR.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
     .attr("y", VIS_HEIGHT + 90)
+    .attr("transform", "translate(0, 35)")
     .text("Region")
     .attr("class", "axes");
       
@@ -348,22 +352,24 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
     .attr("y", 15)
     .attr("transform", "rotate(-90)")
-    .text("Precipitation (inches)")
+    .text("Annual Precipitation (inches)")
     .attr("class", "axes");
 
+  // Display the bars that align with the filters chosen each time a button is clicked
   d3.select("#btn2").on("click", function() {
 
+    // Reset the plot before projecting the new bars
     FRAME2_BAR.selectAll(".bar")
               .attr("display", "none")
 
+    // Retrieve the regions and year selected by the user
     let shown_regions1 = [];
-
     let selected_year2 = updateYear2();
 
     // Filter the bars by region
     let regions = document.getElementsByName("check2");
 
-    //check with region boxes are checked
+    // check with region boxes are checked
     for (let i=0; i<regions.length; i++) {
        // And stick the regions for the checked ones onto an array...
        if (regions[i].checked) {
@@ -371,27 +377,28 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
        }
     };
 
-    let precip_filtered = precipitation.filter(function (d) { return parseInt(d.YEAR) == selected_year2; });
+    // Filter the annual precipitation data by the chosen year
+    let precip_filtered = yearly_precipitation.filter(function (d) { return parseInt(d.Year) == selected_year2; });
 
 
-    // Add bars, which are scaled accordingly
+    // Add bars for the selected regions, which are scaled accordingly
     for (let i = 0; i < shown_regions1.length; i++) {
       let myBar = FRAME2_BAR.append("g")
                             .selectAll("mybar")
                             .data(precip_filtered)
                             .enter()
-                            .filter(function(d) { return d.Region == shown_regions1[i]; })
+                            .filter(function(d) { return d["Drought Region"] == shown_regions1[i]; })
                             .append("rect")
-                            .attr("x", (function(d) { return x2(d.Region); }))
+                            .attr("x", (function(d) { return x2(d["Drought Region"]); }))
                             .attr("y", (function(d) { return y2(d.Precipitation); }))
                             .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
                             .attr("width", x2.bandwidth())
                             .attr("height", function(d) { return VIS_HEIGHT - y2(d.Precipitation); })
-                            .attr("fill", (d) => { return region_color(d.Region); })
+                            .attr("fill", (d) => { return region_color(d["Drought Region"]); })
                             .on("mouseover", handleMouseover2)
                             .on("mousemove", handleMousemove2)
                             .on("mouseleave", handleMouseleave2)
-                            .attr("class", "bar")
+                            .attr("class", (d) => { return "bar " + d["Drought Region"] ;})
   }                        
  });
 
@@ -413,7 +420,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   // Event handler
   function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("Precipitation (inches): " + d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region + "<br>Month: " + d.Month)
+   TOOLTIP2.html("Precipitation (inches): " + d.Precipitation + "<br>Region: " + d["Drought Region"])
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
@@ -425,295 +432,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     TOOLTIP2.style("opacity", 0); 
   };
         
-  
-  // const WIDTH = window.innerWidth;
-  // const HEIGHT = window.innerHeight;
-
-  // const projection = d3.geoEquirectangular()
-  //                      .scale(7500)
-  //                      .translate([WIDTH * 8.75 + MARGINS.left, HEIGHT * 10 + MARGINS.top]);
-
-  // const path = d3.geoPath().projection(projection);
-
-  //  const color = d3.scaleOrdinal()
-  //                  .domain(["BARNSTABLE", "BERKSHIRE", "BRISTOL", "DUKES", "ESSEX", "FRANKLIN", "HAMPDEN", "HAMPSHIRE", "MIDDLESEX", "NANTUCKET", "NORFOLK", "PLYMOUTH", "SUFFOLK", "WORCESTER"])
-  //                  .range(["red", "orange", "yellow", "green", "blue", "indigo", "purple", "red", "orange", "yellow", "green", "blue", "indigo", "purple"]);
-
-  //  function renderMap(root) {
-  //    // Draw the Massachusetts map 
-  //  console.log(root)
-
-  //    FRAME2.append("g")
-  //      .selectAll("path")
-  //        .data(root.features)
-  //        .enter()
-  //        .append("path")
-  //        .attr("d", path)
-  //        .attr("fill", "beige")
-  //        .attr("stroke", "black")
-  //        .attr("stroke-width", 0.5)
-
-  //    FRAME2.append("g")
-  //      .selectAll("text")
-  //      .data(root.features)
-  //      .enter()
-  //      .append("text")
-  //      .attr("transform", (d) => `translate(${path.centroid(d)})`)
-  //      .attr("text-anchor", "middle")
-  //      .attr("font-size", 10)
-  //      .attr("dx", (d) => { return (d, "offset[0]", null); })
-  //      .attr("dy", (d) => { return (d, "offset[1]", null); })
-  // };
-
-//   // Render the map on the webpage
-    // d3.json("data/massachusetts.geojson").then((massmap) => {
-    //    renderMap(massmap);
-    // })
-
-   // Add a legend to the plot indicating the SPI value a star's color portrays
-//   const LEGEND2 = d3.select("#legend2") 
-//                 .append("svg")
-//                 .attr("height", FRAME_HEIGHT/3)
-//                 .attr("width", FRAME_WIDTH);
-
-//   // Points for the legend
-//   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 200)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "white");
-//   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 350)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "deepskyblue");
-//   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 500)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "#0066FF");
-//   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 650)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "blue");
-//   LEGEND2.append("polygon").attr("points", "100,10 40,198 190,78 10,78 160,198").attr("transform", "scale(0.15) translate(0, 800)").attr("stroke", "black").attr("stroke-width", 0.5).style("fill", "midnightblue");
-
-
-//   // Text for the legend
-//   LEGEND2.append("text").attr("y", 30).text("Drought Severities").style("font-size", "15px").style("font-weight", "bold").style("text-align", "center");
-//   LEGEND2.append("text").attr("x", 35).attr("y", 55).text("SPI > 0.52 (None)").style("font-size", "15px").style("fill", "black");
-//   LEGEND2.append("text").attr("x", 35).attr("y", 77).text("-0.84 < SPI <= 0.52 (Light)").style("font-size", "15px").style("fill", "black");
-//   LEGEND2.append("text").attr("x", 35).attr("y", 99).text("-1.28 < SPI <= -0.84 (Moderate)").style("font-size", "15px").style("fill", "black");
-//   LEGEND2.append("text").attr("x", 35).attr("y", 121).text("-2.05 < SPI <= -1.28 (High)").style("font-size", "15px").style("fill", "black");
-//   LEGEND2.append("text").attr("x", 35).attr("y", 143).text("SPI <= -2.05 (Very High)").style("font-size", "15px").style("fill", "black");
-
-//   // Add stars on each of Massachusetts' six regions on the map
-//   // NEED TO WORK ON ADJUSTING THE COLORS OF THE STARS BASED ON SPI VALUE + THE TOOLTIP
-//   // Filter the scatter plot by selected year(s)
-
-//   // initialize empty arrays for the years, regions, and months to be represented in plot 2
-//   let shown_regions1 = [];
-
-//   function updateYear2 () {
-//     // retrieve the year chosen by the user from the drop down menu
-//     let yearMenu = document.getElementById("selectYear2");
-//     let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
-//     return selected_year;
-//   };
-
-//   function updateMonth () {
-//     // retrieve the month chosen by the user from the drop down menu
-//     let monthMenu = document.getElementById("selectMonth");
-//     let selected_month = monthMenu.options[monthMenu.selectedIndex].text;
-//     return selected_month;
-//   };
-
-//   d3.select("#btn2").on("click", function() {
-
-//     // reset the map so that no stars appear
-//     FRAME2.selectAll(".star")
-//           .attr("display", "none");
-
-//     let show_northeast = "none";
-//     let show_connecticut = "none";
-//     let show_central = "none";
-//     let show_western = "none";
-//     let show_southeast = "none";
-//     let show_cape = "none";
-
-//     // Filter the stars by region
-//     let regions = document.getElementsByName("check2");
-//     // check with region boxes are checked
-//     for (var i=0; i<regions.length; i++) {
-//        // And stick the regions for the checked ones onto an array...
-//        if (regions[i].checked) {
-//           shown_regions1.push(regions[i].value);
-//        }
-//     }
-
-//     let selected_year2 = updateYear2();
-//     let selected_month = updateMonth();
-
-//     // Show stars representing the regions with checked boxes 
-//     for (let i = 0; i < shown_regions1.length; i++) {
-//       if (shown_regions1[i] == "Northeast"){
-//         show_northeast = "inline";
-//       }else if (shown_regions1[i] == "Connecticut River"){
-//         show_connecticut = "inline";
-//       }else if (shown_regions1[i] == "Central"){
-//         show_central = "inline";
-//       }else if (shown_regions1[i] == "Western"){
-//         show_western = "inline";
-//       }else if (shown_regions1[i] == "Southeast"){
-//         show_southeast = "inline";
-//       }else if (shown_regions1[i] == "Cape Cod and Islands"){
-//         show_cape = "inline";
-//       }
-//     };
-
-//     function determineStarColor (spi) {
-//       if (spi > 0.52){
-//         star_color = "white";
-//       }else if (spi <= 0.52 && spi > -0.84) {
-//         star_color = "deepskyblue";
-//       }else if (spi <= -0.84 && spi > -1.28){
-//         star_color = "#0066FF";
-//       }else if (spi <= -1.28 && spi > -2.05){
-//         star_color = "blue";
-//       }else{
-//         star_color = "midnightblue";
-//       }
-//       return star_color;
-//   };
-
-//     // Retrieve the SPI values of each region for the month and year chosen by the user
-//     let western_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Western" && parseInt(combined.Year) == selected_year2 && 
-//       combined.Month == selected_month;});
-//     let western_spi = western_filter[0].x;
-//     let western_star_color = determineStarColor(western_spi);
-
-//     let connecticut_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Connecticut River" && parseInt(combined.Year) ==
-//       selected_year2 && combined.Month == selected_month;});
-//     let connecticut_spi = connecticut_filter[0].x;
-//     let connecticut_star_color = determineStarColor(connecticut_spi);
-
-//     let central_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Central" && parseInt(combined.Year) == selected_year2 && 
-//       combined.Month == selected_month;});
-//     let central_spi = central_filter[0].x;
-//     let central_star_color = determineStarColor(central_spi);
-
-//     let northeast_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Northeast" && parseInt(combined.Year) == selected_year2 && 
-//       combined.Month == selected_month;});
-//     let northeast_spi = northeast_filter[0].x;
-//     let northeast_star_color = determineStarColor(northeast_spi);
-
-//     let southeast_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Southeast" && parseInt(combined.Year) == selected_year2 && 
-//       combined.Month == selected_month;});
-//     let southeast_spi = southeast_filter[0].x;
-//     let southeast_star_color = determineStarColor(southeast_spi);
-
-//     let cape_filter = combined.filter(function (combined) { return combined["Drought Region"] == "Cape Cod and Islands" && parseInt(combined.Year) == selected_year2 && 
-//       combined.Month == selected_month;});
-//     let cape_spi = cape_filter[0].x;
-//     let cape_star_color = determineStarColor(cape_spi);
-
-//   // Adding the star for the Western region of Massachusetts
-//   FRAME2.append("g")
-//       .selectAll("stars")  
-//       .data(combined)  
-//       .enter()      
-//       .append("polygon") 
-//       .attr("transform", "scale(0.45) translate(0, 500)")
-//       .attr("points", "100,10 40,198 190,78 10,78 160,198")
-//       .attr("fill", western_star_color)
-//       .attr("stroke", "black")
-//       .attr("stroke-width", 0.5)
-//       .attr("display", show_western)
-//       .attr("class", "star")
-//       .attr("id", "Region: Western" + "<br>County: Berkshire" + "<br>SPI: " + western_spi)
-//       .on("mouseover", handleMouseover2)
-//       .on("mousemove", handleMousemove2)
-//       .on("mouseleave", handleMouseleave2);
-
-
-//   // Adding the star for the Connecticut River Valley region of Massachusetts
-//   FRAME2.append("g")
-//       .selectAll("stars")  
-//       .data(combined)  
-//       .enter()      
-//       .append("polygon") 
-//       .attr("transform", "scale(0.45) translate(220, 520)")
-//       .attr("points", "100,10 40,198 190,78 10,78 160,198")
-//       .attr("fill", connecticut_star_color)
-//       .attr("stroke", "black")
-//       .attr("stroke-width", 0.5)
-//       .attr("display", show_connecticut)
-//       .attr("class", "star")
-//       .attr("id", "Region: Connecticut River Valley" + "<br>Counties: Franklin, Hampshire, Hampden" + "<br>SPI: " + connecticut_spi)
-//       .on("mouseover", handleMouseover2)
-//       .on("mousemove", handleMousemove2)
-//       .on("mouseleave", handleMouseleave2);;
-
-//   // Adding the star for the Central region of Massachusetts
-//   FRAME2.append("g")
-//       .selectAll("stars")  
-//       .data(combined)  
-//       .enter()      
-//       .append("polygon") 
-//       .attr("transform", "scale(0.45) translate(450, 520)")
-//       .attr("points", "100,10 40,198 190,78 10,78 160,198")
-//       .attr("fill", central_star_color)
-//       .attr("stroke", "black")
-//       .attr("stroke-width", 0.5)
-//       .attr("display", show_central)
-//       .attr("class", "star")
-//       .attr("id", "Region: Central" + "<br>County: Worcester" + "<br>SPI: " + central_spi)
-//       .on("mouseover", handleMouseover2)
-//       .on("mousemove", handleMousemove2)
-//       .on("mouseleave", handleMouseleave2);;
-
-//   // Adding the star for the Northeast region of Massachusetts
-//   FRAME2.append("g")
-//       .selectAll("stars")  
-//       .data(combined)  
-//       .enter()      
-//       .append("polygon") 
-//       .attr("transform", "scale(0.45) translate(650, 420)")
-//       .attr("points", "100,10 40,198 190,78 10,78 160,198")
-//       .attr("fill", northeast_star_color)
-//       .attr("stroke", "black")
-//       .attr("stroke-width", 0.5)
-//       .attr("display", show_northeast)
-//       .attr("class", "star")
-//       .attr("id", "Region: Northeast" + "<br>Counties: Essex, Middlesex, and Suffolk (plus town of Brookline)" + "<br>SPI: " + northeast_spi)
-//       .on("mouseover", handleMouseover2)
-//       .on("mousemove", handleMousemove2)
-//       .on("mouseleave", handleMouseleave2);;
-
-//   // Adding the star for the Southeast region of Massachusetts
-//   FRAME2.append("g")
-//       .selectAll("stars")  
-//       .data(combined)  
-//       .enter()      
-//       .append("polygon") 
-//       .attr("transform", "scale(0.45) translate(650, 630)")
-//       .attr("points", "100,10 40,198 190,78 10,78 160,198")
-//       .attr("fill-opacity", 0.5)
-//       .attr("fill", southeast_star_color)
-//       .attr("stroke", "black")
-//       .attr("stroke-width", 0.5)
-//       .attr("display", show_southeast)
-//       .attr("class", "star")
-//       .attr("id", "Region: Southeast" + "<br>Counties: Bristol, Plymouth, and Norfolk (minus town of Brookline)" + "<br>SPI: " + southeast_spi)
-//       .on("mouseover", handleMouseover2)
-//       .on("mousemove", handleMousemove2)
-//       .on("mouseleave", handleMouseleave2);;
-
-  // // Adding the star for the Cape Cod and Islands region of Massachusetts
-  // FRAME2.append("g")
-  //     .selectAll("stars")  
-  //     .data(combined)  
-  //     .enter()      
-  //     .append("polygon") 
-  //     .attr("transform", "scale(0.45) translate(850, 730)")
-  //     .attr("points", "100,10 40,198 190,78 10,78 160,198")
-  //     .attr("fill", cape_star_color)
-  //     .attr("stroke", "black")
-  //     .attr("stroke-width", 0.5)
-  //     .attr("display", show_cape)
-  //     .attr("class", "star")
-  //     .attr("id", "Region: Cape Cod and Islands" + "<br>Counties: Barnstable, Nantucket, and Dukes (includes Elizabeth Islands)" + "<br>SPI: " + cape_spi)
-  //     .on("mouseover", handleMouseover2)
-  //     .on("mousemove", handleMousemove2)
-  //     .on("mouseleave", handleMouseleave2);
-  // });
-
-
   // Set up precipitation vs. drought level scatterplot - FULLY IMPLEMENTED ASIDE FROM LINKING
 
   // Find min SPI (x) value
@@ -722,9 +440,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   // Find max SPI (x) value
   const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.x); });
 
-  // Find max precipitation (y) value
-  const MAX_PRECIP3 = d3.max(combined, (d) => { return parseFloat(d.Precipitation); });
-
   // Scale SPI for the x-axis
   const x3 = d3.scaleLinear() 
                      .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
@@ -732,7 +447,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   // Scale the precipitation values for the y-axis
   const y3 = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP3 + 1)]) // add some padding
+                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
                      .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
