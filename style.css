@@ -32,6 +32,34 @@ APPEALING */
     text-align: center;
 }
 
+/* Creates a flex container to make 2 columns */
+.link {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.link1{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:45%;
+    justify-content: center;
+}
+
+.link2{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:45%;
+    justify-content: center;
+}
+
+.yearfilter2 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:10%;
+    justify-content: center;
+}
+
 /* Style vis1 */
 #vis1 {
     flex-direction: column;

@@ -64,13 +64,13 @@
                 <div id="legend1">
                     <!-- Add checkbox filter for regions -->
                     <div class="region-filter">
-                        <p>Filter All 3 Plots by Region: </p>
+                        <p>Filter Plots by Region: </p>
+                        <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
+                        <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label>
                         <label for="Connecticut"><input type="checkbox" name="check2" value="Connecticut River" class="region-button">Connecticut River</label>
                         <label for="Northeast"><input type="checkbox" name="check2" value="Northeast" class="region-button">Northeast</label>
-                        <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label>
                         <label for="Southeast"><input type="checkbox" name="check2" value="Southeast" class="region-button">Southeast</label>
                         <label for="Western"><input type="checkbox" name="check2" value="Western" class="region-button">Western</label>
-                        <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
                     </div>
                 </div>
             </div>
@@ -92,29 +92,7 @@
                             <button id="btn1">Get Selected Year and Region(s)</button>
                         </p>
                     </div>
-                </div>
-
-                <!-- Create the section that contains the map of Massachusetts -->
-                <div id="map"></div>
-
-                <div id = "link">
-                    <h3 class="centered">Drought Severities Over Time and Regions</h3>
-
-
-                        <div class="year-filter2">
-                            <p>Filter Bars by Year: </p>
-                                <select id="selectYear2">
-                                    <option>2017</option>
-                                    <option>2018</option>
-                                    <option>2019</option>
-                                </select>
-                        </div>
-
-                        <p>
-                            <button id="btn2">Get Data for the Selected Year(s), and Region(s)</button>
-                        </p>
-                    </div>
-            
+                </div>    
             
                 <!-- Create the section that contains the scatter graph-->
                 <div id="vis3">
@@ -151,7 +129,30 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Create the section that contains the map of Massachusetts -->
+                <div id="map"></div>
             </div>  
+        </div>
+        <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing -->
+        <div class="link">
+                <div class="year-filter2">
+                    <p>Filter Bars by Year: </p>
+                        <select id="selectYear2">
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                        </select>
+                    <p>
+                        <button id="btn2">Get Data for the Selected Year(s)</button>
+                    </p>
+                </div>
+                <div id="link1">
+                    <h4 class="centered">Annual Precipitation for Each Region</h4>
+                </div>
+                <div id="link2">
+                    <h4 class="centered">Precipitation vs SPI</h4>
+                </div>
         </div>
     </div>
 
