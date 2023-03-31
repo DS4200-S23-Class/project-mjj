@@ -498,14 +498,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handlers
   function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
+   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
   };
   function handleMousemove4(event, d) {
    // position the tooltip and fill in information 
-    TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
+    TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px");
