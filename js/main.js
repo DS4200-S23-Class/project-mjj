@@ -410,7 +410,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     // Add brushing
     FRAME3_SCATTER.call( d3.brush()                 // Use d3.brush to initalize a brush feature
                   .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
-                  .on("start brush", updateChart)); // 'updateChart' is triggered every time the brush window gets altered
+                  .on("start brush", updateChart1)); // 'updateChart1' is triggered every time the brush window gets altered
 
     // Plot points on scatter plot for the selected regions
     let myPoint4 = FRAME3_SCATTER.append("g")
@@ -440,10 +440,10 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                           .attr("height", function(d) { return VIS_HEIGHT - y2(d["Annual Precipitation"]); })
                           .attr("opacity", 0.05)
                           .attr("fill", (d) => { return region_color(d["Drought Region"]); })
-                          .attr("class", "bar");
+                          .attr("class", "bar")
 
     // When points are brushed over in any plot, the aligned bars in the other plot get highlighted with a raised opacity and attain a blue border. 
-    function updateChart(event) {
+    function updateChart1(event) {
       selection = event.selection;   
       myPoint4.classed("selected", ((d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); }));
       myBar.classed("selected", ((d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); }));
@@ -457,6 +457,17 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
           y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
   };
+
+  // When a bar is clicked, the aligned points that represent the same region in the other plot get highlighted with a raised opacity and attain a blue border
+    function updateChart2(event, d) {
+      myPoint4.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
+      myBar.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
+    };
+
+  // Add the above event listener to all bars
+  FRAME3_BAR.selectAll(".bar")
+        .on("click", updateChart2)
+
 
   // Tooltips
 
