@@ -29,6 +29,7 @@ const FRAME3_BAR = d3.select("#link1")
                    .attr("height", FRAME_HEIGHT + 30)
                    .attr("width", FRAME_WIDTH)
                    .attr("class", "frame"); 
+
 // Create frame for scatter for linking
 const FRAME3_SCATTER = d3.select("#link2")
                    .append("svg")
@@ -38,12 +39,6 @@ const FRAME3_SCATTER = d3.select("#link2")
 
 // Create frame for scatterplot
 const FRAME4 = d3.select("#vis3")
-                 .append("svg")
-                 .attr("height", FRAME_HEIGHT)
-                 .attr("width", FRAME_WIDTH)
-                 .attr("class", "frame"); 
-
-const FRAME5 = d3.select("#vis4")
                  .append("svg")
                  .attr("height", FRAME_HEIGHT)
                  .attr("width", FRAME_WIDTH)
@@ -86,7 +81,7 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
   // Read into dataset and print data
   console.log(yearly_precipitation);
 
-  // Set up precipitation line chart - NOT FULLY IMPLEMENTED 
+  // Set up precipitation line chart
 
   // Find max precipitation (y) value
   const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
@@ -264,17 +259,6 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
         .on("mousemove", handleMousemove1)
         .on("mouseleave", handleMouseleave1); 
 
-  // Add brushing
-  // FRAME1.call( d3.brush()                 // Use d3.brush to initalize a brush feature
-  //                .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
-  //                .on("start brush", updateChart1)); // 'updateChart' is triggered every time the brush window gets altered
-
-  // // When points are brushed over in any plot, the aligned points in the other two plots get highlighted with a raised opacity and attain a black border. 
-  // function updateChart1(event) {
-  //   selection = event.selection;
-  //   myPoint1.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
-  //   myPoint3.classed("selected", (precipitation, (d) => { return isBrushed(selection, x(d.x) + MARGINS.left, y(d.Precipitation) + MARGINS.top ); }) );
-  // };
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
    d3.json("data/massachusetts.geojson").then((massmap) => {
@@ -409,20 +393,6 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
     .text("Precipitation (inches)")
     .attr("class", "axes");
 
-  // Plot points on scatter plot
-  let myPoint4 = FRAME3_SCATTER.append("g")
-                       .selectAll("points")  
-                       .data(combined)  
-                       .enter()       
-                       .append("circle")  
-                       .attr("cx", (d) => { return (x4(d.x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y4(d.Precipitation) + MARGINS.top); }) 
-                       .attr("r", 5)
-                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
-                       .attr("class", "mark")
-                       // Make all the points non-visible first
-                       .attr("display", "none");
-
 
   // Display the points and bars that align with the filters chosen each time a button is clicked
   d3.select("#btn2").on("click", function() {
@@ -430,21 +400,33 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
     // Retrieve the year selected by the user
     let selected_year3 = updateYear2();
 
-    // Reset the plot before projecting the new bars
-    FRAME3_BAR.selectAll(".bar")
+    // Filter the annual precipitation data by the chosen year
+    let precip_filtered = yearly_precipitation.filter(function (d) { return parseInt(d.Year) == selected_year3; });
+
+    // Filter the combined SPI and precipitation data by the chosen year
+    let combined_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year3; });
+
+    // Reset the plot before projecting the new bars 
+    FRAME3_BAR.selectAll("g rect")
               .attr("display", "none")
 
     // Reset the plot before projecting the new points
-    FRAME3_SCATTER.selectAll(".mark")
+    FRAME3_SCATTER.selectAll("g circle")
               .attr("display", "none");
 
-    FRAME3_SCATTER.selectAll(".mark")
-          // Show data pertaining to the selected year from the dropbox menu
-          .filter(function(d) { return d.Year == selected_year3; })
-          .attr("display", "inline");
+    // Plot points on scatter plot for the selected regions
+  let myPoint4 = FRAME3_SCATTER.append("g")
+                       .selectAll("points")  
+                       .data(combined_filtered)  
+                       .enter()       
+                       .append("circle")  
+                       .attr("cx", (d) => { return (x4(d.x) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (y4(d.Precipitation) + MARGINS.top); }) 
+                       .attr("r", 5)
+                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                       .attr("opacity", 0.5)
+                       .attr("class", (d) => { return d["Drought Region"] ;})
 
-    // Filter the annual precipitation data by the chosen year
-    let precip_filtered = yearly_precipitation.filter(function (d) { return parseInt(d.Year) == selected_year3; });
 
     // Add bars for the selected regions, which are scaled accordingly
     let myBar = FRAME3_BAR.append("g")
@@ -460,7 +442,29 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
                           .attr("height", function(d) { return VIS_HEIGHT - y2(d.Precipitation); })
                           .attr("fill", (d) => { return region_color(d["Drought Region"]); })
                           .style("opacity", 0.5)
-                          .attr("class", (d) => { return "bar " + d["Drought Region"] ;})
+                          .attr("class", (d) => { return d["Drought Region"] ;})
+
+
+    // Add brushing
+    FRAME3_SCATTER.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+                  .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
+                  .on("start brush", updateChart)); // 'updateChart' is triggered every time the brush window gets altered
+
+    // When points are brushed over in any plot, the aligned bars in the other plot get highlighted with a raised opacity and attain a blue border. 
+    function updateChart(event) {
+      selection = event.selection;
+      myPoint4.classed("selected", (d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); });
+      myBar.classed("selected", (d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); });
+    };
+
+    // Returns TRUE if a point is in the selection window, returns FALSE if it is not
+    function isBrushed(brush_coords, cx, cy) {
+      let x0 = brush_coords[0][0],
+          x1 = brush_coords[1][0],
+          y0 = brush_coords[0][1],
+          y1 = brush_coords[1][1];
+      return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
+  };
   });
 
   // Add vertical line at x=0 
@@ -472,6 +476,7 @@ d3.csv("data/precip_per_year.csv").then((yearly_precipitation) => {
   .attr("stroke", "black")
   .attr("stroke-dasharray", "5,5")
   .attr("fill", "none");
+
 
         
   // Set up precipitation vs. drought level scatterplot - this one allows users to filter by year, month, and region

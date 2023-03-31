@@ -33,12 +33,38 @@ APPEALING */
 }
 
 /* Creates a flex container to make 2 columns */
+.lineAndScatter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+/* Style vis1 */
+.vis1{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:45%;
+    justify-content: center;
+}
+
+/* Style vis2 */
+.vis2{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:45%;
+    justify-content: center;
+}
+
+
+
+/* Creates a flex container to make 2 columns */
 .link {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 }
 
+/* Style link1 (contains a bar chart)*/
 .link1{
     flex-direction: row;
     flex-wrap: wrap;
@@ -46,6 +72,7 @@ APPEALING */
     justify-content: center;
 }
 
+/* Style link2 (contains a scatter chart)*/
 .link2{
     flex-direction: row;
     flex-wrap: wrap;
@@ -60,19 +87,6 @@ APPEALING */
     justify-content: center;
 }
 
-/* Style vis1 */
-#vis1 {
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-}
-
-/* Style vis2 */
-#vis2 {
-    flex-direction: column;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 /* Style vis3 */
@@ -83,15 +97,12 @@ APPEALING */
     justify-content: center;
 }
 
-/* Adjust the style for the marks (line or point mark) */
-.mark {
-    opacity: 50%;
-}
 
 /* Adjusts the style of selected circles/areas */
 .selected {
     fill-opacity: 100%;
-    stroke: black;
+    opacity: 100%;
+    stroke: blue;
     stroke-width: 3px;
 }
 
