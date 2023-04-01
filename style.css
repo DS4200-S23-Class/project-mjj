@@ -32,6 +32,7 @@ APPEALING */
     text-align: center;
 }
 
+
 /* Creates a flex container to make 2 columns */
 .lineAndScatter {
     display: flex;
@@ -39,22 +40,21 @@ APPEALING */
     justify-content: space-evenly;
 }
 
-/* Style vis1 */
-.vis1{
+/* Style the line chart above the map */
+.line{
     flex-direction: row;
     flex-wrap: wrap;
     width:45%;
     justify-content: center;
 }
 
-/* Style vis2 */
-.vis2{
+/* Style scatter plot above the map */
+.scatter{
     flex-direction: row;
     flex-wrap: wrap;
     width:45%;
     justify-content: center;
 }
-
 
 
 /* Creates a flex container to make 2 columns */
@@ -77,23 +77,6 @@ APPEALING */
     flex-direction: row;
     flex-wrap: wrap;
     width:45%;
-    justify-content: center;
-}
-
-.yearfilter2 {
-    flex-direction: row;
-    flex-wrap: wrap;
-    width:10%;
-    justify-content: center;
-}
-
-}
-
-/* Style vis3 */
-#vis3 {
-    flex-direction: column;
-    width: 100%;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -120,6 +103,7 @@ APPEALING */
     text-anchor: middle;
     font-size: 12px;
 }
+
 
 #map { 
     height: 500px; 

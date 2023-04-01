@@ -10,39 +10,39 @@ const VIS_HEIGHT = FRAME_HEIGHT - MARGINS.top - MARGINS.bottom;
 const VIS_WIDTH = FRAME_WIDTH - MARGINS.left - MARGINS.right; 
 
 // Create frame for the line chart 
-const FRAME1 = d3.select("#vis1")
+const FRAME1 = d3.select("#line")
                  .append("svg")
                  .attr("height", FRAME_HEIGHT)
                  .attr("width", FRAME_WIDTH)
                  .attr("class", "frame"); 
 
+// Create frame for scatterplot
+const FRAME2 = d3.select("#scatter")
+                 .append("svg")
+                 .attr("height", FRAME_HEIGHT)
+                 .attr("width", FRAME_WIDTH)
+                 .attr("class", "frame");
+
 // Create frame for map
-const FRAME2 = d3.select("#vis2")
+const FRAME3 = d3.select("#map")
                  .append("svg")
                  .attr("height", FRAME_HEIGHT)
                  .attr("width", FRAME_WIDTH)
                  .attr("class", "frame"); 
 
 // Create frame for bar for linking
-const FRAME3_BAR = d3.select("#link1")
+const FRAME4 = d3.select("#link1")
                    .append("svg")
                    .attr("height", FRAME_HEIGHT + 30)
                    .attr("width", FRAME_WIDTH)
                    .attr("class", "frame"); 
 
 // Create frame for scatter for linking
-const FRAME3_SCATTER = d3.select("#link2")
+const FRAME5 = d3.select("#link2")
                    .append("svg")
                    .attr("height", FRAME_HEIGHT + 30)
                    .attr("width", FRAME_WIDTH)
-                   .attr("class", "frame"); 
-
-// Create frame for scatterplot
-const FRAME4 = d3.select("#vis3")
-                 .append("svg")
-                 .attr("height", FRAME_HEIGHT)
-                 .attr("width", FRAME_WIDTH)
-                 .attr("class", "frame"); 
+                   .attr("class", "frame");  
 
 // Create a legend
 const LEGEND1 = d3.select("#legend1")
@@ -221,7 +221,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP1 = d3.select("#vis1")
+  const TOOLTIP1 = d3.select("#line")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
@@ -309,7 +309,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                         .range([ VIS_HEIGHT, 0]);
 
   // Add X axis  
-  let xAxis2 = FRAME3_BAR.append("g") 
+  let xAxis2 = FRAME4.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(x2)) 
               .attr("font-size", "10px")
@@ -319,13 +319,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  let yAxis2 = FRAME3_BAR.append("g")       
+  let yAxis2 = FRAME4.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y2).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
-  FRAME3_BAR.append("text")
+  FRAME4.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
     .attr("y", VIS_HEIGHT + 90)
     .attr("transform", "translate(0, 35)")
@@ -333,7 +333,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("class", "axes");
       
   // Label the y axis 
-  FRAME3_BAR.append("text")
+  FRAME4.append("text")
     // .attr("text-anchor", "middle")
     .attr("x", 0 - VIS_HEIGHT/2 - MARGINS.top)
     .attr("y", 15)
@@ -360,7 +360,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                      .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
-  const xAxis4 = FRAME3_SCATTER.append("g") 
+  const xAxis4 = FRAME5.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(x4).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
@@ -369,20 +369,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  const yAxis4 = FRAME3_SCATTER.append("g")       
+  const yAxis4 = FRAME5.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y4).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
-  FRAME3_SCATTER.append("text")
+  FRAME5.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
     .attr("y", VIS_HEIGHT + 90)
     .text("Drought Severity (SPI)")
     .attr("class", "axes");
       
   // Label the y axis 
-  FRAME3_SCATTER.append("text")
+  FRAME5.append("text")
     .attr("x", MARGINS.left - 50)
     .attr("y", VIS_HEIGHT - 100)
     .attr("transform", "translate(-290, 250)rotate(-90)")
@@ -400,20 +400,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     let combined_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year3; });
 
     // Reset the plot before projecting the new bars 
-    FRAME3_BAR.selectAll("g rect")
+    FRAME4.selectAll("g rect")
               .attr("display", "none")
 
     // Reset the plot before projecting the new points
-    FRAME3_SCATTER.selectAll("g circle")
+    FRAME5.selectAll("g circle")
               .attr("display", "none");
 
     // Add brushing
-    FRAME3_SCATTER.call( d3.brush()                 // Use d3.brush to initalize a brush feature
+    FRAME5.call( d3.brush()                 // Use d3.brush to initalize a brush feature
                   .extent( [ [0,0], [FRAME_WIDTH, FRAME_HEIGHT] ] ) // establish the brush area (maximum brush window = entire graph area)
                   .on("start brush", updateChart1)); // 'updateChart1' is triggered every time the brush window gets altered
 
     // Plot points on scatter plot for the selected regions
-    let myPoint4 = FRAME3_SCATTER.append("g")
+    let myPoint4 = FRAME5.append("g")
                          .selectAll("points")  
                          .data(combined_filtered)  
                          .enter()       
@@ -427,7 +427,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
 
     // Add bars for the selected regions, which are scaled accordingly
-    let myBar = FRAME3_BAR.append("g")
+    let myBar = FRAME4.append("g")
                           .selectAll("mybar")
                           .data(combined_filtered)
                           .enter()
@@ -465,7 +465,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
 
   // Add the above event listener to all bars
-  FRAME3_BAR.selectAll(".bar")
+  FRAME4.selectAll(".bar")
         .on("click", updateChart2)
 
 
@@ -522,19 +522,19 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   };
 
   // Add tooltip event listeners
-  FRAME3_SCATTER.selectAll(".mark")
+  FRAME5.selectAll(".mark")
         .on("mouseover", handleMouseover2)
         .on("mousemove", handleMousemove2)
         .on("mouseleave", handleMouseleave2);
 
-  FRAME3_BAR.selectAll(".bar")
+  FRAME4.selectAll(".bar")
         .on("mouseover", handleMouseover4)
         .on("mousemove", handleMousemove4)
         .on("mouseleave", handleMouseleave4);
   });
 
   // Add vertical line at x=0 
-  FRAME3_SCATTER.append("line")
+  FRAME5.append("line")
   .attr("x1", x4(0.78))
   .attr("y1", 0)
   .attr("x2", x4(0.78))
@@ -542,6 +542,28 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   .attr("stroke", "black")
   .attr("stroke-dasharray", "5,5")
   .attr("fill", "none");
+
+  // Create a legend
+  const LEGEND2 = d3.select("#legend2")
+                    .append("svg")
+                    .attr("height", FRAME_HEIGHT)
+                    .attr("width", FRAME_WIDTH/2);
+
+  // Points for the legend
+  LEGEND2.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "gold").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "red").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "orange").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "green").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "indigo").attr("class", "mark");
+
+  // Text for the legend
+  LEGEND2.append("text").attr("x", 20).attr("y", 55).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
+  LEGEND2.append("text").attr("x", 20).attr("y", 75).text("Central").style("font-size", "15px").style("fill", "black");
+  LEGEND2.append("text").attr("x", 20).attr("y", 95).text("Connecticut River").style("font-size", "15px").style("fill", "black");
+  LEGEND2.append("text").attr("x", 20).attr("y", 115).text("Northeast").style("font-size", "15px").style("fill", "black");
+  LEGEND2.append("text").attr("x", 20).attr("y", 135).text("Southeast").style("font-size", "15px").style("fill", "black");
+  LEGEND2.append("text").attr("x", 20).attr("y", 155).text("Western").style("font-size", "15px").style("fill", "black");
 
 
         
@@ -558,7 +580,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                      .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
-  const xAxis3 = FRAME4.append("g") 
+  const xAxis3 = FRAME2.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(x3).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
@@ -567,20 +589,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  const yAxis3 = FRAME4.append("g")       
+  const yAxis3 = FRAME2.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(y3).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
-  FRAME4.append("text")
+  FRAME2.append("text")
     .attr("x", MARGINS.left + VIS_WIDTH/2)
     .attr("y", VIS_HEIGHT + 90)
     .text("Drought Severity (SPI)")
     .attr("class", "axes");
       
   // Label the y axis 
-  FRAME4.append("text")
+  FRAME2.append("text")
     .attr("x", MARGINS.left - 50)
     .attr("y", VIS_HEIGHT - 100)
     .attr("transform", "translate(-290, 250)rotate(-90)")
@@ -588,7 +610,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("class", "axes");
 
   // Plot points on scatter plot
-  let myPoint3 = FRAME4.append("g")
+  let myPoint3 = FRAME2.append("g")
                        .selectAll("points")  
                        .data(combined)  
                        .enter()       
@@ -604,7 +626,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Tooltip
 
   // Create tooltip
-  const TOOLTIP3 = d3.select("#vis3")
+  const TOOLTIP3 = d3.select("#scatter")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
@@ -632,7 +654,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   };
 
   // Add tooltip event listeners
-  FRAME4.selectAll(".mark")
+  FRAME2.selectAll(".mark")
         .on("mouseover", handleMouseover3)
         .on("mousemove", handleMousemove3)
         .on("mouseleave", handleMouseleave3); 
@@ -697,7 +719,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     selected_year = updateYear1();
 
     // reset the scatter plot so that no points appear
-    FRAME4.selectAll(".mark")
+    FRAME2.selectAll(".mark")
           .attr("display", "none");
 
     // Show data pertaining to years with checked boxes
@@ -706,7 +728,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       for (let j = 0; j < shown_regions2.length; j++) {
         // Show data pertaining to months with checked boxes
         for (let k = 0; k < shown_months.length; k++)
-      FRAME4.selectAll(".mark")
+      FRAME2.selectAll(".mark")
           // show all the points that should be shown
           .filter(function(d) { return d.Year == shown_years[i]; })
           .filter(function(d) { return d["Drought Region"] == shown_regions2[j]; })

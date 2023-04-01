@@ -60,9 +60,9 @@
         <!-- Create separate section for content (visualization) of webpage -->
         <div class="container">
             <div class="child1">
-                <!-- Legend for the visualization -->
+                <!-- Legend for the visualizations above the map -->
                 <div id="legend1">
-                    <!-- Add checkbox filter for regions -->
+                    <!-- Add checkbox filter for regions for the visualizations above the map-->
                     <div class="region-filter">
                         <p>Filter Plots by Region: </p>
                         <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label>
@@ -79,7 +79,7 @@
             <!-- Create the section that contains a line chart and scatterplot in the same row -->
             <div class="lineAndScatter">
                 <!-- Create the section that contains the line chart -->
-                <div id="vis1">
+                <div id="line">
                     <!-- Add chart title -->
                     <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
 
@@ -89,9 +89,10 @@
                         <select name="check" id="selectYear1"></select>
                     </div> 
 
+                    <!-- Create a button that allows data to be shown on the line chart when clicked -->
                     <div>   
                         <p>
-                            <button id="btn1">Get Selected Year and Region(s)</button>
+                            <button id="btn1">Get Data for Selected Year and Region(s)</button>
                         </p>
                     </div>
                     <!-- Get the two charts in the first row to align evenly -->
@@ -103,8 +104,8 @@
                     <br>
                 </div>    
             
-                <!-- Create the section that contains the scatter graph-->
-                <div id="vis3">
+                <!-- Create the section that contains the scatter graph in the first row-->
+                <div id="scatter">
                     <!-- Add chart title -->
                     <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
                
@@ -133,6 +134,7 @@
                         <label for="December"><input type="checkbox" name="check3" value="DEC" id="December" class="month-button">DEC</label> 
                     </div>
                     <div>   
+                        <!-- Add a button that allows data to be shown on the scatter chart -->
                         <p>
                             <button id="btn3">Get Data for the Selected Year(s), Region(s), and Month(s)</button>
                         </p>
@@ -144,24 +146,30 @@
                 <div id="map"></div>
             </div>  
         </div>
-        <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing -->
+        <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing and clicking-->
         <div class="link">
                 <div class="year-filter2">
-                    <p>Filter Bars by Year: </p>
+                    <!-- Create a drop down menu that allows users to filter the charts by year -->
+                    <p>Filter Charts by Year: </p>
                         <select id="selectYear2">
                             <option>2017</option>
                             <option>2018</option>
                             <option>2019</option>
                         </select>
                     <p>
-                        <button id="btn2">Get Data for the Selected Year(s)</button>
+                        <!-- Create a button that allows users to see data presented on the 2 charts -->
+                        <button id="btn2">Get Data for the Selected Year</button>
+                        <!-- Add a legend beside the 2 charts -->
+                        <div id="legend2"></div>
                     </p>
                 </div>
                 <div id="link1">
+                    <!-- Add a title and linking directions above the bar chart -->
                     <h4 class="centered">Annual Precipitation for Each Region</h4>
                     <p class="centered">Click on a bar to highlight points that represent the same region</p>
                 </div>
                 <div id="link2">
+                    <!-- Add a title and linking directions above the scatter plot -->
                     <h4 class="centered">Precipitation vs. SPI</h4>
                     <p class="centered">Brush over points to highlight bars that represent the same region</p>
                 </div>
@@ -169,6 +177,7 @@
     </div>
 
     <div>
+        <!-- Citing the additional resources used to complete this assignment -->
         <h2>Acknowledgements</h2>
         <ul>
             <li><a href="https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js">How to Filter Data with D3.js</a></li>
