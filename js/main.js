@@ -254,6 +254,183 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove1)
         .on("mouseleave", handleMouseleave1); 
 
+  // Set up precipitation vs. drought level scatterplot - this one allows users to filter by year, month, and region
+
+  // Find min SPI (x) value
+  const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.x); });
+
+  // Find max SPI (x) value
+  const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.x); });
+
+  // Scale SPI for the x-axis
+  const x3 = d3.scaleLinear() 
+                     .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
+                     .range([0, VIS_WIDTH]); 
+
+  // Scale the precipitation values for the y-axis
+  const y3 = d3.scaleLinear()
+                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
+                     .range([VIS_HEIGHT, 0]);
+
+  // Add X axis  
+  const xAxis3 = FRAME2.append("g") 
+              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+              .call(d3.axisBottom(x3).tickFormat(d3.format("d"))) 
+              .attr("font-size", "10px")
+              .selectAll("text")
+                .attr("transform", "translate(2, 0)")
+                .style("text-anchor", "end");
+
+  // Add Y axis
+  const yAxis3 = FRAME2.append("g")       
+              .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
+              .call(d3.axisLeft(y3).ticks(20))
+              .attr("font-size", "10px");
+
+  // Label the x axis
+  FRAME2.append("text")
+    .attr("x", MARGINS.left + VIS_WIDTH/2)
+    .attr("y", VIS_HEIGHT + 90)
+    .text("Drought Severity (SPI)")
+    .attr("class", "axes");
+      
+  // Label the y axis 
+  FRAME2.append("text")
+    .attr("x", MARGINS.left - 50)
+    .attr("y", VIS_HEIGHT - 100)
+    .attr("transform", "translate(-290, 250)rotate(-90)")
+    .text("Precipitation (inches)")
+    .attr("class", "axes");
+
+  // Plot points on scatter plot
+  let myPoint3 = FRAME2.append("g")
+                       .selectAll("points")  
+                       .data(combined)  
+                       .enter()       
+                       .append("circle")  
+                       .attr("cx", (d) => { return (x3(d.x) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (y3(d.Precipitation) + MARGINS.top); }) 
+                       .attr("r", 5)
+                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                       .attr("class", "mark")
+                       // Make all the points non-visible first
+                       .attr("display", "none");
+
+  // Tooltip
+
+  // Create tooltip
+  const TOOLTIP2= d3.select("#scatter")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    // Make it nonvisible at first
+                    .style("opacity", 0); 
+
+  // Event handler
+  function handleMouseover2(event, d) {
+    // on mouseover, make opaque 
+    TOOLTIP2.style("opacity", 1); 
+  }
+
+  // Event handler
+  function handleMousemove2(event, d) {
+   // position the tooltip and fill in information 
+   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+           .style("left", (event.pageX + 50) + "px") //add offset
+                                                       // from mouse
+           .style("top", (event.pageY - 30) + "px"); 
+  };
+
+  // Event handler
+  function handleMouseleave2(event, d) {
+    // on mouseleave, make the tooltip transparent again 
+    TOOLTIP2.style("opacity", 0); 
+  };
+
+  // Add tooltip event listeners
+  FRAME2.selectAll(".mark")
+        .on("mouseover", handleMouseover2)
+        .on("mousemove", handleMousemove2)
+        .on("mouseleave", handleMouseleave2); 
+
+  // initialize empty arrays for the years to be represented in plot 3 as well as the regions and months to be represented in all 3 plots
+  let shown_years = [];
+  let shown_regions2 = [];
+  let shown_months = [];
+        
+  // Filter the scatter plot by selected year(s)
+  d3.selectAll(".year-button").on("change", function () {
+    // retrieve the year associated with the checked/unchecked box
+    let selected_year = this.value, 
+    // determine whether the box is checked or unchecked
+    display = this.checked ? year_display = "inline" : year_display = "none";
+
+    // store the data for years associated with checked boxes
+    if (year_display == "inline" && shown_years.includes(selected_year) == false){
+      shown_years.push(selected_year);
+    // omitting to plot data for years associated with unchecked boxes
+    } else if (year_display == "none" && shown_years.includes(selected_year)){
+        year_index = shown_year.indexOf(selected_year);
+        shown_years.splice(year_index, 1);
+    };
+  });
+
+  // Filter plot by selected region(s)
+  d3.selectAll(".region-button3").on("change", function () {
+    // retrieve the region associated with the checked/unchecked box
+    let selected_region = this.value, 
+    // determine whether the box is checked or unchecked
+    display2 = this.checked ? region_display = "inline" : region_display = "none";
+
+    // store the data for regions associated with checked boxes
+    if (region_display == "inline" && shown_regions2.includes(selected_region) == false){
+      shown_regions2.push(selected_region);
+    // store the data for regions associated with unchecked boxes
+    } else if (region_display == "none" && shown_regions2.includes(selected_region)){
+        region_index = shown_regions2.indexOf(selected_region);
+        shown_regions2.splice(region_index, 1);
+    };
+  });
+
+  // Filter plot by selected month(s)
+  d3.selectAll(".month-button").on("change", function () {
+    // retrieve the month associated with the checked/unchecked box
+    let selected_month = this.value, 
+    // determine whether the box is checked or unchecked
+    display3 = this.checked ? month_display = "inline" : month_display = "none";
+
+    // store the data for months associated with checked boxes
+    if (month_display == "inline" && shown_months.includes(selected_month) == false){
+      shown_months.push(selected_month);
+    // omitting to plot the data for months associated with unchecked boxes
+    } else if (month_display == "none" && shown_months.includes(selected_month)){
+        month_index = shown_months.indexOf(selected_month);
+        shown_months.splice(month_index, 1);
+    };
+  });
+    
+  d3.select("#btn3").on("click", function() {
+    selected_year = updateYear1();
+
+    // reset the scatter plot so that no points appear
+    FRAME2.selectAll(".mark")
+          .attr("display", "none");
+
+    // Show data pertaining to years with checked boxes
+    for (let i = 0; i < shown_years.length; i++) {
+      // Show data pertaining to regions with checked boxes
+      for (let j = 0; j < shown_regions2.length; j++) {
+        // Show data pertaining to months with checked boxes
+        for (let k = 0; k < shown_months.length; k++)
+      FRAME2.selectAll(".mark")
+          // show all the points that should be shown
+          .filter(function(d) { return d.Year == shown_years[i]; })
+          .filter(function(d) { return d["Drought Region"] == shown_regions2[j]; })
+          .filter(function(d) { return d.Month == shown_months[k]; })
+          .attr("display", "inline");
+      };
+    };
+    });
+
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
    d3.json("data/massachusetts.geojson").then((massmap) => {
@@ -342,12 +519,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("class", "axes");
 
   // Scatterplot showing precipitation (y axis) vs spi (x axis) - used to link with the bar plot above
-
-  // Find min SPI (x) value
-  const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.x); });
-
-  // Find max SPI (x) value
-  const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.x); });
 
   // Scale SPI for the x-axis
   const x4 = d3.scaleLinear() 
@@ -472,7 +643,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Tooltips
 
   // Create tooltip for the bar chart
-  const TOOLTIP2 = d3.select("#link1")
+  const TOOLTIP3 = d3.select("#link1")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
@@ -486,9 +657,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                     .style("opacity", 0); 
 
   // Event handlers
-  function handleMouseover2(event, d) {
+  function handleMouseover3(event, d) {
     // on mouseover, make opaque 
-    TOOLTIP2.style("opacity", 1);
+    TOOLTIP3.style("opacity", 1);
   };
   function handleMouseover4(event, d) {
     // on mouseover, make opaque 
@@ -496,9 +667,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   };
 
   // Event handlers
-  function handleMousemove2(event, d) {
+  function handleMousemove3(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year)
+   TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
@@ -512,9 +683,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   };
 
   // Event handlers
-  function handleMouseleave2(event, d) {
+  function handleMouseleave3(event, d) {
     // on mouseleave, make the tooltip transparent again 
-    TOOLTIP2.style("opacity", 0); 
+    TOOLTIP3.style("opacity", 0); 
   };
   function handleMouseleave4(event, d) {
     // on mouseleave, make the tooltip transparent again 
@@ -523,9 +694,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Add tooltip event listeners
   FRAME5.selectAll(".mark")
-        .on("mouseover", handleMouseover2)
-        .on("mousemove", handleMousemove2)
-        .on("mouseleave", handleMouseleave2);
+        .on("mouseover", handleMouseover3)
+        .on("mousemove", handleMousemove3)
+        .on("mouseleave", handleMouseleave3);
 
   FRAME4.selectAll(".bar")
         .on("mouseover", handleMouseover4)
@@ -564,179 +735,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   LEGEND2.append("text").attr("x", 20).attr("y", 115).text("Northeast").style("font-size", "15px").style("fill", "black");
   LEGEND2.append("text").attr("x", 20).attr("y", 135).text("Southeast").style("font-size", "15px").style("fill", "black");
   LEGEND2.append("text").attr("x", 20).attr("y", 155).text("Western").style("font-size", "15px").style("fill", "black");
-
-
-        
-  // Set up precipitation vs. drought level scatterplot - this one allows users to filter by year, month, and region
-
-  // Scale SPI for the x-axis
-  const x3 = d3.scaleLinear() 
-                     .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
-                     .range([0, VIS_WIDTH]); 
-
-  // Scale the precipitation values for the y-axis
-  const y3 = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                     .range([VIS_HEIGHT, 0]);
-
-  // Add X axis  
-  const xAxis3 = FRAME2.append("g") 
-              .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x3).tickFormat(d3.format("d"))) 
-              .attr("font-size", "10px")
-              .selectAll("text")
-                .attr("transform", "translate(2, 0)")
-                .style("text-anchor", "end");
-
-  // Add Y axis
-  const yAxis3 = FRAME2.append("g")       
-              .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y3).ticks(20))
-              .attr("font-size", "10px");
-
-  // Label the x axis
-  FRAME2.append("text")
-    .attr("x", MARGINS.left + VIS_WIDTH/2)
-    .attr("y", VIS_HEIGHT + 90)
-    .text("Drought Severity (SPI)")
-    .attr("class", "axes");
-      
-  // Label the y axis 
-  FRAME2.append("text")
-    .attr("x", MARGINS.left - 50)
-    .attr("y", VIS_HEIGHT - 100)
-    .attr("transform", "translate(-290, 250)rotate(-90)")
-    .text("Precipitation (inches)")
-    .attr("class", "axes");
-
-  // Plot points on scatter plot
-  let myPoint3 = FRAME2.append("g")
-                       .selectAll("points")  
-                       .data(combined)  
-                       .enter()       
-                       .append("circle")  
-                       .attr("cx", (d) => { return (x3(d.x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y3(d.Precipitation) + MARGINS.top); }) 
-                       .attr("r", 5)
-                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
-                       .attr("class", "mark")
-                       // Make all the points non-visible first
-                       .attr("display", "none");
-
-  // Tooltip
-
-  // Create tooltip
-  const TOOLTIP3 = d3.select("#scatter")
-                    .append("div")
-                    .attr("class", "tooltip")
-                    // Make it nonvisible at first
-                    .style("opacity", 0); 
-
-  // Event handler
-  function handleMouseover3(event, d) {
-    // on mouseover, make opaque 
-    TOOLTIP3.style("opacity", 1); 
-  }
-
-  // Event handler
-  function handleMousemove3(event, d) {
-   // position the tooltip and fill in information 
-   TOOLTIP3.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
-           .style("left", (event.pageX + 50) + "px") //add offset
-                                                       // from mouse
-           .style("top", (event.pageY - 30) + "px"); 
-  };
-
-  // Event handler
-  function handleMouseleave3(event, d) {
-    // on mouseleave, make the tooltip transparent again 
-    TOOLTIP3.style("opacity", 0); 
-  };
-
-  // Add tooltip event listeners
-  FRAME2.selectAll(".mark")
-        .on("mouseover", handleMouseover3)
-        .on("mousemove", handleMousemove3)
-        .on("mouseleave", handleMouseleave3); 
-
-  // initialize empty arrays for the years to be represented in plot 3 as well as the regions and months to be represented in all 3 plots
-  let shown_years = [];
-  let shown_regions2 = [];
-  let shown_months = [];
-        
-  // Filter the scatter plot by selected year(s)
-  d3.selectAll(".year-button").on("change", function () {
-    // retrieve the year associated with the checked/unchecked box
-    let selected_year = this.value, 
-    // determine whether the box is checked or unchecked
-    display = this.checked ? year_display = "inline" : year_display = "none";
-
-    // store the data for years associated with checked boxes
-    if (year_display == "inline" && shown_years.includes(selected_year) == false){
-      shown_years.push(selected_year);
-    // omitting to plot data for years associated with unchecked boxes
-    } else if (year_display == "none" && shown_years.includes(selected_year)){
-        year_index = shown_year.indexOf(selected_year);
-        shown_years.splice(year_index, 1);
-    };
-  });
-
-  // Filter plot by selected region(s)
-  d3.selectAll(".region-button3").on("change", function () {
-    // retrieve the region associated with the checked/unchecked box
-    let selected_region = this.value, 
-    // determine whether the box is checked or unchecked
-    display2 = this.checked ? region_display = "inline" : region_display = "none";
-
-    // store the data for regions associated with checked boxes
-    if (region_display == "inline" && shown_regions2.includes(selected_region) == false){
-      shown_regions2.push(selected_region);
-    // store the data for regions associated with unchecked boxes
-    } else if (region_display == "none" && shown_regions2.includes(selected_region)){
-        region_index = shown_regions2.indexOf(selected_region);
-        shown_regions2.splice(region_index, 1);
-    };
-  });
-
-  // Filter plot by selected month(s)
-  d3.selectAll(".month-button").on("change", function () {
-    // retrieve the month associated with the checked/unchecked box
-    let selected_month = this.value, 
-    // determine whether the box is checked or unchecked
-    display3 = this.checked ? month_display = "inline" : month_display = "none";
-
-    // store the data for months associated with checked boxes
-    if (month_display == "inline" && shown_months.includes(selected_month) == false){
-      shown_months.push(selected_month);
-    // omitting to plot the data for months associated with unchecked boxes
-    } else if (month_display == "none" && shown_months.includes(selected_month)){
-        month_index = shown_months.indexOf(selected_month);
-        shown_months.splice(month_index, 1);
-    };
-  });
-    
-  d3.select("#btn3").on("click", function() {
-    selected_year = updateYear1();
-
-    // reset the scatter plot so that no points appear
-    FRAME2.selectAll(".mark")
-          .attr("display", "none");
-
-    // Show data pertaining to years with checked boxes
-    for (let i = 0; i < shown_years.length; i++) {
-      // Show data pertaining to regions with checked boxes
-      for (let j = 0; j < shown_regions2.length; j++) {
-        // Show data pertaining to months with checked boxes
-        for (let k = 0; k < shown_months.length; k++)
-      FRAME2.selectAll(".mark")
-          // show all the points that should be shown
-          .filter(function(d) { return d.Year == shown_years[i]; })
-          .filter(function(d) { return d["Drought Region"] == shown_regions2[j]; })
-          .filter(function(d) { return d.Month == shown_months[k]; })
-          .attr("display", "inline");
-      };
-    };
-    });
 
 });
 });
