@@ -57,6 +57,10 @@
 
     <div>
         <h2>Visualization</h2>
+
+        <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
+        <p>"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal.</p>
+
         <!-- Create separate section for content (visualization) of webpage -->
         <div class="container">
             <div class="child1">
@@ -72,6 +76,12 @@
                         <label for="Southeast"><input type="checkbox" name="check2" value="Southeast" class="region-button">Southeast</label>
                         <label for="Western"><input type="checkbox" name="check2" value="Western" class="region-button">Western</label>
                     </div>
+
+                    <br> 
+
+                    <!-- Add instructions for how to access the tooltip for the plots above the map-->
+                    <p1 class="centered">Hover over a point to see the data it represents.</p1>
+
                 </div>
             </div>
             
@@ -85,11 +95,10 @@
 
                     <!-- Add instructions for how to get data to show on the line chart and how to interact with it-->
                     <p1 class="centered">Select a region(s) on the left and a year in the drop down menu. Then, click on the button to see the corresponding data.</p1>
+
                     <br>
                     <br>
-                    <p1 class="centered">Hover over a point to see the data it represents.</p1>
-                    <br>
-                    <br>
+
                     <p1 class="centered">Note that some regions lack data for certain years, so not all 6 lines will show for each year.</p1>
 
                     <!-- Add drop down menu filter for years -->
@@ -121,13 +130,9 @@
                     <!-- Add instructions for how to get data to show on the scatter plot and how to interact with it-->
                     <p1 class="centered">Select a region(s) on the left and year(s) and month(s) in the checkboxes. Then, click on the button to see the corresponding data.</p1>
 
-                    <br>
-                    <br>
-
-                    <p1 class="centered">Hover over a point to see the data it represents.</p1>
                
                     <!-- Add checkbox filter for years -->
-                    <div class="year-filter3">
+                    <div class="year-filter2">
                         <p>Filter by Year: </p>
                         <label for="17"><input type="checkbox" name="check3" value="2017" class="year-button">2017</label>
                         <label for="18"><input type="checkbox" name="check3" value="2018" class="year-button">2018</label>
@@ -153,7 +158,7 @@
                     <div>   
                         <!-- Add a button that allows data to be shown on the scatter chart -->
                         <p>
-                            <button id="btn3">Get Data for the Selected Year(s), Region(s), and Month(s)</button>
+                            <button id="btn2">Get Data for the Selected Year(s), Region(s), and Month(s)</button>
                         </p>
                     </div>
                 </div>
@@ -165,7 +170,7 @@
         </div>
         <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing and clicking-->
         <div class="link">
-                <div class="year-filter2">
+                <div class="year-filter3">
                     <!-- Create a drop down menu that allows users to filter the charts by year -->
                     <p>Filter Charts by Year: </p>
                         <select id="selectYear2">
@@ -174,8 +179,14 @@
                             <option>2019</option>
                         </select>
                     <p>
+
+                    <!-- Add instructions for accessing the tooltip -->
+                    <p1>Hover over a chart element to see the data it represents</p1>
+                    <br>
+                    <br>
+
                         <!-- Create a button that allows users to see data presented on the 2 charts -->
-                        <button id="btn2">Get Data for the Selected Year</button>
+                        <button id="btn3">Get Data for the Selected Year</button>
                         <!-- Add a legend beside the 2 charts -->
                         <div id="legend2"></div>
                     </p>
@@ -183,12 +194,12 @@
                 <div id="link1">
                     <!-- Add a title and linking directions above the bar chart -->
                     <h4 class="centered">Annual Precipitation for Each Region</h4>
-                    <p class="centered">Click on a bar to highlight points that represent the same region</p>
+                    <p class="centered">Click on a bar to highlight points that represent the same region.</p>
                 </div>
                 <div id="link2">
                     <!-- Add a title and linking directions above the scatter plot -->
                     <h4 class="centered">Precipitation vs. SPI</h4>
-                    <p class="centered">Brush over points to highlight bars that represent the same region</p>
+                    <p class="centered">Brush over points to highlight bars that represent the same region.</p>
                 </div>
         </div>
     </div>

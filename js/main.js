@@ -1,3 +1,11 @@
+// Function that allows user to filter data by year through drop down menus
+function updateYear (menuId) {
+    // retrieve the year chosen by the user from the drop down menu
+    let yearMenu = document.getElementById(menuId);
+    let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
+    return selected_year;
+  };
+
 // Set frame dimensions for visualizations
 const FRAME_HEIGHT = 500;
 const FRAME_WIDTH = 500; 
@@ -9,14 +17,14 @@ const MARGINS = {left: 50, right: 50, top: 50, bottom: 50};
 const VIS_HEIGHT = FRAME_HEIGHT - MARGINS.top - MARGINS.bottom;
 const VIS_WIDTH = FRAME_WIDTH - MARGINS.left - MARGINS.right; 
 
-// Create frame for the line chart 
+// Create frame for the line chart above the map
 const FRAME1 = d3.select("#line")
                  .append("svg")
                  .attr("height", FRAME_HEIGHT)
                  .attr("width", FRAME_WIDTH)
                  .attr("class", "frame"); 
 
-// Create frame for scatterplot
+// Create frame for scatterplot above the map
 const FRAME2 = d3.select("#scatter")
                  .append("svg")
                  .attr("height", FRAME_HEIGHT)
@@ -50,6 +58,7 @@ const LEGEND1 = d3.select("#legend1")
                   .attr("height", FRAME_HEIGHT)
                   .attr("width", FRAME_WIDTH);
 
+
 // Points for the legend
 LEGEND1.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
 LEGEND1.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "gold").attr("class", "mark");
@@ -81,21 +90,21 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Find max precipitation (y) value
   const MAX_PRECIP = d3.max(precipitation, (d) => { return parseFloat(d.Precipitation); });
 
-  // Set x axis labels
-  const x = d3.scaleBand()
-              .range([0, VIS_WIDTH])
-              .domain(precipitation.map((d) => { return d.Month; }))
-              .padding(0.2);
+  // Scale the months for the x-axis
+  const MONTH_SCALE = d3.scaleBand()
+                        .range([0, VIS_WIDTH])
+                        .domain(precipitation.map((d) => { return d.Month; }))
+                        .padding(0.2);
 
   // Scale the precipitation values for the y-axis
-  const y = d3.scaleLinear()
-                .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                .range([VIS_HEIGHT, 0]);
+  const PRECIP_SCALE1 = d3.scaleLinear()
+                          .domain([0, (MAX_PRECIP + 1)]) // add some padding
+                          .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
-  let xAxis = FRAME1.append("g") 
+  let xAxis1 = FRAME1.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x)) 
+              .call(d3.axisBottom(MONTH_SCALE)) 
               .attr("font-size", "10px")
               .attr("class", "x axis")
               .selectAll("text")
@@ -103,9 +112,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  let yAxis = FRAME1.append("g")       
+  let yAxis1 = FRAME1.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y).ticks(20))
+              .call(d3.axisLeft(PRECIP_SCALE1).ticks(20))
               .attr("font-size", "10px")
               .attr("class", "y axis");
 
@@ -126,7 +135,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("class", "axes");
   
   // Set color of the points based on region
-  const region_color = d3.scaleOrdinal()
+  const REGION_COLOR = d3.scaleOrdinal()
     .domain(["Connecticut River", "Northeast", "Central", "Southeast", "Western", "Cape Cod and Islands"])
     .range(["red", "orange", "gold", "green", "indigo", "magenta"]);
 
@@ -136,10 +145,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .data(precipitation)  
                        .enter()       
                        .append("circle")  
-                       .attr("cx", (d) => { return (x(d.Month) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y(d.Precipitation) + MARGINS.top); }) 
+                       .attr("cx", (d) => { return (MONTH_SCALE(d.Month) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
                        .attr("r", 3)
-                       .attr("fill", (d) => { return region_color(d.Region); })
+                       .attr("fill", (d) => { return REGION_COLOR(d.Region); })
+                       // hide all the points first
+                       .attr("display", "none")
                        .attr("transform", "translate(13, 0)")
                        .style("opacity", 0.5)
                        .attr("class", "mark");
@@ -150,12 +161,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   for(let i=1838; i<=2019 ; i++) yearOptions += `<option>${i}</option>`;
   document.querySelector("[name=check]").innerHTML = yearOptions;
 
-  function updateYear1 () {
-    // retrieve the year chosen by the user from the drop down menu
-    let yearMenu = document.getElementById("selectYear1");
-    let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
-    return selected_year;
-  };
+  // Intialize and array that contains the regions represented in the plots above the map
+  let shown_regions = [];
 
   // Filter plot by selected region(s)
   d3.selectAll(".region-button").on("change", function () {
@@ -165,21 +172,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     display2 = this.checked ? region_display = "inline" : region_display = "none";
 
     // store the data for regions associated with checked boxes
-    if (region_display == "inline" && shown_regions2.includes(selected_region) == false){
-      shown_regions2.push(selected_region);
-    // store the data for regions associated with unchecked boxes
-    } else if (region_display == "none" && shown_regions2.includes(selected_region)){
-        region_index = shown_regions2.indexOf(selected_region);
-        shown_regions2.splice(region_index, 1);
+    if (region_display == "inline" && shown_regions.includes(selected_region) == false){
+      shown_regions.push(selected_region);
+    // not plotting data for regions associated with unchecked boxes
+    } else if (region_display == "none" && shown_regions.includes(selected_region)){
+        region_index = shown_regions.indexOf(selected_region);
+        shown_regions.splice(region_index, 1);
     };
   });
 
-  // List of groups (here I have one group per column)
-  let allRegions = precipitation.map((d) => { return d.Region; });
-
-  // retrieve the year selected by the user in the drop down menu for the line chart
+  // Update the line chart to reflect user-specified input each time a button is clicked
   d3.select("#btn1").on("click", function() {
-    let selected_year1 = updateYear1();
+
+    // retrieve the year selected by the user in the drop down menu for the line chart
+    let selected_year1 = updateYear("selectYear1");
 
     // reset the plot so that no points or lines appear
     FRAME1.selectAll(".mark")
@@ -189,8 +195,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
           .attr("display", "none");
 
       // Show data pertaining to regions with checked boxes
-      for (let j = 0; j < shown_regions2.length; j++) {
-        let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions2[j]; })
+      for (let j = 0; j < shown_regions.length; j++) {
+        let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions[j]; })
                                       .filter(function(d) { return d.YEAR == selected_year1; });
 
         // show lines for each checked region
@@ -198,25 +204,23 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                          .append("path")
                          .datum(lineFilter)
                          .attr("d", d3.line()
-                            .x(function(d) { return (x(d.Month) + MARGINS.left); })
-                            .y(function(d) { return (y(d.Precipitation) + MARGINS.top); })
+                            .x(function(d) { return (MONTH_SCALE(d.Month) + MARGINS.left); })
+                            .y(function(d) { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); })
                             )
-                         .attr("stroke", (d) => { return region_color(shown_regions2[j]); })
+                         .attr("stroke", (d) => { return REGION_COLOR(shown_regions[j]); })
                          .attr("transform", "translate(13, 0)")
                          .style("stroke-width", 2)
                          .style("fill", "none")
                          .style("opacity", 0.5)
-                         .attr("class", "line")
+                         .attr("class", "line");
 
         FRAME1.selectAll(".mark")
-          // Show data pertaining to the selected year from the dropbox menu
+          // Show dots pertaining to the selected year from the dropbox menu
           .filter(function(d) { return d.YEAR == selected_year1; })
-          .filter(function(d) { return d.Region == shown_regions2[j]; })
+          .filter(function(d) { return d.Region == shown_regions[j]; })
           .attr("display", "inline");
     };
   });
-
-  // Tooltip
 
   // Create tooltip
   const TOOLTIP1 = d3.select("#line")
@@ -252,37 +256,32 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove1)
         .on("mouseleave", handleMouseleave1); 
 
-  // Set up precipitation vs. drought level scatterplot - this one allows users to filter by year, month, and region
+  // Set up precipitation vs. drought level scatterplot - this one allows users to filter the data by year, month, and region
 
-  // Find min SPI (x) value
+  // Find min SPI value
   const MIN_DROUGHT = d3.min(combined, (d) => { return parseFloat(d.x); });
 
-  // Find max SPI (x) value
+  // Find max SPI value
   const MAX_DROUGHT = d3.max(combined, (d) => { return parseFloat(d.x); });
 
   // Scale SPI for the x-axis
-  const x3 = d3.scaleLinear() 
-                     .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
-                     .range([0, VIS_WIDTH]); 
-
-  // Scale the precipitation values for the y-axis
-  const y3 = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                     .range([VIS_HEIGHT, 0]);
+  const SPI_SCALE = d3.scaleLinear() 
+                      .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
+                      .range([0, VIS_WIDTH]); 
 
   // Add X axis  
-  const xAxis3 = FRAME2.append("g") 
+  const xAxis2 = FRAME2.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x3).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(2, 0)")
                 .style("text-anchor", "end");
 
   // Add Y axis
-  const yAxis3 = FRAME2.append("g")       
+  const yAxis2 = FRAME2.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y3).ticks(20))
+              .call(d3.axisLeft(PRECIP_SCALE1).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
@@ -301,20 +300,18 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .attr("class", "axes");
 
   // Plot points on scatter plot
-  let myPoint3 = FRAME2.append("g")
+  let myPoint2 = FRAME2.append("g")
                        .selectAll("points")  
                        .data(combined)  
                        .enter()       
                        .append("circle")  
-                       .attr("cx", (d) => { return (x3(d.x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (y3(d.Precipitation) + MARGINS.top); }) 
+                       .attr("cx", (d) => { return (SPI_SCALE(d.x) + MARGINS.left); }) 
+                       .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
                        .attr("r", 5)
-                       .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                       .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
                        .attr("class", "mark")
                        // Make all the points non-visible first
                        .attr("display", "none");
-
-  // Tooltip
 
   // Create tooltip
   const TOOLTIP2= d3.select("#scatter")
@@ -350,9 +347,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
         .on("mousemove", handleMousemove2)
         .on("mouseleave", handleMouseleave2); 
 
-  // initialize empty arrays for the years to be represented in plot 3 as well as the regions and months to be represented in all 3 plots
+  // initialize empty arrays for the years and months to be represented in the scatter plot
   let shown_years = [];
-  let shown_regions2 = [];
   let shown_months = [];
         
   // Filter the scatter plot by selected year(s)
@@ -369,23 +365,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     } else if (year_display == "none" && shown_years.includes(selected_year)){
         year_index = shown_year.indexOf(selected_year);
         shown_years.splice(year_index, 1);
-    };
-  });
-
-  // Filter plot by selected region(s)
-  d3.selectAll(".region-button3").on("change", function () {
-    // retrieve the region associated with the checked/unchecked box
-    let selected_region = this.value, 
-    // determine whether the box is checked or unchecked
-    display2 = this.checked ? region_display = "inline" : region_display = "none";
-
-    // store the data for regions associated with checked boxes
-    if (region_display == "inline" && shown_regions2.includes(selected_region) == false){
-      shown_regions2.push(selected_region);
-    // store the data for regions associated with unchecked boxes
-    } else if (region_display == "none" && shown_regions2.includes(selected_region)){
-        region_index = shown_regions2.indexOf(selected_region);
-        shown_regions2.splice(region_index, 1);
     };
   });
 
@@ -406,8 +385,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     };
   });
     
-  d3.select("#btn3").on("click", function() {
-    selected_year = updateYear1();
+  d3.select("#btn2").on("click", function() {
 
     // reset the scatter plot so that no points appear
     FRAME2.selectAll(".mark")
@@ -416,13 +394,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     // Show data pertaining to years with checked boxes
     for (let i = 0; i < shown_years.length; i++) {
       // Show data pertaining to regions with checked boxes
-      for (let j = 0; j < shown_regions2.length; j++) {
+      for (let j = 0; j < shown_regions.length; j++) {
         // Show data pertaining to months with checked boxes
         for (let k = 0; k < shown_months.length; k++)
       FRAME2.selectAll(".mark")
           // show all the points that should be shown
           .filter(function(d) { return d.Year == shown_years[i]; })
-          .filter(function(d) { return d["Drought Region"] == shown_regions2[j]; })
+          .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
           .filter(function(d) { return d.Month == shown_months[k]; })
           .attr("display", "inline");
       };
@@ -432,6 +410,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
    d3.json("data/massachusetts.geojson").then((massmap) => {
+
+     console.log(massmap);
+     
      let map = L.map('map');
      map.createPane('labels');
 
@@ -456,15 +437,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
      map.fitBounds(geojson.getBounds());
  });
 
-  function updateYear2 () {
-    // retrieve the year chosen by the user from the drop down menu
-    let yearMenu = document.getElementById("selectYear2");
-    let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
-    return selected_year;
-  };
 
 
-  // Bar chart showing precipitation values per region - used to link with the scatterplot below of spi vs precipitation
+  // Bar chart showing precipitation values per region - used to link with the scatterplot below of SPI vs. precipitation
 
   // Find the minimum annual precipitation (y) value
   const MIN_ANNUAL_PRECIP = d3.min(combined, (d) => { return parseFloat(d["Annual Precipitation"]); });
@@ -473,20 +448,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   const MAX_ANNUAL_PRECIP = d3.max(combined, (d) => { return parseFloat(d["Annual Precipitation"]); });
 
   // Scale X
-  let x2 = d3.scaleBand()
-                      .range([ 0, VIS_WIDTH ])
-                      .domain(combined.map(function(d) { return d["Drought Region"]; }))
-                      .padding(0.2);
+  let REGION_SCALE = d3.scaleBand()
+                       .range([ 0, VIS_WIDTH ])
+                       .domain(combined.map(function(d) { return d["Drought Region"]; }))
+                       .padding(0.2);
 
   // Scale Y
-  let y2 = d3.scaleLinear()
+  let PRECIP_SCALE2 = d3.scaleLinear()
                         .domain([MIN_ANNUAL_PRECIP - 10, MAX_ANNUAL_PRECIP])
                         .range([ VIS_HEIGHT, 0]);
 
   // Add X axis  
-  let xAxis2 = FRAME4.append("g") 
+  let xAxis3= FRAME4.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x2)) 
+              .call(d3.axisBottom(REGION_SCALE)) 
               .attr("font-size", "10px")
               .attr("class", "x axis")
               .selectAll("text")
@@ -494,9 +469,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  let yAxis2 = FRAME4.append("g")       
+  let yAxis3 = FRAME4.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y2).ticks(20))
+              .call(d3.axisLeft(PRECIP_SCALE2).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
@@ -516,22 +491,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     .text("Annual Precipitation (inches)")
     .attr("class", "axes");
 
-  // Scatterplot showing precipitation (y axis) vs spi (x axis) - used to link with the bar plot above
-
-  // Scale SPI for the x-axis
-  const x4 = d3.scaleLinear() 
-                     .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
-                     .range([0, VIS_WIDTH]); 
-
-  // Scale the precipitation values for the y-axis
-  const y4 = d3.scaleLinear()
-                     .domain([0, (MAX_PRECIP + 1)]) // add some padding
-                     .range([VIS_HEIGHT, 0]);
+  // Scatterplot showing precipitation (y axis) vs SPI (x axis) - used to link with the bar plot above
 
   // Add X axis  
   const xAxis4 = FRAME5.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(x4).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(2, 0)")
@@ -540,7 +505,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Add Y axis
   const yAxis4 = FRAME5.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-              .call(d3.axisLeft(y4).ticks(20))
+              .call(d3.axisLeft(PRECIP_SCALE1).ticks(20))
               .attr("font-size", "10px");
 
   // Label the x axis
@@ -560,13 +525,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
 
   // Display the points and bars that align with the filters chosen each time a button is clicked
-  d3.select("#btn2").on("click", function() {
+  d3.select("#btn3").on("click", function() {
 
     // Retrieve the year selected by the user
-    let selected_year3 = updateYear2();
+    let selected_year2 = updateYear("selectYear2");
 
     // Filter the combined SPI and precipitation data by the chosen year
-    let combined_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year3; });
+    let combined_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2; });
 
     // Reset the plot before projecting the new bars 
     FRAME4.selectAll("g rect")
@@ -582,15 +547,15 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                   .on("start brush", updateChart1)); // 'updateChart1' is triggered every time the brush window gets altered
 
     // Plot points on scatter plot for the selected regions
-    let myPoint4 = FRAME5.append("g")
+    let myPoint3 = FRAME5.append("g")
                          .selectAll("points")  
                          .data(combined_filtered)  
                          .enter()       
                          .append("circle")  
-                         .attr("cx", (d) => { return (x4(d.x) + MARGINS.left); }) 
-                         .attr("cy", (d) => { return (y4(d.Precipitation) + MARGINS.top); }) 
+                         .attr("cx", (d) => { return (SPI_SCALE(d.x) + MARGINS.left); }) 
+                         .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
                          .attr("r", 5)
-                         .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                         .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
                          .attr("opacity", 0.5)
                          .attr("class", "mark");
 
@@ -602,20 +567,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                           .enter()
                           .filter(function(d) { return d["Drought Region"]; })
                           .append("rect")
-                          .attr("x", (function(d) { return x2(d["Drought Region"]); }))
-                          .attr("y", (function(d) { return y2(d["Annual Precipitation"]); }))
+                          .attr("x", (function(d) { return REGION_SCALE(d["Drought Region"]); }))
+                          .attr("y", (function(d) { return PRECIP_SCALE2(d["Annual Precipitation"]); }))
                           .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
-                          .attr("width", x2.bandwidth())
-                          .attr("height", function(d) { return VIS_HEIGHT - y2(d["Annual Precipitation"]); })
+                          .attr("width", REGION_SCALE.bandwidth())
+                          .attr("height", function(d) { return VIS_HEIGHT - PRECIP_SCALE2(d["Annual Precipitation"]); })
                           .attr("opacity", 0.05)
-                          .attr("fill", (d) => { return region_color(d["Drought Region"]); })
+                          .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
                           .attr("class", "bar")
 
     // When points are brushed over in any plot, the aligned bars in the other plot get highlighted with a raised opacity and attain a blue border. 
     function updateChart1(event) {
       selection = event.selection;   
-      myPoint4.classed("selected", ((d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); }));
-      myBar.classed("selected", ((d) => { return isBrushed(selection, x4(d.x) + MARGINS.left, y4(d.Precipitation) + MARGINS.top ); }));
+      myPoint3.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE1(d.Precipitation) + MARGINS.top ); }));
+      myBar.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE2(d.Precipitation) + MARGINS.top ); }));
     };
 
     // Returns TRUE if a point is in the selection window, returns FALSE if it is not
@@ -629,7 +594,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // When a bar is clicked, the aligned points that represent the same region in the other plot get highlighted with a raised opacity and attain a blue border
     function updateChart2(event, d) {
-      myPoint4.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
+      myPoint3.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
       myBar.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
     };
 
@@ -704,9 +669,9 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Add vertical line at x=0 
   FRAME5.append("line")
-  .attr("x1", x4(0.78))
+  .attr("x1", SPI_SCALE(0.78))
   .attr("y1", 0)
-  .attr("x2", x4(0.78))
+  .attr("x2", SPI_SCALE(0.78))
   .attr("y2", VIS_HEIGHT + MARGINS.bottom)
   .attr("stroke", "black")
   .attr("stroke-dasharray", "5,5")
