@@ -141,8 +141,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
                        .attr("r", 3)
                        .attr("fill", (d) => { return region_color(d.Region); })
                        .attr("transform", "translate(13, 0)")
-                        // Make all the points non-visible first
-                       .attr("display", "none")
                        .style("opacity", 0.5)
                        .attr("class", "mark");
     

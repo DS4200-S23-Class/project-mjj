@@ -83,11 +83,21 @@
                     <!-- Add chart title -->
                     <h3 class="centered">Precipitation Over Selected Time and Regions</h3>
 
+                    <!-- Add instructions for how to get data to show on the line chart and how to interact with it-->
+                    <p1 class="centered">Select a region(s) on the left and a year in the drop down menu. Then, click on the button to see the corresponding data.</p1>
+                    <br>
+                    <br>
+                    <p1 class="centered">Hover over a point to see the data it represents.</p1>
+                    <br>
+                    <br>
+                    <p1 class="centered">Note that some regions lack data for certain years, so not all 6 lines will show for each year.</p1>
+
                     <!-- Add drop down menu filter for years -->
                     <div class="year-filter1">
                         <p>Filter by Year: </p>
                         <select name="check" id="selectYear1"></select>
                     </div> 
+
 
                     <!-- Create a button that allows data to be shown on the line chart when clicked -->
                     <div>   
@@ -95,19 +105,26 @@
                             <button id="btn1">Get Data for Selected Year and Region(s)</button>
                         </p>
                     </div>
-                    <!-- Get the two charts in the first row to align evenly -->
+
+                    <!-- Get the two charts above the map to align -->
                     <br>
                     <br>
                     <br>
-                    <br>
-                    <br>
-                    <br>
+
                 </div>    
             
                 <!-- Create the section that contains the scatter graph in the first row-->
                 <div id="scatter">
                     <!-- Add chart title -->
                     <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
+
+                    <!-- Add instructions for how to get data to show on the scatter plot and how to interact with it-->
+                    <p1 class="centered">Select a region(s) on the left and year(s) and month(s) in the checkboxes. Then, click on the button to see the corresponding data.</p1>
+
+                    <br>
+                    <br>
+
+                    <p1 class="centered">Hover over a point to see the data it represents.</p1>
                
                     <!-- Add checkbox filter for years -->
                     <div class="year-filter3">
