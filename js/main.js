@@ -90,6 +90,8 @@ const LEGEND1 = d3.select("#legend1")
                   .attr("height", FRAME_HEIGHT)
                   .attr("width", FRAME_WIDTH);
 
+const MASS_COORDS = { lat: 42.4072, lon: -71.3824}
+
 
 // Points for the legend
 LEGEND1.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
@@ -452,10 +454,15 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
     let cities = L.layerGroup([littleton, denver, aurora, golden]);
 
-     let map = L.map('map', {
+    let map = L.map('map', {
       minZoom: 7,
       maxZoom: 10
-     });
+    });
+
+    // Using setInterval to refresh map to get it centered
+    setInterval(function() {
+       map.invalidateSize();
+    }, 1);
 
      map.createPane('labels');
 
@@ -483,20 +490,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
      map.fitBounds(geojson.getBounds());
 
-   L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region");
-   L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region");
-   L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region");
-   L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region");
-   L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region");
-   L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region");
-   L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region");
-   L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region");
-   L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region");
-   L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region");
-   L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region");
-   L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region");
-   L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region");
-   L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region");
+  L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region").openPopup();
+  L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region").openPopup();
+   L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region").openPopup();
+   L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region").openPopup();
+   L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region").openPopup();
+   L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region").openPopup();
+   L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region").openPopup();
+   L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region").openPopup();
+   L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region").openPopup();
+   L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region").openPopup();
+   L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region").openPopup();
+   L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region").openPopup();
+   L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region").openPopup();
+   L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region").openPopup();
   });
 
 
