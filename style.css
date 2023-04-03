@@ -1,6 +1,11 @@
 /* Styles the body (setting font style) */
 body {
-    font-family: Arial;
+    font-family: Georgia;
+}
+
+/* Changes the color of text to be lightblue */
+.blue {
+    color: royalblue;
 }
 
 /* Centers all elements with the class "centered" */
@@ -24,15 +29,13 @@ body {
 }
 
 .child3{
-    display: flex;
-    flex-direction: row;
-    text-align: center;
+    width: 20%;
 }
 
 .child4{
     display: flex;
-    flex-direction: row;
     text-align: center;
+    width: 80%;
 }
 
 
@@ -95,7 +98,7 @@ body {
 /* Sets style of tooltip */
 .tooltip {
     position: absolute;
-    background-color: mediumpurple;
+    background-color: silver;
     border: solid;
     padding: 5px;
 }
@@ -105,11 +108,6 @@ body {
     fill: black;
     text-anchor: middle;
     font-size: 12px;
-}
-
-#map {
-    height: auto;
-    width: auto;
 }
 
 /* Style the tab */

@@ -17,7 +17,7 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
-};
+}
 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
@@ -28,7 +28,7 @@ function updateYear (menuId) {
     let yearMenu = document.getElementById(menuId);
     let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
     return selected_year;
-  };
+}
 
 // Function that allows user to filter data by year through drop down menus
 function updateYear (menuId) {
@@ -36,7 +36,7 @@ function updateYear (menuId) {
     let yearMenu = document.getElementById(menuId);
     let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
     return selected_year;
-  };
+}
 
 // Set frame dimensions for visualizations
 const FRAME_HEIGHT = 500;
@@ -90,14 +90,11 @@ const LEGEND1 = d3.select("#legend1")
                   .attr("height", FRAME_HEIGHT)
                   .attr("width", FRAME_WIDTH);
 
-const MASS_COORDS = { lat: 42.4072, lon: -71.3824}
-
-
 // Points for the legend
 LEGEND1.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
 LEGEND1.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "gold").attr("class", "mark");
 LEGEND1.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "red").attr("class", "mark");
-LEGEND1.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "orange").attr("class", "mark");
+LEGEND1.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "darkorange").attr("class", "mark");
 LEGEND1.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "green").attr("class", "mark");
 LEGEND1.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "indigo").attr("class", "mark");
 
@@ -114,10 +111,10 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Read into dataset and print data
 	console.log(precipitation);
 
-// Parse the combined precipitation and standard precipitation index data
-d3.csv("data/combined_prep_spi.csv").then((combined) => {
-  // Read into dataset and print data
-  console.log(combined);
+  // Parse the combined precipitation and standard precipitation index data
+  d3.csv("data/combined_prep_spi.csv").then((combined) => {
+    // Read into dataset and print data
+    console.log(combined);
 
   // Set up precipitation line chart
 
@@ -171,7 +168,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Set color of the points based on region
   const REGION_COLOR = d3.scaleOrdinal()
     .domain(["Connecticut River", "Northeast", "Central", "Southeast", "Western", "Cape Cod and Islands"])
-    .range(["red", "orange", "gold", "green", "indigo", "magenta"]);
+    .range(["red", "darkorange", "gold", "green", "indigo", "magenta"]);
 
   // Plot points on plot
   let myPoint1 = FRAME1.append("g")
@@ -228,31 +225,31 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     FRAME1.selectAll(".line")
           .attr("display", "none");
 
-      // Show data pertaining to regions with checked boxes
-      for (let j = 0; j < shown_regions.length; j++) {
-        let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions[j]; })
-                                      .filter(function(d) { return d.YEAR == selected_year1; });
+    // Show data pertaining to regions with checked boxes
+    for (let j = 0; j < shown_regions.length; j++) {
+      let lineFilter = precipitation.filter(function(d) {return d.Region == shown_regions[j]; })
+                                    .filter(function(d) { return d.YEAR == selected_year1; });
 
-        // show lines for each checked region
-        let line = FRAME1.append("g")
-                         .append("path")
-                         .datum(lineFilter)
-                         .attr("d", d3.line()
-                            .x(function(d) { return (MONTH_SCALE(d.Month) + MARGINS.left); })
-                            .y(function(d) { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); })
+      // show lines for each checked region
+      let line = FRAME1.append("g")
+                       .append("path")
+                       .datum(lineFilter)
+                       .attr("d", d3.line()
+                          .x(function(d) { return (MONTH_SCALE(d.Month) + MARGINS.left); })
+                          .y(function(d) { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); })
                             )
-                         .attr("stroke", (d) => { return REGION_COLOR(shown_regions[j]); })
-                         .attr("transform", "translate(13, 0)")
-                         .style("stroke-width", 2)
-                         .style("fill", "none")
-                         .style("opacity", 0.5)
-                         .attr("class", "line");
+                       .attr("stroke", (d) => { return REGION_COLOR(shown_regions[j]); })
+                       .attr("transform", "translate(13, 0)")
+                       .style("stroke-width", 2)
+                       .style("fill", "none")
+                       .style("opacity", 0.5)
+                       .attr("class", "line");
 
-        FRAME1.selectAll(".mark")
-          // Show dots pertaining to the selected year from the dropbox menu
-          .filter(function(d) { return d.YEAR == selected_year1; })
-          .filter(function(d) { return d.Region == shown_regions[j]; })
-          .attr("display", "inline");
+      FRAME1.selectAll(".mark")
+        // Show dots pertaining to the selected year from the dropbox menu
+        .filter(function(d) { return d.YEAR == selected_year1; })
+        .filter(function(d) { return d.Region == shown_regions[j]; })
+        .attr("display", "inline");
     };
   });
 
@@ -272,17 +269,17 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove1(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP1.html("Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region)
+   TOOLTIP1.html("Region: " + d.Region + "<br>Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
-  };
+  }
 
   // Event handler
   function handleMouseleave1(event, d) {
     // on mouseleave, make the tooltip transparent again 
     TOOLTIP1.style("opacity", 0); 
-  };
+  }
 
   // Add tooltip event listeners
   FRAME1.selectAll(".mark")
@@ -300,13 +297,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Scale SPI for the x-axis
   const SPI_SCALE = d3.scaleLinear() 
-                      .domain([MIN_DROUGHT - 1, (MAX_DROUGHT + 1)]) // add some padding  
+                      .domain([(MIN_DROUGHT - 0.5), (MAX_DROUGHT + 0.5)])   
                       .range([0, VIS_WIDTH]); 
 
   // Add X axis  
   const xAxis2 = FRAME2.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).ticks(8).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(2, 0)")
@@ -363,17 +360,17 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
-  };
+  }
 
   // Event handler
   function handleMouseleave2(event, d) {
     // on mouseleave, make the tooltip transparent again 
     TOOLTIP2.style("opacity", 0); 
-  };
+  }
 
   // Add tooltip event listeners
   FRAME2.selectAll(".mark")
@@ -420,7 +417,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   });
     
   d3.select("#btn2").on("click", function() {
-
     // reset the scatter plot so that no points appear
     FRAME2.selectAll(".mark")
           .attr("display", "none");
@@ -431,29 +427,20 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       for (let j = 0; j < shown_regions.length; j++) {
         // Show data pertaining to months with checked boxes
         for (let k = 0; k < shown_months.length; k++)
-      FRAME2.selectAll(".mark")
-          // show all the points that should be shown
-          .filter(function(d) { return d.Year == shown_years[i]; })
-          .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
-          .filter(function(d) { return d.Month == shown_months[k]; })
-          .attr("display", "inline");
+          FRAME2.selectAll(".mark")
+              // show all the points that should be shown
+              .filter(function(d) { return d.Year == shown_years[i]; })
+              .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
+              .filter(function(d) { return d.Month == shown_months[k]; })
+              .attr("display", "inline");
       };
     };
-    });
+  });
 
 
-  // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
+  // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS
 
-   d3.json("data/massachusetts.geojson").then((massmap) => {    
-
-
-    let littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
-      denver = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
-      aurora = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
-      golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
-
-    let cities = L.layerGroup([littleton, denver, aurora, golden]);
-
+  d3.json("data/massachusetts.geojson").then((massmap) => {    
     let map = L.map('map', {
       minZoom: 7,
       maxZoom: 10
@@ -463,50 +450,44 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     setInterval(function() {
        map.invalidateSize();
     }, 1);
+    
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
 
-     map.createPane('labels');
+    let positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB'
+    }).addTo(map);
 
-     map.getPane('labels').style.zIndex = 650;
-     map.getPane('labels').style.pointerEvents = 'none';
-
-     let positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-         attribution: '©OpenStreetMap, ©CartoDB'
-         }).addTo(map);
-
-     map.invalidateSize()
-
-     let positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+    let positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
          attribution: '©OpenStreetMap, ©CartoDB',
          pane: 'labels'
-       }).addTo(map);
+    }).addTo(map);
 
-    
+    let geojson = L.geoJson(massmap.features).addTo(map);
 
-   let geojson = L.geoJson(massmap.features).addTo(map);
+    geojson.eachLayer(function (layer) {
+      layer.bindPopup(layer.feature.properties.name);
+    });
 
-   geojson.eachLayer(function (layer) {
-     layer.bindPopup(layer.feature.properties.name);
-     });
+    setTimeout(function(){ map.invalidateSize()}, 300);
+    map.fitBounds(geojson.getBounds());
 
-     map.fitBounds(geojson.getBounds());
-
-  L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region").openPopup();
-  L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region").openPopup();
-   L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region").openPopup();
-   L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region").openPopup();
-   L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region").openPopup();
-   L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region").openPopup();
-   L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region").openPopup();
-   L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region").openPopup();
-   L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region").openPopup();
-   L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region").openPopup();
-   L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region").openPopup();
-   L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region").openPopup();
-   L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region").openPopup();
-   L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region").openPopup();
+    L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region").openPopup();
+    L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region").openPopup();
+    L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region").openPopup();
+    L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region").openPopup();
+    L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region").openPopup();
+    L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region").openPopup();
+    L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region").openPopup();
+    L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region").openPopup();
+    L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region").openPopup();
+    L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region").openPopup();
+    L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region").openPopup();
+    L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region").openPopup();
+    L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region").openPopup();
+    L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region").openPopup();
   });
-
-
 
   // Bar chart showing precipitation values per region - used to link with the scatterplot below of SPI vs. precipitation
 
@@ -562,10 +543,11 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Scatterplot showing precipitation (y axis) vs SPI (x axis) - used to link with the bar plot above
 
+
   // Add X axis  
   const xAxis4 = FRAME5.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).ticks(8).tickFormat(d3.format("d"))) 
               .attr("font-size", "10px")
               .selectAll("text")
                 .attr("transform", "translate(2, 0)")
@@ -650,7 +632,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
       selection = event.selection;   
       myPoint3.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE1(d.Precipitation) + MARGINS.top ); }));
       myBar.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE1(d.Precipitation) + MARGINS.top ); }));
-    };
+    }
 
     // Returns TRUE if a point is in the selection window, returns FALSE if it is not
     function isBrushed(brush_coords, cx, cy) {
@@ -659,13 +641,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
           y0 = brush_coords[0][1],
           y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
-  };
+    }
 
   // When a bar is clicked, the aligned points that represent the same region in the other plot get highlighted with a raised opacity and attain a blue border
     function updateChart2(event, d) {
       myPoint3.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
       myBar.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
-    };
+    }
 
   // Add the above event listener to all bars
   FRAME4.selectAll(".bar")
@@ -692,11 +674,12 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   function handleMouseover3(event, d) {
     // on mouseover, make opaque 
     TOOLTIP3.style("opacity", 1);
-  };
+  }
+
   function handleMouseover4(event, d) {
     // on mouseover, make opaque 
     TOOLTIP4.style("opacity", 1);
-  };
+  }
 
   // Event handlers
   function handleMousemove3(event, d) {
@@ -705,24 +688,26 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
-  };
+  }
+
   function handleMousemove4(event, d) {
    // position the tooltip and fill in information 
     TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px");
-  };
+  }
 
   // Event handlers
   function handleMouseleave3(event, d) {
     // on mouseleave, make the tooltip transparent again 
     TOOLTIP3.style("opacity", 0); 
-  };
+  }
+
   function handleMouseleave4(event, d) {
     // on mouseleave, make the tooltip transparent again 
     TOOLTIP4.style("opacity", 0); 
-  };
+  }
 
   // Add tooltip event listeners
   FRAME5.selectAll(".mark")
@@ -738,13 +723,13 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Add vertical line at x=0 
   FRAME5.append("line")
-  .attr("x1", SPI_SCALE(0.78))
-  .attr("y1", 0)
-  .attr("x2", SPI_SCALE(0.78))
-  .attr("y2", VIS_HEIGHT + MARGINS.bottom)
-  .attr("stroke", "black")
-  .attr("stroke-dasharray", "5,5")
-  .attr("fill", "none");
+    .attr("x1", SPI_SCALE(0.65))
+    .attr("y1", 0)
+    .attr("x2", SPI_SCALE(0.65))
+    .attr("y2", VIS_HEIGHT + MARGINS.bottom)
+    .attr("stroke", "black")
+    .attr("stroke-dasharray", "5,5")
+    .attr("fill", "none");
 
   // Create a legend
   const LEGEND2 = d3.select("#legend2")
@@ -756,7 +741,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   LEGEND2.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
   LEGEND2.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "gold").attr("class", "mark");
   LEGEND2.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "red").attr("class", "mark");
-  LEGEND2.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "orange").attr("class", "mark");
+  LEGEND2.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "darkorange").attr("class", "mark");
   LEGEND2.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "green").attr("class", "mark");
   LEGEND2.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "indigo").attr("class", "mark");
 
