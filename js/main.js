@@ -442,10 +442,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
 
-   d3.json("data/massachusetts.geojson").then((massmap) => {
-
-     console.log(massmap);
-     
+   d3.json("data/massachusetts.geojson").then((massmap) => {     
      let map = L.map('map', {
       minZoom: 0,
       maxZoom: 1000000
