@@ -23,6 +23,18 @@ body {
     text-align: center;
 }
 
+.child3{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.child4{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
 
 /* Creates a flex container to make 2 columns */
 .lineAndScatter {
