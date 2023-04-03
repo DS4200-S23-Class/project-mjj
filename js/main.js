@@ -637,14 +637,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Tooltips
 
-  // Create tooltip for the bar chart
+  // Create tooltip for the scatter chart
   const TOOLTIP3 = d3.select("#link1")
                     .append("div")
                     .attr("class", "tooltip")
                     // Make it nonvisible at first
                     .style("opacity", 0); 
 
-  // Create tooltip for the scatter chart
+  // Create tooltip for the bar chart
   const TOOLTIP4 = d3.select("#link2")
                     .append("div")
                     .attr("class", "tooltip")
@@ -664,7 +664,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handlers
   function handleMousemove3(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year)
+   TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year  + "<br>Month: "  + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
