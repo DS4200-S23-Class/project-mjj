@@ -3,6 +3,11 @@ body {
     font-family: Arial;
 }
 
+/* Changes the color of text to be purple */
+.purple {
+    color: darkviolet;
+}
+
 /* Centers all elements with the class "centered" */
 .centered {
     text-align: center;
@@ -95,7 +100,7 @@ body {
 /* Sets style of tooltip */
 .tooltip {
     position: absolute;
-    background-color: mediumpurple;
+    background-color: silver;
     border: solid;
     padding: 5px;
 }

@@ -270,7 +270,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove1(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP1.html("Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR + "<br>Region: " + d.Region)
+   TOOLTIP1.html("Region: " + d.Region + "<br>Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
@@ -361,7 +361,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
   // Event handler
   function handleMousemove2(event, d) {
    // position the tooltip and fill in information 
-   TOOLTIP2.html("3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Region: " + d["Drought Region"] + "<br>Month: " + d.Month)
+   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
            .style("left", (event.pageX + 50) + "px") //add offset
                                                        // from mouse
            .style("top", (event.pageY - 30) + "px"); 
@@ -440,13 +440,14 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     });
 
 
-  // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
+  // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS
 
    d3.json("data/massachusetts.geojson").then((massmap) => {     
      let map = L.map('map', {
-      minZoom: 0,
-      maxZoom: 1000000
+      minZoom: 7,
+      maxZoom: 7
      });
+
 
      map.createPane('labels');
 
@@ -457,7 +458,6 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
          attribution: '©OpenStreetMap, ©CartoDB'
          }).addTo(map);
 
-     map.invalidateSize()
 
      let positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
          attribution: '©OpenStreetMap, ©CartoDB',
@@ -470,6 +470,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
      layer.bindPopup(layer.feature.properties.name);
      });
 
+     setTimeout(function(){ map.invalidateSize()}, 300);
      map.fitBounds(geojson.getBounds());
  });
 
