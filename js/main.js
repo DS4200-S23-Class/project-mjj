@@ -442,7 +442,16 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
 
-   d3.json("data/massachusetts.geojson").then((massmap) => {     
+   d3.json("data/massachusetts.geojson").then((massmap) => {    
+
+
+    let littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+      denver = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+      aurora = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+      golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+
+    let cities = L.layerGroup([littleton, denver, aurora, golden]);
+
      let map = L.map('map', {
       minZoom: 0,
       maxZoom: 1000000
@@ -464,6 +473,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
          pane: 'labels'
        }).addTo(map);
 
+    
+
    let geojson = L.geoJson(massmap.features).addTo(map);
 
    geojson.eachLayer(function (layer) {
@@ -471,7 +482,22 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
      });
 
      map.fitBounds(geojson.getBounds());
- });
+
+   L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region");
+   L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region");
+   L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region");
+   L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region");
+   L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region");
+   L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region");
+   L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region");
+   L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region");
+   L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region");
+   L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region");
+   L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region");
+   L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region");
+   L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region");
+   L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region");
+  });
 
 
 
