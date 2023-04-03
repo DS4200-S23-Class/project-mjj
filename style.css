@@ -98,7 +98,7 @@ body {
 
 /* Style the map section */
 #map { 
-    height: 500px; 
+    height: auto; 
 }
 
 /* Style the tab */
