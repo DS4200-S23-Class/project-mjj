@@ -446,7 +446,11 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
      console.log(massmap);
      
-     let map = L.map('map');
+     let map = L.map('map', {
+      minZoom: 0,
+      maxZoom: 1000000
+     });
+
      map.createPane('labels');
 
      map.getPane('labels').style.zIndex = 650;
