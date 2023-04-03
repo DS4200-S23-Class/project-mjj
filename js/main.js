@@ -441,6 +441,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
 
 
   // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS)
+
    d3.json("data/massachusetts.geojson").then((massmap) => {
 
      console.log(massmap);
@@ -454,6 +455,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
      let positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
          attribution: '©OpenStreetMap, ©CartoDB'
          }).addTo(map);
+
+     map.invalidateSize()
 
      let positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
          attribution: '©OpenStreetMap, ©CartoDB',

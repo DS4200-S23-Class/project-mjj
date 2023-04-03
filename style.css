@@ -95,10 +95,9 @@ body {
     font-size: 12px;
 }
 
-
-/* Style the map section */
-#map { 
-    height: auto; 
+#map {
+    height: auto;
+    width: auto;
 }
 
 /* Style the tab */
