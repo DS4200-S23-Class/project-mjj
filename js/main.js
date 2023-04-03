@@ -453,8 +453,8 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     let cities = L.layerGroup([littleton, denver, aurora, golden]);
 
      let map = L.map('map', {
-      minZoom: 0,
-      maxZoom: 1000000
+      minZoom: 7,
+      maxZoom: 10
      });
 
      map.createPane('labels');
