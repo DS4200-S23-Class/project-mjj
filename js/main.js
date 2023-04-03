@@ -612,7 +612,7 @@ d3.csv("data/combined_prep_spi.csv").then((combined) => {
     function updateChart1(event) {
       selection = event.selection;   
       myPoint3.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE1(d.Precipitation) + MARGINS.top ); }));
-      myBar.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE2(d.Precipitation) + MARGINS.top ); }));
+      myBar.classed("selected", ((d) => { return isBrushed(selection, SPI_SCALE(d.x) + MARGINS.left, PRECIP_SCALE1(d.Precipitation) + MARGINS.top ); }));
     };
 
     // Returns TRUE if a point is in the selection window, returns FALSE if it is not
