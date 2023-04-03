@@ -23,22 +23,27 @@
 
     <h1 class="centered">Diverting Droughts with Data: Designing a Visualization Tool to Drive Water Conservation Efforts Across Massachusetts</h1>
 
-    <div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Acknowledgements')">Acknowledgements</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization3')">Visualization3</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization2')">Visualization2</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization1')">Visualization1</button>
+        <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'About')">About</button>
+    </div>
+
+    <div id="About" class="tabcontent">
         <h2>Motivation</h2>
 
         <div>
             <p>
-            Water is a precious resource anywhere as it is used for many direct and indirect purposes such as drinking, cooking, producing steel for automobiles, and electricity. Specifically, we are interested in looking at water in the context of Massachusetts. In some areas of Massachusetts, there is currently a Level 2 Drought. It would be valuable to study past precipitation and drought levels in Massachusetts to get a better understanding of the water supply in conjunction with levels of drought. 
+                Water is a precious resource anywhere as it is used for many direct and indirect purposes such as drinking, cooking, producing steel for automobiles, and electricity. Specifically, we are interested in looking at water in the context of Massachusetts. In some areas of Massachusetts, there is currently a Level 2 Drought. It would be valuable to study past precipitation and drought levels in Massachusetts to get a better understanding of the water supply in conjunction with levels of drought. 
             </p>
             <p>
-            This project is intended to provide visualizations to be used by the general public and citizens of Massachusetts, making them more aware of this drought issue and take appropriate action. Clearly, the state is already keeping watch on it and staying aware of it through the Massachusetts Drought Management Plan. However, the citizens should also be informed and aware so they can be encouraged to focus on water conservation. Solving this issue is therefore important to ensure that water remains an accessible resource to everyone in Massachusetts. Water is a resource that many take for granted, and there are likely many individuals in Massachusetts who are unaware of the level of possible water scarcity they may face in the future. These visualizations help to guarantee that citizens in Massachusetts can maintain access to water despite any droughts that may occur where they live. Even though our visualizations provide past precipitation and drought data, it can make citizens more knowledgeable, aware of, and help them project precipitation and drought levels in Massachusetts, specifically in the region they live in. From there, they can be more aware moving forward and possibly take preventative measures. The visualization will not be too complex as the public is not familiar with using lots of tooltips and other visualization features. We want the people in Massachusetts to conserve more water. They can use our visualizations to become more motivated as to exactly what state of water shortage specific regions in Massachusetts are in.  For instance, suppose an environmentalist in the general public wants to encourage people in Massachusetts to conserve more water. The environmentalist can hold a meeting with individuals from Boston to push more water conservation efforts. The environmentalist can give a presentation during this meeting and use our visualization tool to strengthen their claims. The user can then bring attention to, for instance, certain regions that have relatively less rainfall than other regions to assert that they need to be prioritized with water conservation efforts.
+                This project is intended to provide visualizations to be used by the general public and citizens of Massachusetts, making them more aware of this drought issue and take appropriate action. Clearly, the state is already keeping watch on it and staying aware of it through the Massachusetts Drought Management Plan. However, the citizens should also be informed and aware so they can be encouraged to focus on water conservation. Solving this issue is therefore important to ensure that water remains an accessible resource to everyone in Massachusetts. Water is a resource that many take for granted, and there are likely many individuals in Massachusetts who are unaware of the level of possible water scarcity they may face in the future. These visualizations help to guarantee that citizens in Massachusetts can maintain access to water despite any droughts that may occur where they live. Even though our visualizations provide past precipitation and drought data, it can make citizens more knowledgeable, aware of, and help them project precipitation and drought levels in Massachusetts, specifically in the region they live in. From there, they can be more aware moving forward and possibly take preventative measures. The visualization will not be too complex as the public is not familiar with using lots of tooltips and other visualization features. We want the people in Massachusetts to conserve more water. They can use our visualizations to become more motivated as to exactly what state of water shortage specific regions in Massachusetts are in.  For instance, suppose an environmentalist in the general public wants to encourage people in Massachusetts to conserve more water. The environmentalist can hold a meeting with individuals from Boston to push more water conservation efforts. The environmentalist can give a presentation during this meeting and use our visualization tool to strengthen their claims. The user can then bring attention to, for instance, certain regions that have relatively less rainfall than other regions to assert that they need to be prioritized with water conservation efforts.
 
             </p>
         </div> 
 
-    </div>
-
-    <div>
         <h2>Background</h2>
         <div>
             <!-- TODO: Add link to report, demo video, link to data etc. here*/ -->
@@ -55,7 +60,7 @@
         </div>
     </div>
 
-    <div>
+    <div id="Visualization1" class="tabcontent">
         <h2>Visualization</h2>
 
         <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
@@ -163,11 +168,16 @@
                     </div>
                 </div>
             </div>
+        </div>  
+    </div>
+</div>
 
-                <!-- Create the section that contains the map of Massachusetts -->
-                <div id="map"></div>
-            </div>  
-        </div>
+    <div id="Visualization2" class="tabcontent">
+        <!-- Create the section that contains the map of Massachusetts -->
+        <div id="map"></div>
+    </div>  
+
+    <div id="Visualization3" class="tabcontent">
         <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing and clicking-->
         <div class="link">
                 <div class="year-filter3">
@@ -204,7 +214,7 @@
         </div>
     </div>
 
-    <div>
+    <div id="Acknowledgements" class="tabcontent">
         <!-- Citing the additional resources used to complete this assignment -->
         <h2>Acknowledgements</h2>
         <ul>
