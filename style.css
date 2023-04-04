@@ -94,14 +94,14 @@ body {
 .selected {
     fill-opacity: 100%;
     opacity: 100%;
-    stroke: darkviolet;
+    stroke: orange;
     stroke-width: 3.5px;
 }
 
 /* Sets style of tooltip */
 .tooltip {
     position: absolute;
-    background-color: silver;
+    background-color: yellow;
     border: solid;
     padding: 5px;
 }

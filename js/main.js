@@ -129,6 +129,9 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   let barnstable = L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County").openPopup();
   let dukes = L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County").openPopup();
   let nantucket = L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County").openPopup();
+  
+  // hide all the popups when the page initially loads
+  map.closePopup();
 
   // Add class attribute to marker based on its located region
   berkshire._icon.classList.add("western");
