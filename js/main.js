@@ -303,10 +303,10 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Add X axis  
   const xAxis2 = FRAME2.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(SPI_SCALE).ticks(8).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format(".1f"))) 
               .attr("font-size", "10px")
               .selectAll("text")
-                .attr("transform", "translate(2, 0)")
+                .attr("transform", "translate(8, 0)")
                 .style("text-anchor", "end");
 
   // Add Y axis
@@ -547,10 +547,10 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Add X axis  
   const xAxis4 = FRAME5.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-              .call(d3.axisBottom(SPI_SCALE).ticks(8).tickFormat(d3.format("d"))) 
+              .call(d3.axisBottom(SPI_SCALE).tickFormat(d3.format(".1f"))) 
               .attr("font-size", "10px")
               .selectAll("text")
-                .attr("transform", "translate(2, 0)")
+                .attr("transform", "translate(8, 0)")
                 .style("text-anchor", "end");
 
   // Add Y axis
