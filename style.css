@@ -46,7 +46,7 @@ body {
     justify-content: space-evenly;
 }
 
-/* Style the line chart above the map */
+/* Style the lines chart above the map */
 .line{
     flex-direction: row;
     flex-wrap: wrap;

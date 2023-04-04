@@ -26,9 +26,9 @@
 
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Acknowledgements')">Acknowledgements</button>
-        <button class="tablinks" onclick="openTab(event, 'Visualization3')">Visualization 3</button>
-        <button class="tablinks" onclick="openTab(event, 'Visualization2')">Visualization 2</button>
-        <button class="tablinks" onclick="openTab(event, 'Visualization1')">Visualization 1</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization3')">Linked Bar and Scatter Plot</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization2')">Line Chart + Scatter Plot</button>
+        <button class="tablinks" onclick="openTab(event, 'Visualization1')">Massachusetts Region Map</button>
         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'About')">About</button>
     </div>
 
@@ -62,6 +62,14 @@
     </div>
 
     <div id="Visualization1" class="tabcontent">
+        <p class="blue">Zoom in/out of the Massachusetts map as needed. Click on different markers for different counties to see which Massachusetts region you live in.</p>
+        <!-- Create the section for the legend -->
+        <div class="legend"></div>
+        <!-- Create the section that contains the map of Massachusetts -->
+        <div id="map"></div>
+    </div>
+
+    <div id="Visualization2" class="tabcontent">
         <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
         <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal.</p>
 
@@ -69,7 +77,7 @@
         <div class="container">
             <div class="child1">
                 <!-- Legend for the visualizations above the map -->
-                <div id="legend1">
+                <div class="legend">
                     <!-- Add checkbox filter for regions for the visualizations above the map-->
                     <div class="region-filter">
                         <p class="blue">Filter Plots by Region: </p>
@@ -170,12 +178,6 @@
                 </div>
             </div>  
         </div>
-    </div>
-
-    <div id="Visualization2" class="tabcontent">
-        <p class="blue">Zoom in/out of the Massachusetts map as needed. Click on different markers to see which region you live in based on the marker you lived closest to.</p>
-        <!-- Create the section that contains the map of Massachusetts -->
-        <div id="map"></div>
     </div>  
 
     <div id="Visualization3" class="tabcontent">
@@ -196,6 +198,9 @@
                             </select>
                         <p>
 
+                        <!-- Add instructions for how to get data to appear -->
+                        <p class="blue" class="centered">Select a year using the drop down menu. Then, click on the button to see the corresponding data across both graphs.</p>
+
                         <!-- Add instructions for accessing the tooltip -->
                         <p1 class="blue">** Hover over a chart element to see the data it represents</p1>
                         <br>
@@ -204,7 +209,7 @@
                             <!-- Create a button that allows users to see data presented on the 2 charts -->
                             <button id="btn3">Get Data for the Selected Year</button>
                             <!-- Add a legend beside the 2 charts -->
-                            <div id="legend2"></div>
+                            <div class="legend"></div>
                         </p>
                     </div>
                 </div>
@@ -212,12 +217,12 @@
                     <div id="link1">
                         <!-- Add a title and linking directions above the bar chart -->
                         <h4 class="centered">Annual Precipitation for Each Region</h4>
-                        <p class="blue" class="centered">Select the year on the left using the drop down menu. Then, click on the button to see the corresponding data across both graphs. ** Click on a bar to highlight points that represent the same region.</p>
+                        <p class="blue" class="centered">** Click on a bar to highlight points that represent the same region.</p>
                     </div>
                     <div id="link2">
                         <!-- Add a title and linking directions above the scatter plot -->
                         <h4 class="centered">Precipitation vs. SPI</h4>
-                        <p class="blue" class="centered">Select the year on the left using the drop down menu. Then, click on the button to see the corresponding data across both graphs. **Brush over points to highlight bars that represent the same region.</p>
+                        <p class="blue" class="centered">**Brush over points to highlight bars that represent the same region.</p>
                     </div>
                 </div>
             </div>
