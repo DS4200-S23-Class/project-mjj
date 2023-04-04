@@ -151,7 +151,7 @@ body {
 
 /* Rotate southeast class marker to dodgerblue */
 img.western { 
-    filter: hue-rotate(-10deg); 
+    filter: hue-rotate(5deg); 
 }
 
 /* Rotate southeast class marker to red */
@@ -177,5 +177,5 @@ img.central {
 
 /* Rotate cape-cod class marker to lightseagreen */
 img.cape-cod {
-    filter: hue-rotate(-35deg);
+    filter: hue-rotate(-20deg);
 }
