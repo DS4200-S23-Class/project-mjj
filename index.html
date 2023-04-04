@@ -65,10 +65,17 @@
 
     <div id="Visualization1" class="tabcontent">
         <p class="blue">Zoom in/out of the Massachusetts map as needed. Click on different markers for different counties to see which Massachusetts region you live in.</p>
-        <!-- Create the section for the legend -->
-        <div class="legend"></div>
-        <!-- Create the section that contains the map of Massachusetts -->
-        <div id="map"></div>
+        <!-- Split tab content to separate containers -->
+        <div class="container">
+            <div class="child1">
+                <!-- Create the section for the legend -->
+                <div class="legend"></div>
+            </div>
+            <div class="child2">
+                <!-- Create the section that contains the map of Massachusetts -->
+                <div id="map"></div>
+            </div>
+        </div>
     </div>
 
     <div id="Visualization2" class="tabcontent">
@@ -262,6 +269,8 @@
             <li><a href="https://stackoverflow.com/questions/11252753/rotate-x-axis-text-in-d3">Rotate X Axis Text in D3</a></li>
             <li><a href="http://wrobstory.github.io/2013/11/D3-brush-and-tooltip.html">Cooperative Brushing and Tooltips in D3</a></li>
             <li><a href="https://stackoverflow.com/questions/42204194/leaflet-only-renders-into-one-corner">Fixing Leaflet Map that Render in One Corner</a></li>
+            <li><a href="https://stackoverflow.com/questions/23567203/leaflet-changing-marker-color">Leaflet Map Changing Marker Color</a></li>
+            <li><a href="https://leafletjs.com/examples/layers-control/">Leaflet Add Marker Layer</a></li>
         </ul>
     </div>
 
