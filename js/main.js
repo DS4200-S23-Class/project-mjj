@@ -81,7 +81,7 @@ const FRAME5 = d3.select("#link2")
 d3.json("data/massachusetts.geojson").then((massmap) => {    
   let map = L.map("map", {
     // Set min and max zoom
-    minZoom: 7,
+    minZoom: 8,
     maxZoom: 10
   });
 
@@ -111,7 +111,6 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   setTimeout(function(){ map.invalidateSize()}, 300);
   map.fitBounds(geojson.getBounds());
-
 
   // Create icon markers for different regions
 
