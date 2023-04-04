@@ -505,7 +505,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 
   // Scale Y
   let PRECIP_SCALE2 = d3.scaleLinear()
-                        .domain([MIN_ANNUAL_PRECIP - 10, MAX_ANNUAL_PRECIP])
+                        .domain([MIN_ANNUAL_PRECIP - 10, MAX_ANNUAL_PRECIP + 1])
                         .range([ VIS_HEIGHT, 0]);
 
   // Add X axis  
@@ -542,7 +542,6 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
     .attr("class", "axes");
 
   // Scatterplot showing precipitation (y axis) vs SPI (x axis) - used to link with the bar plot above
-
 
   // Add X axis  
   const xAxis4 = FRAME5.append("g") 
