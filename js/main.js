@@ -81,8 +81,8 @@ const FRAME5 = d3.select("#link2")
 d3.json("data/massachusetts.geojson").then((massmap) => {    
   let map = L.map("map", {
     // Set min and max zoom
-    minZoom: 8,
-    maxZoom: 10
+    minZoom: 7,
+    maxZoom: 9
   });
 
   // Using setInterval to refresh map to get it centered
@@ -91,7 +91,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   }, 1);
     
   map.createPane("labels");
-  map.getPane("labels").style.zIndex = 650;
+  map.getPane("labels").style.zIndex = 500;
   map.getPane("labels").style.pointerEvents = "none";
 
   let positron = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
