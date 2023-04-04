@@ -30,14 +30,6 @@ function updateYear (menuId) {
     return selected_year;
 }
 
-// Function that allows user to filter data by year through drop down menus
-function updateYear (menuId) {
-    // retrieve the year chosen by the user from the drop down menu
-    let yearMenu = document.getElementById(menuId);
-    let selected_year = yearMenu.options[yearMenu.selectedIndex].text;
-    return selected_year;
-}
-
 // Set frame dimensions for visualizations
 const FRAME_HEIGHT = 500;
 const FRAME_WIDTH = 500; 
@@ -87,7 +79,8 @@ const FRAME5 = d3.select("#link2")
 // Set up map showing drought severities across regions in Massachusetts (IN-PROGRESS
 
 d3.json("data/massachusetts.geojson").then((massmap) => {    
-  let map = L.map('map', {
+  let map = L.map("map", {
+    // Set min and max zoom
     minZoom: 7,
     maxZoom: 10
   });
@@ -97,17 +90,17 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
      map.invalidateSize();
   }, 1);
     
-  map.createPane('labels');
-  map.getPane('labels').style.zIndex = 650;
-  map.getPane('labels').style.pointerEvents = 'none';
+  map.createPane("labels");
+  map.getPane("labels").style.zIndex = 650;
+  map.getPane("labels").style.pointerEvents = "none";
 
-  let positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-      attribution: '©OpenStreetMap, ©CartoDB'
+  let positron = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
+      attribution: "©OpenStreetMap, ©CartoDB"
   }).addTo(map);
 
-  let positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
-       attribution: '©OpenStreetMap, ©CartoDB',
-       pane: 'labels'
+  let positronLabels = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png", {
+       attribution: "©OpenStreetMap, ©CartoDB",
+       pane: "labels"
   }).addTo(map);
 
   let geojson = L.geoJson(massmap.features).addTo(map);
@@ -119,6 +112,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   setTimeout(function(){ map.invalidateSize()}, 300);
   map.fitBounds(geojson.getBounds());
 
+  // Add markers for the main counties in each region 
   L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region").openPopup();
   L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region").openPopup();
   L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region").openPopup();
@@ -137,9 +131,9 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
 
 // Parse the precipitation pattern data
-  d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
+d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Read into dataset and print data
-	console.log(precipitation);
+  console.log(precipitation);
 
   // Parse the combined precipitation and standard precipitation index data
   d3.csv("data/combined_prep_spi.csv").then((combined) => {
@@ -185,7 +179,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                           .range([VIS_HEIGHT, 0]);
 
   // Add X axis  
-  let xAxis1 = FRAME1.append("g") 
+  const xAxis1 = FRAME1.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(MONTH_SCALE)) 
               .attr("font-size", "10px")
@@ -195,7 +189,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  let yAxis1 = FRAME1.append("g")       
+  const yAxis1 = FRAME1.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(PRECIP_SCALE1).ticks(20))
               .attr("font-size", "10px")
@@ -260,7 +254,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                                          .filter(function(d) { return d.YEAR == selected_year1; });
 
     // Plot points on plot
-    let myPoint1 = FRAME1.append("g")
+    const myPoint1 = FRAME1.append("g")
                          .selectAll("points")  
                          .data(lineChartFilter)  
                          .enter()       
@@ -274,7 +268,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                          .attr("class", "mark");
 
     // show lines for each checked region and the chosen year
-    let line = FRAME1.append("g")
+    const line = FRAME1.append("g")
                      .append("path")
                      .datum(lineChartFilter)
                      .attr("d", d3.line()
@@ -369,7 +363,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
     .attr("class", "axes");
 
   // Plot points on scatter plot
-  let myPoint2 = FRAME2.append("g")
+  const myPoint2 = FRAME2.append("g")
                        .selectAll("points")  
                        .data(combined)  
                        .enter()       
@@ -379,6 +373,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                        .attr("r", 5)
                        .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
                        .attr("class", "mark")
+                       .style("opacity", 0.5)
                        // Make all the points non-visible first
                        .attr("display", "none");
 
@@ -391,7 +386,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   // Event handler
   function handleMouseover2(event, d) {
-    // on mouseover, make opaque 
+    // On mouseover, make opaque 
     TOOLTIP2.style("opacity", 1); 
   }
 
@@ -406,7 +401,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
   // Event handler
   function handleMouseleave2(event, d) {
-    // on mouseleave, make the tooltip transparent again 
+    // On mouseleave, make the tooltip transparent again 
     TOOLTIP2.style("opacity", 0); 
   }
 
@@ -484,18 +479,18 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   const MAX_ANNUAL_PRECIP = d3.max(combined, (d) => { return parseFloat(d["Annual Precipitation"]); });
 
   // Scale X
-  let REGION_SCALE = d3.scaleBand()
+  const REGION_SCALE = d3.scaleBand()
                        .range([ 0, VIS_WIDTH ])
                        .domain(combined.map(function(d) { return d["Drought Region"]; }))
                        .padding(0.2);
 
   // Scale Y
-  let PRECIP_SCALE2 = d3.scaleLinear()
+  const PRECIP_SCALE2 = d3.scaleLinear()
                         .domain([MIN_ANNUAL_PRECIP - 10, MAX_ANNUAL_PRECIP + 1])
                         .range([ VIS_HEIGHT, 0]);
 
   // Add X axis  
-  let xAxis3= FRAME4.append("g") 
+  const xAxis3 = FRAME4.append("g") 
               .attr("transform", "translate(" + MARGINS.left + "," + (VIS_HEIGHT + MARGINS.top) + ")") 
               .call(d3.axisBottom(REGION_SCALE)) 
               .attr("font-size", "10px")
@@ -505,7 +500,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                 .style("text-anchor", "end");
 
   // Add Y axis
-  let yAxis3 = FRAME4.append("g")       
+  const yAxis3 = FRAME4.append("g")       
               .attr("transform", "translate(" + MARGINS.left + "," + MARGINS.bottom + ")")
               .call(d3.axisLeft(PRECIP_SCALE2).ticks(20))
               .attr("font-size", "10px");
@@ -583,7 +578,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
                   .on("start brush", updateChart1)); // 'updateChart1' is triggered every time the brush window gets altered
 
     // Plot points on scatter plot for the selected regions
-    let myPoint3 = FRAME5.append("g")
+    const myPoint3 = FRAME5.append("g")
                          .selectAll("points")  
                          .data(combined_filtered)  
                          .enter()       
@@ -597,7 +592,7 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
 
 
     // Add bars for the selected regions, which are scaled accordingly
-    let myBar = FRAME4.append("g")
+    const myBar = FRAME4.append("g")
                           .selectAll("mybar")
                           .data(combined_filtered)
                           .enter()

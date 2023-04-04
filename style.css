@@ -13,25 +13,29 @@ body {
     text-align: center;
 }
 
-/* Creates a flex container to make 2 columns */
+/* Flex container to make 2 columns */
 .container {
     display: flex;
     flex-direction: row;
 }
 
+/* Style Child1 (contains legend and region filter for visualization 1) */
 .child1{
     width:20%;
 }
 
+/* Style Child2 (contains line chart and scatter plot) */
 .child2{
     width:80%;
     text-align: center;
 }
 
+/* Style Child3 (contains year filter for linked charts) */
 .child3{
     width: 20%;
 }
 
+/* Style Child4 (contains linked bar chart and scatter plot) */
 .child4{
     display: flex;
     text-align: center;
@@ -39,7 +43,7 @@ body {
 }
 
 
-/* Creates a flex container to make 2 columns */
+/* Flex container to make 2 columns */
 .lineAndScatter {
     display: flex;
     flex-direction: row;
@@ -62,8 +66,7 @@ body {
     justify-content: center;
 }
 
-
-/* Creates a flex container to make 2 columns */
+/* Flex container to make 2 columns */
 .link {
     display: flex;
     flex-direction: row;
