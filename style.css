@@ -148,3 +148,34 @@ body {
   border: 1px solid #ccc;
   border-top: none;
 }
+
+/* Rotate southeast class marker to dodgerblue */
+img.western { 
+    filter: hue-rotate(-10deg); 
+}
+
+/* Rotate southeast class marker to red */
+img.southeast {
+    filter: hue-rotate(145deg);
+}
+
+/* Rotate conn-river class marker to mediumslateblue */
+img.conn-river {
+    filter: hue-rotate(50deg);
+}
+
+/* Rotate northeast class marker to pullmanbrown */
+img.northeast {
+    filter: hue-rotate(180deg);
+}
+
+/* Rotate conn-river class marker to forestgreen */
+img.central {
+    filter: hue-rotate(-70deg);
+}
+
+
+/* Rotate cape-cod class marker to lightseagreen */
+img.cape-cod {
+    filter: hue-rotate(-35deg);
+}
