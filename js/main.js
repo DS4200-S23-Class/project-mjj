@@ -112,21 +112,40 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   setTimeout(function(){ map.invalidateSize()}, 300);
   map.fitBounds(geojson.getBounds());
 
+
+  // Create icon markers for different regions
+
   // Add markers for the main counties in each region 
-  L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County, Western Region").openPopup();
-  L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County, Connecticut River Valley Region").openPopup();
-  L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County, Connecticut River Valley Region").openPopup();
-  L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County, Connecticut River Valley Region").openPopup();
-  L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County, Central Region").openPopup();
-  L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County, Northeast Region").openPopup();
-  L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County, Northeast Region").openPopup();
-  L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County, Northeast Region").openPopup();
-  L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County, Southeast Region").openPopup();
-  L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County, Southeast Region").openPopup();
-  L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County, Southeast Region").openPopup();
-  L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County, Cape Cod and Islands Region").openPopup();
-  L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County, Cape Cod and Islands Region").openPopup();
-  L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County, Cape Cod and Islands Region").openPopup();
+  let berkshire = L.marker([42.3118, -73.1822]).addTo(map).bindPopup("Berkshire County").openPopup();
+  let franklin = L.marker([42.587334, -72.603416]).addTo(map).bindPopup("Franklin County").openPopup();
+  let hampshire = L.marker([42.3471, -72.6624]).addTo(map).bindPopup("Hampshire County").openPopup();
+  let hampden = L.marker([42.1172, -72.6624]).addTo(map).bindPopup("Hampden County").openPopup();
+  let worcester = L.marker([42.2714, -71.7989]).addTo(map).bindPopup("Worcester County").openPopup();
+  let essex = L.marker([42.7051, -70.9071]).addTo(map).bindPopup("Essex County").openPopup();
+  let middlesex = L.marker([42.4672, -71.2874]).addTo(map).bindPopup("Middlesex County").openPopup();
+  let suffolk = L.marker([42.3577, -70.9785]).addTo(map).bindPopup("Suffolk County").openPopup();
+  let norfolk = L.marker([42.1767, -71.1449]).addTo(map).bindPopup("Norfolk County").openPopup();
+  let bristol = L.marker([41.7938, -71.1449]).addTo(map).bindPopup("Bristol County").openPopup();
+  let plymouth = L.marker([41.9120, -70.7168]).addTo(map).bindPopup("Plymouth County").openPopup();
+  let barnstable = L.marker([41.6500, -70.3450]).addTo(map).bindPopup("Barnstable County").openPopup();
+  let dukes = L.marker([41.4040, -70.6693]).addTo(map).bindPopup("Dukes County").openPopup();
+  let nantucket = L.marker([41.2835, -70.0995]).addTo(map).bindPopup("Nantucket County").openPopup();
+
+  // Add class attribute to marker based on its located region
+  berkshire._icon.classList.add("western");
+  franklin._icon.classList.add("conn-river");
+  hampshire._icon.classList.add("conn-river");
+  hampden._icon.classList.add("conn-river");
+  worcester._icon.classList.add("central");
+  essex._icon.classList.add("northeast");
+  middlesex._icon.classList.add("northeast");
+  suffolk._icon.classList.add("northeast");
+  bristol._icon.classList.add("southeast");
+  plymouth._icon.classList.add("southeast");
+  norfolk._icon.classList.add("southeast");
+  barnstable._icon.classList.add("cape-cod");
+  dukes._icon.classList.add("cape-cod");
+  nantucket._icon.classList.add("cape-cod");
 });
 
 
@@ -147,12 +166,12 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
                     .attr("width", FRAME_WIDTH/2);
 
   // Points for the legend
-  LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "magenta").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "gold").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "red").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "darkorange").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "green").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "indigo").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "#20b2aa").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "forestgreen").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "mediumslateblue").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "#d2691e").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "red").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "dodgerblue").attr("class", "mark");
 
   // Text for the legend
   LEGEND.append("text").attr("x", 20).attr("y", 55).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
@@ -214,7 +233,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Set color of the points based on region
   const REGION_COLOR = d3.scaleOrdinal()
     .domain(["Connecticut River", "Northeast", "Central", "Southeast", "Western", "Cape Cod and Islands"])
-    .range(["red", "darkorange", "gold", "green", "indigo", "magenta"]);
+    .range(["mediumslateblue", "#d2691e", "forestgreen", "red", "dodgerblue", "#20b2aa"]);
     
   // Filter plot by selected year(s)
   // Drop down menu by year for users 
