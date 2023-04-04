@@ -91,7 +91,7 @@ body {
 .selected {
     fill-opacity: 100%;
     opacity: 100%;
-    stroke: blue;
+    stroke: darkviolet;
     stroke-width: 3.5px;
 }
 
