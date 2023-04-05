@@ -79,9 +79,6 @@
     </div>
 
     <div id="Visualization2" class="tabcontent">
-        <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
-        <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal. In the visaulization below, 3-Month SPIs are displayed, which means the values are based on "look-back" periods of three months.</p>
-
         <!-- Create separate section for content (visualization) of webpage -->
         <div class="container">
             <div class="child1">
@@ -89,6 +86,16 @@
                 <div class="legend">
                     <!-- Add checkbox filter for regions for the visualizations above the map-->
                     <div class="region-filter">
+                        <!-- Reformatting the left side of the page to minimize scrolling-->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                        <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
+                        <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal.</p>
+
                         <p class="blue">Filter Plots by Region: </p>
                         <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label><br>
                         <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label><br>
@@ -99,10 +106,9 @@
                         <ul>
                     </div>
 
-                    <br> 
-
                     <!-- Add instructions for how to access the tooltip for the plots above the map-->
                     <p1 class="blue" class="centered">** Hover over a point to see the data it represents.</p1>
+
 
                 </div>
             </div>
@@ -123,7 +129,7 @@
 
                         <p1 class="blue" class="centered">**Note that some regions lack data for certain years, so not all 6 lines will show for each year.</p1>
 
-                        <!-- Add drop down menu filter for years -->
+                        <!-- Add drop down menu filter for the years represented on the line chart-->
                         <div class="year-filter1">
                             <p class="blue">Filter by Year: </p>
                             <select name="check" id="selectYear1"></select>
@@ -133,7 +139,7 @@
                         <!-- Create a button that allows data to be shown on the line chart when clicked -->
                         <div>   
                             <p>
-                                <button id="btn1">Get Data for Selected Year and Region(s)</button>
+                                <button id="btn1">Display Line Chart</button>
                             </p>
                         </div>
 
@@ -152,6 +158,7 @@
                         <!-- Add instructions for how to get data to show on the scatter plot and how to interact with it-->
                         <p1 class="blue" class="centered">Select a region(s) on the left and year(s) and month(s) in the checkboxes. Then, click on the button to see the corresponding data.</p1>
 
+                        <p class="blue" class="centered">**3-Month SPIs are displayed below, which means the values are based on "look-back" periods of three months.</p>
                    
                         <!-- Add checkbox filter for years -->
                         <div class="year-filter2">
@@ -180,7 +187,7 @@
                         <div>   
                             <!-- Add a button that allows data to be shown on the scatter chart -->
                             <p>
-                                <button id="btn2">Get Data for the Selected Year(s), Region(s), and Month(s)</button>
+                                <button id="btn2">Display Scatter Plot</button>
                             </p>
                         </div>
                     </div>
@@ -190,13 +197,13 @@
     </div>  
 
     <div id="Visualization3" class="tabcontent">
-        <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
-        <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal. In the visaulization below, 3-Month SPIs are displayed, which means the values are based on "look-back" periods of three months.</p>
 
         <!-- Create the section that contains a bar chart and a scatter plot that are linked together through brushing and clicking-->
         <div class="container">
             <div class="link">
                 <div class="child3">
+                    <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
+                    <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal.</p>
                     <div class="year-filter3">
                         <!-- Create a drop down menu that allows users to filter the charts by year -->
                         <p class="blue">Filter Charts by Year: </p>
@@ -232,6 +239,7 @@
                         <!-- Add a title and linking directions above the scatter plot -->
                         <h4 class="centered">Precipitation vs. SPI</h4>
                         <p class="blue" class="centered">**Brush over points to highlight bars that represent the same region.</p>
+                        <p class="blue" class="centered">**3-Month SPIs are displayed below, which means the values are based on "look-back" periods of three months.</p>
                     </div>
                 </div>
             </div>

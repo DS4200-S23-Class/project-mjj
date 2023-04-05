@@ -267,6 +267,13 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Update the line chart to reflect user-specified input each time a button is clicked
   d3.select("#btn1").on("click", function() {
 
+    // reset the plot so that no lines or points appear
+    FRAME1.selectAll(".dottedline")
+          .attr("display", "none")
+
+    FRAME1.selectAll(".mark")
+          .attr("display", "none")
+
     // retrieve the year selected by the user in the drop down menu for the line chart
     let selected_year1 = updateYear("selectYear1");
 
@@ -283,7 +290,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
                          .append("circle")  
                          .attr("cx", (d) => { return (MONTH_SCALE(d.Month) + MARGINS.left); }) 
                          .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
-                         .attr("r", 3)
+                         .attr("r", 5)
                          .attr("fill", (d) => { return REGION_COLOR(shown_regions[j]); })
                          .attr("transform", "translate(13, 0)")
                          .style("opacity", 0.5)
@@ -382,56 +389,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
     .attr("y", VIS_HEIGHT - 100)
     .attr("transform", "translate(-290, 250)rotate(-90)")
     .text("Precipitation (inches)")
-    .attr("class", "axes");
-
-  // Plot points on scatter plot
-  const myPoint2 = FRAME2.append("g")
-                       .selectAll("points")  
-                       .data(combined)  
-                       .enter()       
-                       .append("circle")  
-                       .attr("cx", (d) => { return (SPI_SCALE(d.x) + MARGINS.left); }) 
-                       .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
-                       .attr("r", 5)
-                       .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
-                       .attr("class", "mark")
-                       .style("opacity", 0.5)
-                       // Make all the points non-visible first
-                       .attr("display", "none");
-
-  // Create tooltip
-  const TOOLTIP2= d3.select("#scatter")
-                    .append("div")
-                    .attr("class", "tooltip")
-                    // Make it nonvisible at first
-                    .style("opacity", 0); 
-
-  // Event handler
-  function handleMouseover2(event, d) {
-    // On mouseover, make opaque 
-    TOOLTIP2.style("opacity", 1); 
-  }
-
-  // Event handler
-  function handleMousemove2(event, d) {
-   // position the tooltip and fill in information 
-   TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
-           .style("left", (event.pageX + 30) + "px") //add offset
-                                                       // from mouse
-           .style("top", (event.pageY - 10) + "px"); 
-  }
-
-  // Event handler
-  function handleMouseleave2(event, d) {
-    // On mouseleave, make the tooltip transparent again 
-    TOOLTIP2.style("opacity", 0); 
-  }
-
-  // Add tooltip event listeners
-  FRAME2.selectAll(".mark")
-        .on("mouseover", handleMouseover2)
-        .on("mousemove", handleMousemove2)
-        .on("mouseleave", handleMouseleave2); 
+    .attr("class", "axes"); 
 
   // initialize empty arrays for the years and months to be represented in the scatter plot
   let shown_years = [];
@@ -449,7 +407,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
       shown_years.push(selected_year);
     // omitting to plot data for years associated with unchecked boxes
     } else if (year_display == "none" && shown_years.includes(selected_year)){
-        year_index = shown_year.indexOf(selected_year);
+        year_index = shown_years.indexOf(selected_year);
         shown_years.splice(year_index, 1);
     };
   });
@@ -481,13 +439,58 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
       // Show data pertaining to regions with checked boxes
       for (let j = 0; j < shown_regions.length; j++) {
         // Show data pertaining to months with checked boxes
-        for (let k = 0; k < shown_months.length; k++)
-          FRAME2.selectAll(".mark")
-              // show all the points that should be shown
-              .filter(function(d) { return d.Year == shown_years[i]; })
-              .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
-              .filter(function(d) { return d.Month == shown_months[k]; })
-              .attr("display", "inline");
+        for (let k = 0; k < shown_months.length; k++) {
+          let scatterFilter = combined.filter(function(d) { return d.Year == shown_years[i]; })
+                                      .filter(function(d) { return d["Drought Region"] == shown_regions[j]; })
+                                      .filter(function(d) { return d.Month == shown_months[k]; });
+
+    // Plot points on scatter plot
+    const myPoint2 = FRAME2.append("g")
+                           .selectAll("points")  
+                           .data(scatterFilter)  
+                           .enter()       
+                           .append("circle")  
+                           .attr("cx", (d) => { return (SPI_SCALE(d.x) + MARGINS.left); }) 
+                           .attr("cy", (d) => { return (PRECIP_SCALE1(d.Precipitation) + MARGINS.top); }) 
+                           .attr("r", 5)
+                           .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
+                           .attr("class", "mark")
+                           .style("opacity", 0.5);
+
+    // Create tooltip
+    const TOOLTIP2= d3.select("#scatter")
+                      .append("div")
+                      .attr("class", "tooltip")
+                      // Make it nonvisible at first
+                      .style("opacity", 0); 
+
+    // Event handler
+    function handleMouseover2(event, d) {
+      // On mouseover, make opaque 
+      TOOLTIP2.style("opacity", 1); 
+    }
+
+    // Event handler
+    function handleMousemove2(event, d) {
+     // position the tooltip and fill in information 
+     TOOLTIP2.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Precipitation: " + d.Precipitation + "<br>Year: " + d.Year + "<br>Month: " + d.Month)
+             .style("left", (event.pageX + 20) + "px") //add offset
+                                                         // from mouse
+             .style("top", (event.pageY - 5) + "px"); 
+    }
+
+    // Event handler
+    function handleMouseleave2(event, d) {
+      // On mouseleave, make the tooltip transparent again 
+      TOOLTIP2.style("opacity", 0); 
+    }
+
+    // Add tooltip event listeners
+    FRAME2.selectAll(".mark")
+          .on("mouseover", handleMouseover2)
+          .on("mousemove", handleMousemove2)
+          .on("mouseleave", handleMouseleave2);
+        };
       };
     };
   });
@@ -584,7 +587,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
     let selected_year2 = updateYear("selectYear2");
 
     // Filter the combined SPI and precipitation data by the chosen year
-    let combined_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2; });
+    let linked_filtered = combined.filter(function (d) { return parseInt(d.Year) == selected_year2; });
 
     // Reset the plot before projecting the new bars 
     FRAME4.selectAll("g rect")
@@ -602,7 +605,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
     // Plot points on scatter plot for the selected regions
     const myPoint3 = FRAME5.append("g")
                          .selectAll("points")  
-                         .data(combined_filtered)  
+                         .data(linked_filtered)  
                          .enter()       
                          .append("circle")  
                          .attr("cx", (d) => { return (SPI_SCALE(d.x) + MARGINS.left); }) 
@@ -616,7 +619,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
     // Add bars for the selected regions, which are scaled accordingly
     const myBar = FRAME4.append("g")
                           .selectAll("mybar")
-                          .data(combined_filtered)
+                          .data(linked_filtered)
                           .enter()
                           .filter(function(d) { return d["Drought Region"]; })
                           .append("rect")
@@ -687,17 +690,17 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   function handleMousemove3(event, d) {
    // position the tooltip and fill in information 
    TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year  + "<br>Month: "  + d.Month)
-           .style("left", (event.pageX + 30) + "px") //add offset
+           .style("left", (event.pageX + 20) + "px") //add offset
                                                        // from mouse
-           .style("top", (event.pageY - 10) + "px"); 
+           .style("top", (event.pageY - 5) + "px"); 
   }
 
   function handleMousemove4(event, d) {
    // position the tooltip and fill in information 
     TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year)
-           .style("left", (event.pageX + 30) + "px") //add offset
+           .style("left", (event.pageX + 20) + "px") //add offset
                                                        // from mouse
-           .style("top", (event.pageY - 10) + "px");
+           .style("top", (event.pageY - 5) + "px");
   }
 
   // Event handlers
