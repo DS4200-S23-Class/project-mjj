@@ -171,7 +171,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "#1974d2").attr("class", "mark");
   LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "#2e8b57").attr("class", "mark");
   LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "#CC5500").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "#869100").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "#a17100").attr("class", "mark");
   LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "#ff66cc").attr("class", "mark");
   LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "#9370db").attr("class", "mark");
 
@@ -235,7 +235,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   // Set color of the points based on region
   const REGION_COLOR = d3.scaleOrdinal()
     .domain(["Cape Cod and Islands", "Central", "Connecticut River", "Northeast", "Southeast", "Western"])
-    .range(["#1974d2", "#2e8b57", "#CC5500", "#869100", "#ff66cc", "#9370db"]);
+    .range(["#1974d2", "#2e8b57", "#CC5500", "#a17100", "#ff66cc", "#9370db"]);
 
     
   // Filter plot by selected year(s)
