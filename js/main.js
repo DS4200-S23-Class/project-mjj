@@ -168,12 +168,12 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
                     .attr("width", FRAME_WIDTH/2);
 
   // Points for the legend
-  LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "#20b2aa").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "forestgreen").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "mediumslateblue").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "#d2691e").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "red").attr("class", "mark");
-  LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "dodgerblue").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",50).attr("r", 6).style("fill", "#0096FF").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "#008000").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",90).attr("r", 6).style("fill", "#CC5500").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",110).attr("r", 6).style("fill", "#869100").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "#FF1493").attr("class", "mark");
+  LEGEND.append("circle").attr("cx",10).attr("cy",150).attr("r", 6).style("fill", "#9932CC").attr("class", "mark");
 
   // Text for the legend
   LEGEND.append("text").attr("x", 20).attr("y", 55).text("Cape Cod and Islands").style("font-size", "15px").style("fill", "black");
@@ -234,8 +234,9 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
   
   // Set color of the points based on region
   const REGION_COLOR = d3.scaleOrdinal()
-    .domain(["Connecticut River", "Northeast", "Central", "Southeast", "Western", "Cape Cod and Islands"])
-    .range(["mediumslateblue", "#d2691e", "forestgreen", "red", "dodgerblue", "#20b2aa"]);
+    .domain(["Cape Cod and Islands", "Central", "Connecticut River", "Northeast", "Southeast", "Western"])
+    .range(["#0096FF", "#008000", "#CC5500", "#869100", "#FF1493", "#9932CC"]);
+
     
   // Filter plot by selected year(s)
   // Drop down menu by year for users 

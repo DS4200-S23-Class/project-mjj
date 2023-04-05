@@ -149,33 +149,27 @@ body {
   border-top: none;
 }
 
-/* Rotate southeast class marker to dodgerblue */
+/* Rotate western class marker to dodgerblue */
 img.western { 
-    filter: hue-rotate(5deg); 
+    filter: hue-rotate(60deg); 
 }
 
 /* Rotate southeast class marker to red */
 img.southeast {
-    filter: hue-rotate(145deg);
+    filter: hue-rotate(120deg);
 }
 
 /* Rotate conn-river class marker to mediumslateblue */
 img.conn-river {
-    filter: hue-rotate(50deg);
+    filter: hue-rotate(180deg);
 }
 
 /* Rotate northeast class marker to cocoabrown */
 img.northeast {
-    filter: hue-rotate(180deg);
+    filter: hue-rotate(240deg);
 }
 
-/* Rotate conn-river class marker to forestgreen */
+/* Rotate central class marker to forestgreen */
 img.central {
-    filter: hue-rotate(-70deg);
-}
-
-
-/* Rotate cape-cod class marker to lightseagreen */
-img.cape-cod {
-    filter: hue-rotate(-20deg);
+    filter: hue-rotate(300deg);
 }
