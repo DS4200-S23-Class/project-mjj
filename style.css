@@ -94,14 +94,14 @@ body {
 .selected {
     fill-opacity: 100%;
     opacity: 100%;
-    stroke: orange;
+    stroke: indigo;
     stroke-width: 3.5px;
 }
 
 /* Sets style of tooltip */
 .tooltip {
     position: absolute;
-    background-color: yellow;
+    background-color: orange;
     border: solid;
     padding: 5px;
 }
@@ -166,7 +166,7 @@ img.conn-river {
 
 /* Rotate northeast class marker to cocoabrown */
 img.northeast {
-    filter: hue-rotate(240deg);
+    filter: hue-rotate(200deg);
 }
 
 /* Rotate central class marker to forestgreen */
