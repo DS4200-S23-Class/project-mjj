@@ -173,3 +173,8 @@ img.northeast {
 img.central {
     filter: hue-rotate(300deg);
 }
+
+video {
+    width: 1200px; 
+    height: 800px; 
+}
