@@ -1,0 +1,329 @@
+WEBVTT
+
+1
+00:00:01.280 --> 00:00:02.960
+Hello everyone. So this is our project 
+
+2
+00:00:02.960 --> 00:00:04.040
+diverting droughts with data, designing 
+
+3
+00:00:04.450 --> 00:00:05.920
+a visualization tool to drive water 
+
+4
+00:00:05.920 --> 00:00:06.950
+conservation efforts across 
+
+5
+00:00:06.950 --> 00:00:08.970
+Massachusetts. This is our group Jethro, 
+
+6
+00:00:09.320 --> 00:00:10.770
+Michelle and me. So now let's dive into 
+
+7
+00:00:10.890 --> 00:00:12.860
+our website. So here is our website. You 
+
+8
+00:00:12.980 --> 00:00:14.810
+have a toolbar here that helps you to 
+
+9
+00:00:14.950 --> 00:00:16.430
+navigate to different tabs. So here's 
+
+10
+00:00:16.550 --> 00:00:17.810
+the about page which you have this 
+
+11
+00:00:17.810 --> 00:00:19.390
+motivation, a description of why we did 
+
+12
+00:00:19.390 --> 00:00:20.650
+our project and then the background, the 
+
+13
+00:00:20.790 --> 00:00:22.200
+data, a description of the data, how we 
+
+14
+00:00:22.460 --> 00:00:23.610
+got the data, how data was collected. 
+
+15
+00:00:23.610 --> 00:00:25.150
+And then here you have raw link to the 
+
+16
+00:00:25.340 --> 00:00:26.820
+source of data. And the second tab is 
+
+17
+00:00:27.200 --> 00:00:28.410
+Massachusetts map. So you have a map 
+
+18
+00:00:28.410 --> 00:00:29.200
+of the different regions in 
+
+19
+00:00:29.200 --> 00:00:30.710
+Massachusetts. Here you have a legend.
+
+20
+00:00:31.220 --> 00:00:32.740
+The colors respond to the legend and 
+
+21
+00:00:32.930 --> 00:00:34.260
+then if you zoom in, zoom out you can 
+
+22
+00:00:34.260 --> 00:00:35.850
+see like closer regions and if you click 
+
+23
+00:00:35.850 --> 00:00:37.650
+on a marker like this it will show you 
+
+24
+00:00:38.130 --> 00:00:39.490
+the county names. So basically you have 
+
+25
+00:00:39.490 --> 00:00:41.300
+to choose which county you live in and 
+
+26
+00:00:41.620 --> 00:00:42.590
+then you locate the region that this 
+
+27
+00:00:42.590 --> 00:00:44.140
+county falls in to see where you are. 
+
+28
+00:00:44.950 --> 00:00:45.590
+And then here you have 
+
+29
+00:00:45.590 --> 00:00:46.940
+line chart and scatter plot. So here you 
+
+30
+00:00:48.250 --> 00:00:50.260
+have a line chart and a scatter plot. So 
+
+31
+00:00:50.520 --> 00:00:51.920
+this is the name, this is a description 
+
+32
+00:00:51.920 --> 00:00:53.470
+of how to use these charts. And then you 
+
+33
+00:00:53.470 --> 00:00:54.830
+have definition of SPI and then 
+
+34
+00:00:54.940 --> 00:00:55.690
+basically you can filter 
+
+35
+00:00:55.690 --> 00:00:56.640
+the possible regions. So if I select 
+
+36
+00:00:56.640 --> 00:00:58.450
+Cape Cod and Connecticut and then here 
+
+37
+00:00:58.880 --> 00:01:01.200
+is a legend. So if you click a year like
+
+38
+00:01:02.080 --> 00:01:03.860
+ 2003, you click display line chart, 
+
+39
+00:01:04.120 --> 00:01:05.200
+you will have a line chart. So here you 
+
+40
+00:01:05,200 --> 00:01:06,330
+have a line and then you hover over a 
+
+41
+00:01:06.330 --> 00:01:07.400
+point on the line you can see this 
+
+42
+00:01:07.720 --> 00:01:09.190
+description like region or 
+
+43
+00:01:09.190 --> 00:01:11.190
+precipitation and year so like this. And 
+
+44
+00:01:11.620 --> 00:01:13.530
+then here if you select a year for the 
+
+45
+00:01:13.820 --> 00:01:15.760
+scatter plot like 2017, 2018 and you 
+
+46
+00:01:15.760 --> 00:01:17.240
+select month like April, May and then 
+
+47
+00:01:17.240 --> 00:01:18.370
+you click display scatter plot then 
+
+48
+00:01:18.640 --> 00:01:19.590
+you'll have the points. And you 
+
+49
+00:01:19.590 --> 00:01:20.140
+hover over a point, you can see the 
+
+50
+00:01:20.390 --> 00:01:21.050
+description of point like the 
+
+51
+00:01:21.050 --> 00:01:22.190
+region, the three month SPI value,the 
+
+52
+00:01:22.830 --> 00:01:24.040
+precipitation, the year and the month. 
+
+53
+00:01:24.550 --> 00:01:26.290
+Now the 4th tab, here is a linked bar 
+
+54
+00:01:26.500 --> 00:01:27.870
+and scatter plot. So here you have the 
+
+55
+00:01:27.990 --> 00:01:30.160
+titles. This is a description of how to 
+
+56
+00:01:30.690 --> 00:01:32.360
+use these bars and then the definition 
+
+57
+00:01:32.360 --> 00:01:33.890
+of SPI. So basically you select a year
+
+58
+00:01:34.270 --> 00:01:36.290
+ like 2018 and then you click get data. A
+
+59
+00:01:36.630 --> 00:01:37.740
+nd then this is the legend of the 
+
+60
+00:01:37.880 --> 00:01:38.760
+regions and you also have to region 
+
+61
+00:01:38.760 --> 00:01:40.940
+names down here. And then you hover over 
+
+62
+00:01:41.110 --> 00:01:42.210
+a bar, you can see the description of 
+
+63
+00:01:42.210 --> 00:01:43.330
+the bar, like the region, the annual 
+
+64
+00:01:43.330 --> 00:01:44.690
+precipitation value, the year. H
+
+65
+00:01:44.930 --> 00:01:45.770
+over over a point, you can see 
+
+66
+00:01:45.770 --> 00:01:46.740
+the description of the point like the 
+
+67
+00:01:46.740 --> 00:01:47.610
+region the three month SPI value, the 
+
+68
+00:01:48.660 --> 00:01:49.650
+year, and the month. You click on the 
+
+69
+00:01:49,800 --> 00:01:51,420
+bar, it will highlight the corresponding 
+
+70
+00:01:51.980 --> 00:01:53.540
+points. And then if you see 
+
+71
+00:01:54.850 --> 00:01:56.540
+this division here, 0 value. P
+
+72
+00:01:57.650 --> 00:01:59.460
+oints fall under this means very 
+
+73
+00:01:59.960 --> 00:02:01.830
+bad severity of droughts. Points above 
+
+74
+00:02:02.310 --> 00:02:04.270
+this line means less severity of 
+
+75
+00:02:04.750 --> 00:02:06.290
+droughts.And then if you like, select a 
+
+76
+00:02:07.300 --> 00:02:09.150
+point, it would correspond back to the 
+
+77
+00:02:09.380 --> 00:02:10.680
+bar that of the region that it falls in. 
+
+78
+00:02:11.070 --> 00:02:12.140
+And then if you go to the next 
+
+79
+00:02:12.140 --> 00:02:13.390
+page, it's our acknowledgement page, 
+
+80
+00:02:13.710 --> 00:02:15.210
+which is the resource that we used to 
+
+81
+00:02:15.210 --> 00:02:16.810
+help us make our website. So this is the 
+
+82
+00:02:16.960 --> 00:02:17.880
+overall of our website.
