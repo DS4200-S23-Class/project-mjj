@@ -269,10 +269,10 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 
     // reset the plot so that no lines or points appear
     FRAME1.selectAll(".dottedline")
-          .attr("display", "none")
+          .attr("display", "none");
 
     FRAME1.selectAll(".mark")
-          .attr("display", "none")
+          .attr("display", "none");
 
     // retrieve the year selected by the user in the drop down menu for the line chart
     let selected_year1 = updateYear("selectYear1");
@@ -330,7 +330,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
      TOOLTIP1.html("Region: " + d.Region + "<br>Month: " + d.Month + "<br>Precipitation: "+ d.Precipitation + "<br>Year: " + d.YEAR)
              .style("left", (event.pageX + 20) + "px") //add offset
                                                          // from mouse
-             .style("top", (event.pageY - 5) + "px")
+             .style("top", (event.pageY - 5) + "px");
     }
 
     // Event handler
@@ -591,7 +591,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 
     // Reset the plot before projecting the new bars 
     FRAME4.selectAll("g rect")
-              .attr("display", "none")
+              .attr("display", "none");
 
     // Reset the plot before projecting the new points
     FRAME5.selectAll("g circle")
@@ -630,7 +630,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
                           .attr("height", function(d) { return VIS_HEIGHT - PRECIP_SCALE2(d["Annual Precipitation"]); })
                           .attr("opacity", 0.05)
                           .attr("fill", (d) => { return REGION_COLOR(d["Drought Region"]); })
-                          .attr("class", "bar")
+                          .attr("class", "bar");
 
     // When points are brushed over in any plot, the aligned bars in the other plot get highlighted with a raised opacity and attain a blue border. 
     function updateChart1(event) {
@@ -656,7 +656,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
 
   // Add the above event listener to all bars
   FRAME4.selectAll(".bar")
-        .on("click", updateChart2)
+        .on("click", updateChart2);
 
 
   // Tooltips
