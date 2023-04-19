@@ -1,329 +1,378 @@
 WEBVTT
 
 1
-00:00:01.280 --> 00:00:02.960
-Hello everyone. So this is our project 
+0:00:00.000 --> 0:00:02.007
+Diverting droughts with data, designing a visualization tool to drive water
 
 2
-00:00:02.960 --> 00:00:04.040
-diverting droughts with data, designing 
+0:00:02.007 --> 0:00:03.101
+conservation efforts across
 
 3
-00:00:04.450 --> 00:00:05.920
-a visualization tool to drive water 
+0:00:03.101 --> 0:00:03.719
+Massachusetts.
 
 4
-00:00:05.920 --> 00:00:06.950
-conservation efforts across 
+0:00:03.700 --> 0:00:06.786
+Welcome to our demo video. So for our first tab of our website, we have the
 
 5
-00:00:06.950 --> 00:00:08.970
-Massachusetts. This is our group Jethro, 
+0:00:06.786 --> 0:00:08.868
+motivation followed by the data as well
 
 6
-00:00:09.320 --> 00:00:10.770
-Michelle and me. So now let's dive into 
+0:00:09.086--> 0:00:09.991
+as the demo video which we will link
 
 7
-00:00:10.890 --> 00:00:12.860
-our website. So here is our website. You 
+0:00:09.991 --> 0:00:11.303
+after this, in addition to our final
 
 8
-00:00:12.980 --> 00:00:14.810
-have a toolbar here that helps you to 
+0:00:11.303 --> 0:00:12.609
+report. So let's start with our first
 
 9
-00:00:14.950 --> 00:00:16.430
-navigate to different tabs. So here's 
+0:00:12.598 --> 0:00:13.568
+visualization which is the
 
 10
-00:00:16.550 --> 00:00:17.810
-the about page which you have this 
+0:00:13.568 --> 0:00:14.615
+Massachusetts region map. So
 
 11
-00:00:17.810 --> 00:00:19.390
-motivation, a description of why we did 
+0:00:14.838 --> 0:00:15.815
+specifically this region map will help
 
 12
-00:00:19.390 --> 00:00:20.650
-our project and then the background, the 
+0:00:15.815 --> 0:00:16.191
+us with
 
 13
-00:00:20.790 --> 00:00:22.200
-data, a description of the data, how we 
+0:00:16.191 --> 0:00:19.174
+the 1st and 2nd domain task that we will mention next. So
+first you can
 
 14
-00:00:22.460 --> 00:00:23.610
-got the data, how data was collected. 
+0:00:19.174 --> 0:00:20.327
+see how you have a legend, with a
 
 15
-00:00:23.610 --> 00:00:25.150
-And then here you have raw link to the 
+0:00:20.444 --> 0:00:21.821
+ categorical color map, so representing the
 
 16
-00:00:25.340 --> 00:00:26.820
-source of data. And the second tab is 
+0:00:21.821 --> 0:00:23.397
+six distinct regions. So the purpose of
 
 17
-00:00:27.200 --> 00:00:28.410
-Massachusetts map. So you have a map 
+0:00:23.397 --> 0:00:24.703
+this is to better allow users to
 
 18
-00:00:28.410 --> 00:00:29.200
-of the different regions in 
+0:00:24.703 --> 0:00:26.174
+understand which region they are coming
 
 19
-00:00:29.200 --> 00:00:30.710
-Massachusetts. Here you have a legend.
+0:00:26.174 --> 0:00:27.809
+from. So in a sense, we can click on the
 
 20
-00:00:31.220 --> 00:00:32.740
-The colors respond to the legend and 
+0:00:27.956 --> 0:00:29.080
+different counties that we have marked
 
 21
-00:00:32.930 --> 00:00:34.260
-then if you zoom in, zoom out you can 
+0:00:29.080 --> 0:00:30.638
+here with markers and say you're from
 
 22
-00:00:34.260 --> 00:00:35.850
-see like closer regions and if you click 
+0:00:30.762 --> 0:00:32.333
+Worcester County, then you know you're
 
 23
-00:00:35.850 --> 00:00:37.650
-on a marker like this it will show you 
+0:00:32.444 --> 0:00:33.280
+part of the Central Region and you can
 
 24
-00:00:38.130 --> 00:00:39.490
-the county names. So basically you have 
+0:00:33.280 --> 0:00:34.533
+keep that in mind as you filter for the
 
 25
-00:00:39.490 --> 00:00:41.300
-to choose which county you live in and 
+0:00:34.733 --> 0:00:36.397
+next few visualizations. So next we have
 
 26
-00:00:41.620 --> 00:00:42.590
-then you locate the region that this 
+0:00:36.838 --> 0:00:37.733
+the line chart and scatter plot. So
 
 27
-00:00:42.590 --> 00:00:44.140
-county falls in to see where you are. 
+0:00:37.733 --> 0:00:38.556
+let's look at the scatter plot first. This
 
 28
-00:00:44.950 --> 00:00:45.590
-And then here you have 
+0:00:38.980 --> 0:00:40.097
+helps to address the first task, which
 
 29
-00:00:45.590 --> 00:00:46.940
-line chart and scatter plot. So here you 
+0:00:40.097 --> 0:00:41.274
+is determining relationship between
 
 30
-00:00:48.250 --> 00:00:50.260
-have a line chart and a scatter plot. So 
+0:00:41.274 --> 0:00:42.368
+rainfall values and drought levels among
 
 31
-00:00:50.520 --> 00:00:51.920
-this is the name, this is a description 
+0:00:42.368 --> 0:00:43.556
+regions. So let's say we're interested
 
 32
-00:00:51.920 --> 00:00:53.470
-of how to use these charts. And then you 
+0:00:43.556 --> 0:00:44.850
+in all three years as well as January,
 
 33
-00:00:53.470 --> 00:00:54.830
-have definition of SPI and then 
+0:00:44.850 --> 0:00:46.327
+February, November, December, in addition
 
 34
-00:00:54.940 --> 00:00:55.690
-basically you can filter 
+0:00:46.327 --> 0:00:48.103
+to the first four regions. So once we
 
 35
-00:00:55.690 --> 00:00:56.640
-the possible regions. So if I select 
+0:00:48.344 --> 0:00:49.615
+select those, we can click the button to
 
 36
-00:00:56.640 --> 00:00:58.450
-Cape Cod and Connecticut and then here 
+0:00:49.615 --> 0:00:50.862
+display the scatter plot. And in general
 
 37
-00:00:58.880 --> 00:01:01.200
-is a legend. So if you click a year like
+0:00:50.862 --> 0:00:52.556
+you can, as a user, see there is a general
 
 38
-00:01:02.080 --> 00:01:03.860
- 2003, you click display line chart, 
+0:00:53.050 --> 0:00:53.915
+positive correlation between drought
 
 39
-00:01:04.120 --> 00:01:05.200
-you will have a line chart. So here you 
+0:00:53.915 --> 0:00:55.291
+severity and precipitation levels. So
 
 40
-00:01:05,200 --> 00:01:06,330
-have a line and then you hover over a 
+0:00:55.291 --> 0:00:56.450
+that helps to answer the first domain task.
 
 41
-00:01:06.330 --> 00:01:07.400
-point on the line you can see this 
+0:00:56.586 --> 0:00:57.621
+The second domain task is determining
 
 42
-00:01:07.720 --> 00:01:09.190
-description like region or 
+0:00:57.621 --> 0:00:58.562
+which regions tend to have more or less
 
 43
-00:01:09.190 --> 00:01:11.190
-precipitation and year so like this. And 
+0:00:58.562 --> 0:01:00.097
+precipitation than other regions during
 
 44
-00:01:11.620 --> 00:01:13.530
-then here if you select a year for the 
+0:01:00.097 --> 0:01:01.227
+one or multiple months across one or
 
 45
-00:01:13.820 --> 00:01:15.760
-scatter plot like 2017, 2018 and you 
+0:01:01.227 --> 0:01:02.762
+multiple years. So given this line chart,
 
 46
-00:01:15.760 --> 00:01:17.240
-select month like April, May and then 
+0:01:02.762 --> 0:01:04.503
+say we're interested in 2018 data,
 
 47
-00:01:17.240 --> 00:01:18.370
-you click display scatter plot then 
+0:01:04.503 --> 0:01:05.821
+so this only shows data from one year
 
 48
-00:01:18.640 --> 00:01:19.590
-you'll have the points. And you 
+0:01:05.821 --> 0:01:07.380
+across all 12 months. So it's pretty
 
 49
-00:01:19.590 --> 00:01:20.140
-hover over a point, you can see the 
+0:01:07.380 --> 0:01:08.774
+clear that Cape Cod and Islands seems to
 
 50
-00:01:20.390 --> 00:01:21.050
-description of point like the 
+0:01:08.774 --> 0:01:10.433
+have the greatest precipitation, while
 
 51
-00:01:21.050 --> 00:01:22.190
-region, the three month SPI value,the 
+0:01:10.562 --> 0:01:11.744
+Connecticut River has the lowest
 
 52
-00:01:22.830 --> 00:01:24.040
-precipitation, the year and the month. 
+0:01:11.744 --> 0:01:13.103
+precipitation within the month of March
 
 53
-00:01:24.550 --> 00:01:26.290
-Now the 4th tab, here is a linked bar 
+0:01:13.103 --> 0:01:14.568
+and you can see that across, for instance
 
 54
-00:01:26.500 --> 00:01:27.870
-and scatter plot. So here you have the 
+0:01:14.909 --> 0:01:16.591
+July where the lowest is actually
 
 55
-00:01:27.990 --> 00:01:30.160
-titles. This is a description of how to 
+0:01:16.803 --> 0:01:18.133
+Cape Code while the highest is Connecticut
 
 56
-00:01:30.690 --> 00:01:32.360
-use these bars and then the definition 
+0:01:18.238 --> 0:01:19.527
+River. So using this tool tip, it better
 
 57
-00:01:32.360 --> 00:01:33.890
-of SPI. So basically you select a year
+0:01:19.650 --> 0:01:20.715
+allows you to understand comparisons
 
 58
-00:01:34.270 --> 00:01:36.290
- like 2018 and then you click get data. A
+0:01:20.715 --> 0:01:22.609
+within one month of one year and then
 
 59
-00:01:36.630 --> 00:01:37.740
-nd then this is the legend of the 
+0:01:22.862 --> 0:01:23.850
+say we want to compare across
 
 60
-00:01:37.880 --> 00:01:38.760
-regions and you also have to region 
+0:01:23.850 --> 0:01:25.638
+multiple years for a given month. So you
 
 61
-00:01:38.760 --> 00:01:40.940
-names down here. And then you hover over 
+0:01:25.850 --> 0:01:26.891
+can use a scatter plot and you can see
 
 62
-00:01:41.110 --> 00:01:42.210
-a bar, you can see the description of 
+0:01:26.891 --> 0:01:28.415
+how in general for Cape Cod and Islands
 
 63
-00:01:42.210 --> 00:01:43.330
-the bar, like the region, the annual 
+0:01:28.803 --> 0:01:29.450
+they seem to have the greatest
 
 64
-00:01:43.330 --> 00:01:44.690
-precipitation value, the year. H
+0:01:29.450 --> 0:01:30.815
+precipitation regardless of the year, so
 
 65
-00:01:44.930 --> 00:01:45.770
-over over a point, you can see 
+0:01:30.815 --> 0:01:32.274
+across all years. And you can test that
 
 66
-00:01:45.770 --> 00:01:46.740
-the description of the point like the 
+0:01:32.397 --> 0:01:33.603
+out with all these other months. And
 
 67
-00:01:46.740 --> 00:01:47.610
-region the three month SPI value, the 
+0:01:33.856 --> 0:01:34.809
+then lastly we have the linked bar and
 
 68
-00:01:48.660 --> 00:01:49.650
-year, and the month. You click on the 
+0:01:34.809 --> 0:01:35.786
+scatter plot which helps to answer
 
 69
-00:01:49,800 --> 00:01:51,420
-bar, it will highlight the corresponding 
+0:01:36.044 --> 0:01:37.662
+determining of a region whether they
 
 70
-00:01:51.980 --> 00:01:53.540
-points. And then if you see 
+0:01:38.056 --> 0:01:39.350
+have a higher or lower SPI, whether
 
 71
-00:01:54.850 --> 00:01:56.540
-this division here, 0 value. P
+0:01:39.350 --> 0:01:40.621
+that corresponds with a region having
 
 72
-00:01:57.650 --> 00:01:59.460
-oints fall under this means very 
+0:01:40.621 --> 0:01:41.744
+higher or lower annual precipitation
 
 73
-00:01:59.960 --> 00:02:01.830
-bad severity of droughts. Points above 
+0:01:41.744 --> 0:01:43.550
+totals. So say we are interested in 2018
 
 74
-00:02:02.310 --> 00:02:04.270
-this line means less severity of 
+0:01:43.944 --> 0:01:47.079
+and we press submit and then from there say we click on this bar and
 
 75
-00:02:04.750 --> 00:02:06.290
-droughts.And then if you like, select a 
+0:01:47.079 --> 0:01:49.980
+ see that for Cape Cod and Islands the precipitation seems to
 
 76
-00:02:07.300 --> 00:02:09.150
-point, it would correspond back to the 
+0:01:49.980 --> 0:01:51.068
+be pretty low compared to the other
 
 77
-00:02:09.380 --> 00:02:10.680
-bar that of the region that it falls in. 
+0:01:51.068 --> 0:01:52.191
+regions, right? And you can see how
 
 78
-00:02:11.070 --> 00:02:12.140
-And then if you go to the next 
+0:01:52.191 --> 0:01:53.862
+there is five points to the left of the
 
 79
-00:02:12.140 --> 00:02:13.390
-page, it's our acknowledgement page, 
+0:01:53.862 --> 0:01:55.303
+ X = 0 drought severity level and then
 
 80
-00:02:13.710 --> 00:02:15.210
-which is the resource that we used to 
+0:01:55.650 --> 0:01:57.133
+say then we look at Central which has
 
 81
-00:02:15.210 --> 00:02:16.810
-help us make our website. So this is the 
+0:01:57.674 --> 0:01:58.733
+the highest annual precipitation and it
 
 82
-00:02:16.960 --> 00:02:17.880
-overall of our website.
+0:01:58.733 --> 0:02:02.110
+only has like around 2 1/2 points to the right of the drought severity. So to some extent it does
+
+83
+0:02:02.110 --> 0:02:06.509
+show that annual precipitation does correspond with SPI levels in the sense that greater annual precipitation leads to
+
+84
+0:02:06.509 --> 0:02:08.808
+less drought severity as negative means
+
+85
+0:02:08.968 --> 0:02:10.238
+stronger drought severity. However, that
+
+86
+0:02:10.238 --> 0:02:11.456
+is to some extent, as for instance you
+
+87
+0:02:11.456 --> 0:02:12.386
+can look at Northeast which has the
+
+88
+0:02:12.386 --> 0:02:13.938
+lowest annual precipitation but only has
+
+89
+0:02:14.044 --> 0:02:15.350
+around three points to the left,
+
+90
+0:02:15.786 --> 0:02:17.397
+compared to Cape Cod and Islands which has
+
+91
+0:02:17.621 --> 0:02:18.891
+actually five points to the left. And
+
+92
+0:02:19.350 --> 0:02:19.968
+then lastly, we just have our
+
+93
+0:02:19.968 --> 0:02:21.162
+acknowledgement page. Thank you for
+
+94
+0:02:21.162 --> 0:02:21.662
+listening.
