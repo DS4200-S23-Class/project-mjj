@@ -648,82 +648,82 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
         return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // indicates which points are in the selection window via booleans
       }
 
-    // When a bar is clicked, the aligned points that represent the same region in the other plot get highlighted with a raised opacity and attain a blue border
+      // When a bar is clicked, the aligned points that represent the same region in the other plot get highlighted with a raised opacity and attain a blue border
       function updateChart2(event, d) {
         myPoint3.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
         myBar.classed("selected", ((j) => { return j["Drought Region"] == d["Drought Region"]; }));
       }
 
-    // Add the above event listener to all bars
-    FRAME4.selectAll(".bar")
-          .on("click", updateChart2);
+      // Add the above event listener to all bars
+      FRAME4.selectAll(".bar")
+            .on("click", updateChart2);
 
 
-    // Tooltips
+      // Tooltips
 
-    // Create tooltip for the scatter chart
-    const TOOLTIP3 = d3.select("#link1")
-                      .append("div")
-                      .attr("class", "tooltip")
-                      // Make it nonvisible at first
-                      .style("opacity", 0); 
+      // Create tooltip for the scatter chart
+      const TOOLTIP3 = d3.select("#link1")
+                        .append("div")
+                        .attr("class", "tooltip")
+                        // Make it nonvisible at first
+                        .style("opacity", 0); 
 
-    // Create tooltip for the bar chart
-    const TOOLTIP4 = d3.select("#link2")
-                      .append("div")
-                      .attr("class", "tooltip")
-                      // Make it nonvisible at first
-                      .style("opacity", 0); 
+      // Create tooltip for the bar chart
+      const TOOLTIP4 = d3.select("#link2")
+                        .append("div")
+                        .attr("class", "tooltip")
+                        // Make it nonvisible at first
+                        .style("opacity", 0); 
 
-    // Event handlers
-    function handleMouseover3(event, d) {
-      // on mouseover, make opaque 
-      TOOLTIP3.style("opacity", 1);
-    }
+      // Event handlers
+      function handleMouseover3(event, d) {
+        // on mouseover, make opaque 
+        TOOLTIP3.style("opacity", 1);
+      }
 
-    function handleMouseover4(event, d) {
-      // on mouseover, make opaque 
-      TOOLTIP4.style("opacity", 1);
-    }
+      function handleMouseover4(event, d) {
+        // on mouseover, make opaque 
+        TOOLTIP4.style("opacity", 1);
+      }
 
-    // Event handlers
-    function handleMousemove3(event, d) {
-     // position the tooltip and fill in information 
-     TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year  + "<br>Month: "  + d.Month)
-             .style("left", (event.pageX + 20) + "px") //add offset
-                                                         // from mouse
-             .style("top", (event.pageY - 5) + "px"); 
-    }
+      // Event handlers
+      function handleMousemove3(event, d) {
+       // position the tooltip and fill in information 
+       TOOLTIP3.html("Region: " + d["Drought Region"] + "<br>3-Month SPI: " + d.x + "<br>Year: " + d.Year  + "<br>Month: "  + d.Month)
+               .style("left", (event.pageX + 20) + "px") //add offset
+                                                           // from mouse
+               .style("top", (event.pageY - 5) + "px"); 
+      }
 
-    function handleMousemove4(event, d) {
-     // position the tooltip and fill in information 
-      TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year)
-             .style("left", (event.pageX + 20) + "px") //add offset
-                                                         // from mouse
-             .style("top", (event.pageY - 5) + "px");
-    }
+      function handleMousemove4(event, d) {
+       // position the tooltip and fill in information 
+        TOOLTIP4.html("Region: " + d["Drought Region"] + "<br>Annual Precipitation: " + d["Annual Precipitation"] + "<br>Year: " + d.Year)
+               .style("left", (event.pageX + 20) + "px") //add offset
+                                                           // from mouse
+               .style("top", (event.pageY - 5) + "px");
+      }
 
-    // Event handlers
-    function handleMouseleave3(event, d) {
-      // on mouseleave, make the tooltip transparent again 
-      TOOLTIP3.style("opacity", 0); 
-    }
+      // Event handlers
+      function handleMouseleave3(event, d) {
+        // on mouseleave, make the tooltip transparent again 
+        TOOLTIP3.style("opacity", 0); 
+      }
 
-    function handleMouseleave4(event, d) {
-      // on mouseleave, make the tooltip transparent again 
-      TOOLTIP4.style("opacity", 0); 
-    }
+      function handleMouseleave4(event, d) {
+        // on mouseleave, make the tooltip transparent again 
+        TOOLTIP4.style("opacity", 0); 
+      }
 
-    // Add tooltip event listeners
-    FRAME5.selectAll(".mark")
-          .on("mouseover", handleMouseover3)
-          .on("mousemove", handleMousemove3)
-          .on("mouseleave", handleMouseleave3);
+      // Add tooltip event listeners
+      FRAME5.selectAll(".mark")
+            .on("mouseover", handleMouseover3)
+            .on("mousemove", handleMousemove3)
+            .on("mouseleave", handleMouseleave3);
 
-    FRAME4.selectAll(".bar")
-          .on("mouseover", handleMouseover4)
-          .on("mousemove", handleMousemove4)
-          .on("mouseleave", handleMouseleave4);
+      FRAME4.selectAll(".bar")
+            .on("mouseover", handleMouseover4)
+            .on("mousemove", handleMousemove4)
+            .on("mouseleave", handleMouseleave4);
     });
 
     // Add vertical line at x=0 
