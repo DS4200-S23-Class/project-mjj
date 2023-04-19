@@ -89,7 +89,8 @@ d3.json("data/massachusetts.geojson").then((massmap) => {
   setInterval(function() {
      map.invalidateSize();
   }, 1);
-    
+  
+  // add the map of Massachusetts based on latitudinal and longitudinal data
   map.createPane("labels");
   map.getPane("labels").style.zIndex = 500;
   map.getPane("labels").style.pointerEvents = "none";
@@ -726,7 +727,7 @@ d3.csv("data/precipitation_cleaned.csv").then((precipitation) => {
             .on("mouseleave", handleMouseleave4);
     });
 
-    // Add vertical line at x=0 
+    // Add vertical line at x = 0 
     FRAME5.append("line")
       .attr("x1", SPI_SCALE(0.65))
       .attr("y1", 0)

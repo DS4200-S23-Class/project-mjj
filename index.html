@@ -73,6 +73,8 @@
             </div>
 
             </div>
+
+            <!-- Link to final report -->
             <h4>Report</h4>
             <div>
                 <ul>
@@ -85,6 +87,7 @@
     </div>
 
     <div id="Visualization1" class="tabcontent">
+        <!-- Instructions for how to navigate through the map of Massachusetts -->
         <p class="blue">Zoom in/out of the Massachusetts map as needed. Click on different markers for different counties and refer to the legend to see which Massachusetts region you live in based on the color of your county's marker.</p>
         <!-- Split tab content to separate containers -->
         <div class="container">
@@ -103,11 +106,11 @@
         <!-- Create separate section for content (visualization) of webpage -->
         <div class="container">
             <div class="child1">
-                <!-- Legend for the visualizations above the map -->
+                <!-- Legend for the line and scatter plot (unlinked) -->
                 <div class="legend">
-                    <!-- Add checkbox filter for regions for the visualizations above the map-->
+                    <!-- Add checkbox filter for regions for the line and unlinked scatter plot-->
                     <div class="region-filter">
-                        <!-- Reformatting the left side of the page to minimize scrolling-->
+                        <!-- Reformatting the page to minimize scrolling-->
                         <br>
                         <br>
                         <br>
@@ -117,6 +120,7 @@
                         <!-- Define what "SPI" means because it is a critical feature in our visualizations -->
                         <p class="blue">"SPI" refers to  the number of standard deviations from normal precipitation totals a certain region experienced over a particular month in 2017, 2018, or 2019. Positive values refer to times when precipitation totals were higher than normal, while negative values refer to times when precipitation totals were lower than normal.</p>
 
+                        <!-- Allows users to filter the unlinked line and scatter plots by region -->
                         <p class="blue">Filter Plots by Region: </p>
                         <label for="Cape"><input type="checkbox" name="check2" value="Cape Cod and Islands" class="region-button">Cape Cod and Islands</label><br>
                         <label for="Central"><input type="checkbox" name="check2" value="Central"class="region-button">Central</label><br>
@@ -135,7 +139,7 @@
             </div>
             
             <div class="child2">
-                <!-- Create the section that contains a line chart and scatterplot in the same row -->
+                <!-- Create the section that contains a line chart and scatterplot-->
                 <div class="lineAndScatter">
                     <!-- Create the section that contains the line chart -->
                     <div id="line">
@@ -164,14 +168,14 @@
                             </p>
                         </div>
 
-                        <!-- Get the two charts above the map to align -->
+                        <!-- Get the two charts (line and scatterO to align -->
                         <br>
                         <br>
                         <br>
 
                     </div>    
             
-                    <!-- Create the section that contains the scatter graph in the first row-->
+                    <!-- Create the section that contains the scatter graph-->
                     <div id="scatter">
                         <!-- Add chart title -->
                         <h3 class="centered">A Projection of Whether Lower Precipitation Values Indicate a Higher Risk of Intense Droughts</h3>
@@ -239,7 +243,7 @@
                         <p class="blue" class="centered">Select a year using the drop down menu. Then, click on the button to see the corresponding data across both graphs.</p>
 
                         <!-- Add instructions for accessing the tooltip and how to interpret the two charts together -->
-                        <p1 class="blue">** Hover over a chart element to see the data it represents. For each region, compare number of points to the left and/or right of the vertical line where SPI = 0 in the scatter plot to the annual precipitation of that region as shown in the bar chart. </p1>
+                        <p1 class="blue">** Hover over a chart element to see the data it represents. For each region, compare the number of points to the left and/or right of the vertical line where SPI = 0 in the scatter plot to the annual precipitation of that region as shown in the bar chart. </p1>
                         <br>
 
                         <br>
